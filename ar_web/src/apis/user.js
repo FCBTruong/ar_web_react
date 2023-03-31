@@ -16,6 +16,7 @@ user.getUserData = function () {
     return user.userData;
   } else {
     var cachedUserData = localStorage.getItem("user_data");
+    console.log(cachedUserData)
     // eslint-disable-next-line no-use-before-define
     if (cachedUserData) {
       user.userData = JSON.parse(cachedUserData);

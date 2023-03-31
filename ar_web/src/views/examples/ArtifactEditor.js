@@ -1,6 +1,7 @@
 import user from "apis/user";
 
 import React from "react";
+import ArtifactProperties from "components/Forms/ArtifactProperties";
 
 // reactstrap components
 import {
@@ -214,7 +215,7 @@ class ArtifactEditor extends React.Component {
                   className="shadow border-0 "
                   style={{ height: 500, width: "100%" }}
                 >
-                  {/* <Canvas
+                  { <Canvas
                     dpr={[1, 2]}
                     shadows
                     camera={{ fav: 45 }}
@@ -230,13 +231,15 @@ class ArtifactEditor extends React.Component {
                         <Model scale={0.08} />
                       </Stage>
                     </PresentationControls>
-                  </Canvas> */}
+                  </Canvas> }
                 </Card>
               ) : (
                 <ModelsView />
               )}
             </div>
-            <div class="col">Properties</div>
+            <div class="col">
+              <ArtifactProperties/>
+            </div>
           </div>
         </div>
       </main>
