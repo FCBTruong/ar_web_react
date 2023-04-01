@@ -10,11 +10,11 @@ class Museums extends React.Component {
   constructor(props) {
     super(props);
     user.requestData().then((s) => {
-      this.setState({ userData: user.getUserData() });
+      this.setState({ userData: user.getData() });
     });
     this.state = {
       isCreating: false,
-      userData: user.getUserData(),
+      userData: user.getData(),
     };
   }
 

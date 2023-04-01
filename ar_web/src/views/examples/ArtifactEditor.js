@@ -28,6 +28,7 @@ import { OrbitControls } from "@react-three/drei";
 import { useGLTF, Stage, PresentationControls } from "@react-three/drei";
 import ModelsView from "components/Forms/ModelsView";
 import ArtifactEditorBar from "components/Navbars/ArtifactEditorBar";
+import { HashLoader } from "react-spinners";
 
 function Box() {
   return (
@@ -51,7 +52,7 @@ class ArtifactEditor extends React.Component {
     var _museumId = localStorage.getItem("current_museum_id");
     var _artifactId = localStorage.getItem("current_artifact_id");
 
-    if (!user.getUserData()) {
+    if (!user.getData()) {
       user.requestData().then((s) => {
         this.setState({
           artifact: artifactMgr.getArtifact(_museumId, _artifactId),
@@ -64,6 +65,7 @@ class ArtifactEditor extends React.Component {
       artifact: artifactMgr.getArtifact(_museumId, _artifactId),
       museumId: _museumId,
       currentTab: ArtifactEditor.TAB_NONE,
+      isLoading: false,
     };
   }
 
@@ -100,32 +102,61 @@ class ArtifactEditor extends React.Component {
   };
 
   onChangeDescription = (e) => {
+    var desArtifact = { ...this.state.artifact };
+    desArtifact.description = e.target.value;
     this.setState({
-      artifact: {
-        description: e.target.value,
-      },
+      artifact: desArtifact,
     });
   };
 
   onChangeName = (e) => {
+    var desArtifact = { ...this.state.artifact };
+    desArtifact.name = e.target.value;
     this.setState({
-      artifact: {
-        name: e.target.value,
-      },
+      artifact: desArtifact,
     });
   };
 
   saveAndPublish = (e) => {
-    // TODO
+    this.setState({
+      isLoading: true,
+    });
+    artifactMgr.update(this.state.museumId, this.state.artifact).then((s) => {
+      this.setState({
+        isLoading: false,
+      });
+    });
+  };
+
+  onChangeImage = (s) => {
+    console.log("new image path " + s);
+    var desArtifact = { ...this.state.artifact };
+    desArtifact.image = s;
+    this.setState({
+      artifact: desArtifact,
+    });
   };
 
   render() {
     return (
       <main ref="main">
-        <ArtifactEditorBar></ArtifactEditorBar>
-        <section className="section"></section>
-        <div class="container-fluid">
-          <div class="row">
+        {this.state.isLoading ? (
+          <div
+            style={{
+              position: "absolute",
+              left: "50%",
+              top: "50%",
+              transform: "translate(-50%, -50%)",
+            }}
+          >
+            <HashLoader color="#36d7b7" />
+          </div>
+        ) : (
+          <div>
+            <ArtifactEditorBar></ArtifactEditorBar>
+            <section className="section"></section>
+            <div class="container-fluid">
+              {/* <div class="row">
             <Button
               className="btn-icon-only rounded-circle mt-0"
               color="primary"
@@ -149,99 +180,104 @@ class ArtifactEditor extends React.Component {
             >
               <i class="fa fa-picture-o" aria-hidden="true"></i>
             </Button>
-          </div>
-          <br />
-          <div class="row">
-            <div class="col">
-              <FormGroup>
-                <InputGroup className="input-group-alternative">
-                  <InputGroupAddon addonType="prepend">
-                    <InputGroupText></InputGroupText>
-                  </InputGroupAddon>
-                  <Input
-                    style={{
-                      fontWeight: "bold",
-                      fontSize: 25,
-                      textAlign: 'center'
-                    }}
-                    placeholder="Artifact name"
-                    type="text"
-                    value={this.state.artifact.name}
-                    onFocus={(e) => {}}
-                    onBlur={(e) => {}}
-                    onChange={this.onChangeName}
-                  />
-                </InputGroup>
-              </FormGroup>
-              <FormGroup className="mb-4">
-                <Input
-                  className="form-control-alternative"
-                  cols="80"
-                  name="name"
-                  placeholder="Type a description"
-                  rows="4"
-                  value={this.state.artifact.description}
-                  type="textarea"
-                  spellCheck={false}
-                  onChange={this.onChangeDescription}
-                />
-              </FormGroup>
-              <QRCode
-                className="pt-0 img-center"
-                id="qr-gen"
-                size={256}
-                style={{ height: "auto", maxWidth: "50%", width: "50%" }}
-                viewBox={`0 0 256 256`}
-                value={artifactMgr.getUrlArtifact(
-                  this.state.museumId,
-                  this.state.artifact.id
-                )}
-              ></QRCode>
+          </div> */}
               <br />
-              <Button
-                block
-                className="btn-round"
-                color="default"
-                size="lg"
-                type="button"
-                onClick={this.downloadQRCode}
-              >
-                Download QR Code
-              </Button>
-            </div>
-            <div class="col">
-              {this.state.currentTab === ArtifactEditor.TAB_NONE ? (
-                <Card
-                  className="shadow border-0 "
-                  style={{ height: 500, width: "100%" }}
-                >
-                  { <Canvas
-                    dpr={[1, 2]}
-                    shadows
-                    camera={{ fav: 45 }}
-                    style={{ position: "absolute" }}
+              <div class="row">
+                <div class="col">
+                  <FormGroup>
+                    <InputGroup className="input-group-alternative">
+                      <InputGroupAddon addonType="prepend">
+                        <InputGroupText></InputGroupText>
+                      </InputGroupAddon>
+                      <Input
+                        style={{
+                          fontWeight: "bold",
+                          fontSize: 25,
+                          textAlign: "center",
+                        }}
+                        placeholder="Artifact name"
+                        type="text"
+                        value={this.state.artifact.name}
+                        onFocus={(e) => {}}
+                        onBlur={(e) => {}}
+                        onChange={this.onChangeName}
+                      />
+                    </InputGroup>
+                  </FormGroup>
+                  <FormGroup className="mb-4">
+                    <Input
+                      className="form-control-alternative"
+                      cols="80"
+                      name="name"
+                      placeholder="Type a description"
+                      rows="4"
+                      value={this.state.artifact.description}
+                      type="textarea"
+                      spellCheck={false}
+                      onChange={this.onChangeDescription}
+                      maxLength={1000}
+                    />
+                  </FormGroup>
+                  <QRCode
+                    className="pt-0 img-center"
+                    id="qr-gen"
+                    size={256}
+                    style={{ height: "auto", maxWidth: "50%", width: "50%" }}
+                    viewBox={`0 0 256 256`}
+                    value={artifactMgr.getUrlArtifact(
+                      this.state.museumId,
+                      this.state.artifact.id
+                    )}
+                  ></QRCode>
+                  <br />
+                  <Button
+                    block
+                    className="btn-round"
+                    color="default"
+                    size="lg"
+                    type="button"
+                    onClick={this.downloadQRCode}
                   >
-                    <PresentationControls
-                      speed={1.5}
-                      global
-                      zoom={1}
-                      polar={[-0.1, Math.PI / 4]}
+                    Download QR Code
+                  </Button>
+                </div>
+                <div class="col">
+                  {this.state.currentTab === ArtifactEditor.TAB_NONE ? (
+                    <Card
+                      className="shadow border-0 "
+                      style={{ height: 500, width: "100%" }}
                     >
-                      <Stage environment={null}>
-                        <Model scale={0.08} />
-                      </Stage>
-                    </PresentationControls>
-                  </Canvas> }
-                </Card>
-              ) : (
-                <ModelsView />
-              )}
-            </div>
-            <div class="col">
-              <ArtifactProperties/>
-            </div>
+                      {
+                        <Canvas
+                          dpr={[1, 2]}
+                          shadows
+                          camera={{ fav: 45 }}
+                          style={{ position: "absolute" }}
+                        >
+                          <PresentationControls
+                            speed={1.5}
+                            global
+                            zoom={1}
+                            polar={[-0.1, Math.PI / 4]}
+                          >
+                            <Stage environment={null}>
+                              <Model scale={0.08} />
+                            </Stage>
+                          </PresentationControls>
+                        </Canvas>
+                      }
+                    </Card>
+                  ) : (
+                    <ModelsView />
+                  )}
+                </div>
+                <div class="col">
+                  <ArtifactProperties {...this.state.artifact} />
+                </div>
+              </div>
+            </div>{" "}
           </div>
-        </div>
+        )}
       </main>
     );
   }

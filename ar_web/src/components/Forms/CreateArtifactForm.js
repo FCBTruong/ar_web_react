@@ -56,12 +56,15 @@ class CreateArtifactForm extends React.Component {
     ) {
       console.log("name or intruction, image is empty");
     } else {
-      if (this.artifactForm.artifact.image) {
-        this.artifactForm.artifact.name = this.state.artifactForm_name;
-        this.artifactForm.artifact.description =
-          this.state.artifactForm_introduction;
-        artifactMgr.create(this.artifactForm);
-      }
+      this.artifactForm.artifact.name = this.state.artifactForm_name;
+      this.artifactForm.artifact.description =
+        this.state.artifactForm_introduction;
+
+      artifactMgr.create(this.artifactForm);
+
+      window.Artifacts.setState({
+        isLoading: true
+      });
     }
   };
 
@@ -95,11 +98,6 @@ class CreateArtifactForm extends React.Component {
                     })}
                   >
                     <InputGroup className="input-group-alternative">
-                      <InputGroupAddon addonType="prepend">
-                        <InputGroupText>
-                          <i className="ni ni-user-run" />
-                        </InputGroupText>
-                      </InputGroupAddon>
                       <Input
                         placeholder="Artifact name"
                         type="text"
@@ -108,25 +106,6 @@ class CreateArtifactForm extends React.Component {
                         onChange={this.onChangeName}
                       />
                     </InputGroup>
-                  </FormGroup>
-
-                  <FormGroup>
-                    <Label for="exampleFile">Artifact image</Label>
-                    <Input
-                      type="file"
-                      name="file"
-                      id="exampleFile"
-                      onChange={this.changeFileHandler}
-                    />
-                    <FormText color="muted">Ảnh đại diện cho hiện vật</FormText>
-                  </FormGroup>
-                  <FormGroup>
-                    <Label for="exampleFile">AR 3D Model</Label>
-                    <Input type="file" name="file" id="exampleFile" />
-                    <FormText color="muted">
-                      Thêm một mô hình 3D của bạn, mô hình này mô phỏng hiện vật
-                      của bạn
-                    </FormText>
                   </FormGroup>
                   <FormGroup className="mb-4">
                     <Input

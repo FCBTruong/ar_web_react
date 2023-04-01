@@ -11,7 +11,7 @@ user.setData = function (_userData) {
   localStorage.setItem("user_data", JSON.stringify(_userData));
 };
 
-user.getUserData = function () {
+user.getData = function () {
   if (user.userData) {
     return user.userData;
   } else {

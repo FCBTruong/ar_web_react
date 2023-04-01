@@ -6,7 +6,7 @@ class ModelsView extends React.Component {
   // eslint-disable-next-line no-useless-constructor
   constructor(props) {
     super(props);
-    console.log("ggg", user.getUserData().assets);
+    console.log("ggg", user.getData().assets);
   }
 
   changeFileHandler = (e) => {

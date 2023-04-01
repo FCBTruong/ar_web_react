@@ -23,7 +23,7 @@ class ArtifactEditorBar extends React.Component {
   }
 
   onSaveAndPublish = (e)=>{
-    window.ArtifactEdito.saveAndPublish()
+    window.ArtifactEditor.saveAndPublish()
   }
   render() {
     return (
