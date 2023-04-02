@@ -10,11 +10,8 @@ import { OrbitControls } from "@react-three/drei";
 import { useGLTF, Stage, PresentationControls } from "@react-three/drei";
 import artifactMgr from "apis/artifact_mgr";
 import { ClipLoader, HashLoader } from "react-spinners";
+import utilities from "utilities/utilities";
 
-function Model(props) {
-  const { scene } = useGLTF(require("assets/models/bmw_8_3d_model.glb"));
-  return <primitive object={scene} {...props} />;
-}
 
 class Artifacts extends React.Component {
   // eslint-disable-next-line no-useless-constructor
@@ -91,10 +88,10 @@ class Artifacts extends React.Component {
                                 }}
                               >
                                 <CardBody
-                                  className="py-5"
-                                  style={{ height: "auto" }}
+                                  className="py-3"
+                                  style={{ height: 400 }}
                                 >
-                                  <h6 className="text-primary text-uppercase">
+                                  <h6 className="text-primary text-uppercase mx-auto">
                                     {artifact.name}
                                   </h6>
                                   <img
@@ -108,7 +105,7 @@ class Artifacts extends React.Component {
                                     style={{ width: "150px" }}
                                   />
                                   <p className="description mt-3">
-                                    {artifact.description}
+                                    {utilities.subStr(artifact.description, 150)}
                                   </p>
                                 </CardBody>
                               </Card>

@@ -122,11 +122,10 @@ user.addAsset3D = async function (file) {
     .then((response) => response.text())
     .then((result) => {
       console.log(result);
-      asset = JSON.parse(result);
+      var ass = JSON.parse(result);
+      return ass.asset;
     })
     .catch((error) => console.log("error", error));
-
-  this.requestData();
   return asset;
 };
 

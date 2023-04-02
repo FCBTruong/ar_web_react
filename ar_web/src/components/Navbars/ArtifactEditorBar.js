@@ -19,7 +19,7 @@ import {
 class ArtifactEditorBar extends React.Component {
 
   onBack = (e)=>{
-    window.location.replace("/museum-artifacts-page");
+    window.location.replace("/artifacts-page");
   }
 
   onSaveAndPublish = (e)=>{

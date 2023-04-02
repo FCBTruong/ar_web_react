@@ -64,7 +64,7 @@ root.render(
         render={(props) => <Museums {...props} ref={Museums => {window.Museums = Museums}} />}
       />
        <Route
-        path="/museum-artifacts-page"
+        path="/artifacts-page"
         exact
         render={(props) => <Artifacts {...props} ref={Artifacts => {window.Artifacts = Artifacts}} />}
       />

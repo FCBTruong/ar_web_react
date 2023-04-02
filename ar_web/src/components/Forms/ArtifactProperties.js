@@ -30,6 +30,7 @@ class ArtifactProperties extends React.Component {
 
     this.state = {
       isLoadingImage: false,
+      isUploadingModel: false,
     };
   }
 
@@ -45,13 +46,23 @@ class ArtifactProperties extends React.Component {
           isLoadingImage: false,
         });
 
-        window.ArtifactEditor.onChangeImage(s)
+        window.ArtifactEditor.onChangeImage(s);
       }
     });
   };
 
   change3DModel = (e) => {
     var file = e.target.files[0];
+
+    user.addAsset3D(file).then((asset) => {
+      window.ArtifactEditor.onAddAsset3D(asset);
+      this.setState({
+        isUploadingModel: false,
+      });
+    });
+    this.setState({
+      isUploadingModel: true,
+    });
   };
 
   render() {
@@ -67,14 +78,17 @@ class ArtifactProperties extends React.Component {
             <TreeItem nodeId="1" label="3D Model">
               <div>
                 <br />
-                <Input
-                  placeholder=""
-                  type="file"
-                  onChange={this.change3DModel}
-                />
+                {this.state.isUploadingModel ? (
+                  <HashLoader color="#36d7b7" />
+                ) : (
+                  <Input
+                    placeholder=""
+                    type="file"
+                    onChange={this.change3DModel}
+                  />
+                )}
                 <br />
-                {
-                this.props.modelAr && this.props.modelAr.modelAsset ? (
+                {this.props.modelAr && this.props.modelAr.modelAsset ? (
                   <div>
                     <div>
                       <p>Position</p>
@@ -88,6 +102,13 @@ class ArtifactProperties extends React.Component {
                               placeholder=""
                               type="number"
                               value={this.props.modelAr.position.x}
+                              onChange={(e) => {
+                                window.ArtifactEditor.changeModelPosition(
+                                  e.target.value,
+                                  this.props.modelAr.position.y,
+                                  this.props.modelAr.position.z
+                                );
+                              }}
                             />
                           </InputGroup>
                         </div>
@@ -100,6 +121,13 @@ class ArtifactProperties extends React.Component {
                               placeholder=""
                               type="number"
                               value={this.props.modelAr.position.y}
+                              onChange={(e) => {
+                                window.ArtifactEditor.changeModelPosition(
+                                  this.props.modelAr.position.x,
+                                  e.target.value,
+                                  this.props.modelAr.position.z
+                                );
+                              }}
                             />
                           </InputGroup>
                         </div>
@@ -112,6 +140,13 @@ class ArtifactProperties extends React.Component {
                               placeholder=""
                               type="number"
                               value={this.props.modelAr.position.z}
+                              onChange={(e) => {
+                                window.ArtifactEditor.changeModelPosition(
+                                  this.props.modelAr.position.x,
+                                  this.props.modelAr.position.y,
+                                  e.target.value
+                                );
+                              }}
                             />
                           </InputGroup>
                         </div>
@@ -130,6 +165,13 @@ class ArtifactProperties extends React.Component {
                               placeholder=""
                               type="number"
                               value={this.props.modelAr.rotation.x}
+                              onChange={(e) => {
+                                window.ArtifactEditor.changeModelRotation(
+                                  e.target.value,
+                                  this.props.modelAr.rotation.y,
+                                  this.props.modelAr.rotation.z
+                                );
+                              }}
                             />
                           </InputGroup>
                         </div>
@@ -142,6 +184,13 @@ class ArtifactProperties extends React.Component {
                               placeholder=""
                               type="number"
                               value={this.props.modelAr.rotation.y}
+                              onChange={(e) => {
+                                window.ArtifactEditor.changeModelRotation(
+                                  this.props.modelAr.rotation.x,
+                                  e.target.value,
+                                  this.props.modelAr.rotation.z
+                                );
+                              }}
                             />
                           </InputGroup>
                         </div>
@@ -153,7 +202,14 @@ class ArtifactProperties extends React.Component {
                             <Input
                               placeholder=""
                               type="number"
-                              value={this.props.modelAr.position.z}
+                              value={this.props.modelAr.rotation.z}
+                              onChange={(e) => {
+                                window.ArtifactEditor.changeModelRotation(
+                                  this.props.modelAr.rotation.x,
+                                  this.props.modelAr.rotation.y,
+                                  e.target.value
+                                );
+                              }}
                             />
                           </InputGroup>
                         </div>
@@ -171,6 +227,13 @@ class ArtifactProperties extends React.Component {
                               placeholder=""
                               type="number"
                               value={this.props.modelAr.scale.x}
+                              onChange={(e) => {
+                                window.ArtifactEditor.changeModelScale(
+                                  e.target.value,
+                                  this.props.modelAr.scale.y,
+                                  this.props.modelAr.scale.z
+                                );
+                              }}
                             />
                           </InputGroup>
                         </div>
@@ -182,7 +245,14 @@ class ArtifactProperties extends React.Component {
                             <Input
                               placeholder=""
                               type="number"
-                              value={this.props.modelAr.scale.x}
+                              value={this.props.modelAr.scale.y}
+                              onChange={(e) => {
+                                window.ArtifactEditor.changeModelScale(
+                                  this.props.modelAr.scale.x,
+                                  e.target.value,
+                                  this.props.modelAr.scale.z
+                                );
+                              }}
                             />
                           </InputGroup>
                         </div>
@@ -194,7 +264,14 @@ class ArtifactProperties extends React.Component {
                             <Input
                               placeholder=""
                               type="number"
-                              value={this.props.modelAr.scale.x}
+                              value={this.props.modelAr.scale.z}
+                              onChange={(e) => {
+                                window.ArtifactEditor.changeModelScale(
+                                  this.props.modelAr.scale.x,
+                                  this.props.modelAr.scale.y,
+                                  e.target.value
+                                );
+                              }}
                             />
                           </InputGroup>
                         </div>
@@ -234,6 +311,9 @@ class ArtifactProperties extends React.Component {
           </TreeItem>
           <TreeItem nodeId="3" label="Information">
             <p>Load your artifact image</p>
+          </TreeItem>
+          <TreeItem nodeId="4" label="Audio">
+            <div></div>
           </TreeItem>
         </TreeView>
       </div>

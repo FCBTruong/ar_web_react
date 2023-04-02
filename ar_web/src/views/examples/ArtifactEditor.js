@@ -24,24 +24,65 @@ import artifactMgr from "apis/artifact_mgr";
 import QRCode from "react-qr-code";
 
 import { Canvas } from "@react-three/fiber";
-import { OrbitControls } from "@react-three/drei";
+import { OrbitControls, useFBX } from "@react-three/drei";
 import { useGLTF, Stage, PresentationControls } from "@react-three/drei";
 import ModelsView from "components/Forms/ModelsView";
 import ArtifactEditorBar from "components/Navbars/ArtifactEditorBar";
 import { HashLoader } from "react-spinners";
+import utilities from "utilities/utilities";
 
-function Box() {
+function Model(props) {
+  console.log("props...", props);
+
+  var urlAsset =
+    props.artifact.modelAr.modelAsset && props.artifact.modelAr.modelAsset.url
+      ? props.artifact.modelAr.modelAsset.url
+      : require("assets/models/cardboard_cartoon.glb");
+
+  var fileExtension = utilities.getFileExtension(urlAsset);
+  
+  var scene
+  switch(fileExtension)
+  {
+    case "fbx":
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      scene = useFBX(urlAsset).scene
+      break;
+    default:
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      scene = useGLTF(urlAsset).scene
+      break;
+  }
+
   return (
-    <mesh>
+    <primitive
+      object={scene}
+      scale={[
+        props.artifact.modelAr.scale.x,
+        props.artifact.modelAr.scale.y,
+        props.artifact.modelAr.scale.z,
+      ]}
+      rotation={[
+        props.artifact.modelAr.rotation.x,
+        props.artifact.modelAr.rotation.y,
+        props.artifact.modelAr.rotation.z,
+      ]}
+      position={[
+        props.artifact.modelAr.position.x,
+        props.artifact.modelAr.position.y,
+        props.artifact.modelAr.position.z,
+      ]}
+    />
+  );
+}
+
+function EmptyBox() {
+  return (
+    <mesh scale={[0.01, 0.01, 0.01]} rotation={[10, 0, 0]}>
       <boxBufferGeometry attach="geometry" />
       <meshLambertMaterial attach="material" color="hotpink" />
     </mesh>
   );
-}
-
-function Model(props) {
-  const { scene } = useGLTF(require("assets/models/bmw_8_3d_model.glb"));
-  return <primitive object={scene} {...props} />;
 }
 
 class ArtifactEditor extends React.Component {
@@ -132,6 +173,51 @@ class ArtifactEditor extends React.Component {
     console.log("new image path " + s);
     var desArtifact = { ...this.state.artifact };
     desArtifact.image = s;
+    this.setState({
+      artifact: desArtifact,
+    });
+  };
+
+  onAddAsset3D = (asset) => {
+    console.log("asset" + asset);
+    var desArtifact = { ...this.state.artifact };
+    desArtifact.modelAr.modelAsset = asset;
+    this.setState({
+      artifact: desArtifact,
+    });
+  };
+
+  changeModelPosition = (x, y, z) => {
+    var desArtifact = { ...this.state.artifact };
+    desArtifact.modelAr.position = {
+      x: Number(x),
+      y: Number(y),
+      z: Number(z),
+    };
+    this.setState({
+      artifact: desArtifact,
+    });
+  };
+
+  changeModelRotation = (x, y, z) => {
+    var desArtifact = { ...this.state.artifact };
+    desArtifact.modelAr.rotation = {
+      x: Number(x),
+      y: Number(y),
+      z: Number(z),
+    };
+    this.setState({
+      artifact: desArtifact,
+    });
+  };
+
+  changeModelScale = (x, y, z) => {
+    var desArtifact = { ...this.state.artifact };
+    desArtifact.modelAr.scale = {
+      x: Number(x),
+      y: Number(y),
+      z: Number(z),
+    };
     this.setState({
       artifact: desArtifact,
     });
@@ -261,7 +347,15 @@ class ArtifactEditor extends React.Component {
                             polar={[-0.1, Math.PI / 4]}
                           >
                             <Stage environment={null}>
-                              <Model scale={0.08} />
+                              {this.state.artifact.modelAr &&
+                              this.state.artifact.modelAr.modelAsset ? (
+                                <Model
+                                  artifact={this.state.artifact}
+                                  scale={0.05}
+                                />
+                              ) : (
+                                <EmptyBox />
+                              )}
                             </Stage>
                           </PresentationControls>
                         </Canvas>

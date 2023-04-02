@@ -34,6 +34,10 @@ class CreateMuseumForm extends React.Component {
     this.setState({ museumForm_introduction: e.target.value });
   };
 
+  changeImageHandler = (e)=>{
+    
+  }
+
   create = (e) => {
     if (
       this.state.museumForm_name === "" ||
@@ -78,6 +82,14 @@ class CreateMuseumForm extends React.Component {
                       />
                     </InputGroup>
                   </FormGroup>
+                  <FormGroup>
+                  <Input
+                    type="file"
+                    name="file"
+                    id="exampleFile"
+                    onChange={this.changeImageHandler}
+                  />
+                </FormGroup>{" "}
                   <FormGroup className="mb-4">
                     <Input
                       className="form-control-alternative"

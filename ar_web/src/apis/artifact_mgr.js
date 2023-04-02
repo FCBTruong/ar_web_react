@@ -31,8 +31,23 @@ artifactMgr.create = function (artifactForm) {
     .catch((error) => console.log("error", error));
 };
 
+artifactMgr._validatePos = function(p){
+  return {
+    x: p.x ? p.x : 0,
+    y: p.y ? p.y : 0,
+    z: p.z ? p.z : 0
+  }
+}
+
 artifactMgr.update = async function (_museumId, _artifact) {
-  console.log('testv ', _artifact)
+  console.log('update-artifact ', _artifact)
+  // *** validate data
+  // ** validate pos model
+  _artifact.modelAr.position = artifactMgr._validatePos(_artifact.modelAr.position)
+  _artifact.modelAr.rotation = artifactMgr._validatePos(_artifact.modelAr.rotation)
+  _artifact.modelAr.scale = artifactMgr._validatePos(_artifact.modelAr.scale)
+
+
   var myHeaders = new Headers();
   myHeaders.append("Authorization", "Bearer " + auth.credential_token);
   myHeaders.append("Content-Type", "application/json");
