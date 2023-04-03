@@ -6,6 +6,10 @@ import HomeNavbar from "components/Navbars/HomeNavBar";
 import CreateMuseumForm from "components/Forms/CreateMuseumForm";
 import user from "apis/user";
 import { HashLoader } from "react-spinners";
+import utilities from "utilities/utilities";
+import {useHistory} from 'react-router-dom';
+
+
 
 class Museums extends React.Component {
   constructor(props) {
@@ -16,9 +20,10 @@ class Museums extends React.Component {
     this.state = {
       isCreating: false,
       userData: user.getData(),
-      isLoading: false
+      isLoading: false,
     };
   }
+
 
   createMuseum = (e) => {
     this.setState({
@@ -76,50 +81,53 @@ class Museums extends React.Component {
                 <CreateMuseumForm></CreateMuseumForm>
               ) : (
                 <div>
-                  <Container className="pt-lg-7"></Container>
-                  <Container className="pt-lg-7"></Container>
+                  <br />
+                  <br />
+                  <br />
                   <Container className="pt-lg-7">
                     <section className="section section-lg pt-lg-0 mt--200">
                       <Container>
                         <Row className="justify-content-center">
-                          <Col lg="12">
+                          <Col lg="8">
                             <Row className="row-grid">
                               {user.userData
                                 ? user.userData.museums.map((museum, index) => {
                                     return (
-                                      <Col lg="4 mb-4">
-                                        <Card className="card-lift--hover shadow border-0">
-                                          <CardBody className="py-5">
-                                            <div className="icon icon-shape icon-shape-primary rounded-circle mb-4">
-                                              <i className="ni ni-check-bold" />
-                                            </div>
-                                            <h6 className="text-primary text-uppercase">
+                                      <Col lg="12 mb-5">
+                                        <Card
+                                          className="card-lift--hover shadow border-0"
+                                          onClick={(e) =>
+                                            this.openMuseum(e, museum)
+                                          }
+                                          style={{
+                                            height: 'auto',
+                                          }}
+                                        >
+                                          <CardBody className="py-4">
+                                            <h5 className="text-primary text-uppercase mx-auto"
+                                            style={{
+                                              textAlign: 'center'
+                                            }}>
                                               {museum.name}
-                                            </h6>
+                                            </h5>
                                             <p className="description mt-3">
                                               {museum.introduction
-                                                ? museum.introduction
+                                                ? utilities.subStr(
+                                                    museum.introduction,
+                                                    200
+                                                  )
                                                 : "empty"}
                                             </p>
-                                            <div>
-                                              <Badge
-                                                color="primary"
-                                                pill
-                                                className="mr-1"
-                                              >
-                                                AR
-                                              </Badge>
-                                            </div>
-                                            <Button
-                                              className="mt-4"
-                                              color="primary"
-                                              href="#pablo"
-                                              onClick={(e) =>
-                                                this.openMuseum(e, museum)
+                                            <img
+                                              alt="..."
+                                              className="img-fluid rounded shadow-lg mx-auto"
+                                              src={
+                                                this.props.image
+                                                  ? this.props.image
+                                                  : require("assets/img/museum/museum_bg_0.jpeg")
                                               }
-                                            >
-                                              OPEN
-                                            </Button>
+                                              style={{ width: "100%" }}
+                                            />
                                           </CardBody>
                                         </Card>
                                       </Col>

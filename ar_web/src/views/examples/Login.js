@@ -16,6 +16,7 @@
 
 */
 import React from "react";
+import { Link } from "react-router-dom";
 
 // reactstrap components
 import {
@@ -58,7 +59,7 @@ class Login extends React.Component {
   };
   login = (e) => {
     auth.login(this.state.email, this.state.password);
-  }
+  };
 
   render() {
     return (
@@ -194,13 +195,15 @@ class Login extends React.Component {
                       </a>
                     </Col>
                     <Col className="text-right" xs="6">
-                      <a
-                        className="text-light"
-                        href="#pablo"
-                        onClick={(e) => e.preventDefault()}
-                      >
-                        <small>Create new account</small>
-                      </a>
+                      <Link to="/register-page">
+                        <a
+                          className="text-light"
+                          href="#pablo"
+                          onClick={(e) => {}}
+                        >
+                          <small>Create new account</small>
+                        </a>
+                      </Link>
                     </Col>
                   </Row>
                 </Col>
@@ -208,7 +211,6 @@ class Login extends React.Component {
             </Container>
           </section>
         </main>
-        <SimpleFooter />
       </>
     );
   }

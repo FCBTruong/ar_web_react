@@ -23,14 +23,42 @@ auth.login = function (_email, _password) {
   fetch(api.to("login"), requestOptions)
     .then((response) => response.text())
     .then(async (result) => {
-      auth.credential_token = JSON.parse(result).token
-      localStorage.setItem("credential_token", auth.credential_token)
-      console.log(result)
-      window.location.replace("/museums-page");
+      console.log(result);
+      auth.onLoginSuccess(JSON.parse(result).token)
     })
     .catch((error) => console.log("error", error));
 };
 
+auth.onLoginSuccess = function (token) {
+  auth.credential_token = token;
+  localStorage.setItem("credential_token", auth.credential_token);
+  window.location.replace("/museums-page");
+};
 
+auth.signup = function (_email, _password, _name) {
+  var myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+
+  var raw = JSON.stringify({
+    username: _email,
+    password: _password,
+    email: _name,
+  });
+
+  var requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow",
+  };
+
+  fetch(api.to("signup"), requestOptions)
+    .then((response) => response.text())
+    .then((result) => {
+      console.log(result);
+      auth.onLoginSuccess(JSON.parse(result).token)
+    })
+    .catch((error) => console.log("error", error));
+};
 
 export default auth;

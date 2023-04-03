@@ -58,7 +58,6 @@ class Index extends React.Component {
       <>
         <DemoNavbar />
         <main ref="main">
-          <Landing/>
           <Carousel />
           <Download />
         </main>

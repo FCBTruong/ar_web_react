@@ -31,12 +31,13 @@ import {
   InputGroup,
   Container,
   Row,
-  Col
+  Col,
 } from "reactstrap";
 
 // core components
 import DemoNavbar from "components/Navbars/DemoNavbar.js";
 import SimpleFooter from "components/Footers/SimpleFooter.js";
+import auth from "apis/auth";
 
 class Register extends React.Component {
   componentDidMount() {
@@ -44,6 +45,47 @@ class Register extends React.Component {
     document.scrollingElement.scrollTop = 0;
     this.refs.main.scrollTop = 0;
   }
+
+  state = {
+    email: "",
+    password: "",
+    name: "",
+    agree: false,
+  };
+
+  handleEmailChange = (e) => {
+    this.setState({ email: e.target.value });
+  };
+
+  handleNameChange = (e) => {
+    this.setState({ name: e.target.value });
+  };
+
+  handlePasswordChange = (e) => {
+    this.setState({ password: e.target.value });
+  };
+
+  handleAgreeChange = (e) => {
+    this.setState({ agree: e.target.checked });
+  };
+
+  signup = (e) => {
+    if(!this.state.agree){
+      console.log('you should agree with our policy')
+      return
+    }
+    if (!this.validateInput(this.state.email)) return false;
+    if (!this.validateInput(this.state.password)) return false;
+    if (!this.validateInput(this.state.name)) return false;
+
+    auth.signup(this.state.email, this.state.password, this.state.name);
+  };
+
+  validateInput = (input) => {
+    if (!input) return false;
+    return input.length > 0;
+  };
+
   render() {
     return (
       <>
@@ -117,7 +159,13 @@ class Register extends React.Component {
                                 <i className="ni ni-hat-3" />
                               </InputGroupText>
                             </InputGroupAddon>
-                            <Input placeholder="Name" type="text" />
+                            <Input
+                              placeholder="Name"
+                              type="text"
+                              checkSpell={false}
+                              value={this.state.name}
+                              onChange={this.handleNameChange}
+                            />
                           </InputGroup>
                         </FormGroup>
                         <FormGroup>
@@ -127,7 +175,14 @@ class Register extends React.Component {
                                 <i className="ni ni-email-83" />
                               </InputGroupText>
                             </InputGroupAddon>
-                            <Input placeholder="Email" type="email" />
+                            <Input
+                              placeholder="Email"
+                              type="email"
+                              autocomplete="off"
+                              checkSpell={false}
+                              value={this.state.email}
+                              onChange={this.handleEmailChange}
+                            />
                           </InputGroup>
                         </FormGroup>
                         <FormGroup>
@@ -140,16 +195,24 @@ class Register extends React.Component {
                             <Input
                               placeholder="Password"
                               type="password"
-                              autoComplete="off"
+                              autoComplete="new-password"
+                              value={this.state.password}
+                              onChange={this.handlePasswordChange}
                             />
                           </InputGroup>
                         </FormGroup>
                         <div className="text-muted font-italic">
                           <small>
                             password strength:{" "}
-                            <span className="text-success font-weight-700">
-                              strong
-                            </span>
+                            {this.state.password.length > 5 ? (
+                              <span className="text-success font-weight-700">
+                                strong
+                              </span>
+                            ) : (
+                              <span className="text-warning font-weight-700">
+                                week
+                              </span>
+                            )}
                           </small>
                         </div>
                         <Row className="my-4">
@@ -159,6 +222,8 @@ class Register extends React.Component {
                                 className="custom-control-input"
                                 id="customCheckRegister"
                                 type="checkbox"
+                                checked={this.state.agree}
+                                onChange={this.handleAgreeChange}
                               />
                               <label
                                 className="custom-control-label"
@@ -168,7 +233,6 @@ class Register extends React.Component {
                                   I agree with the{" "}
                                   <a
                                     href="#pablo"
-                                    onClick={(e) => e.preventDefault()}
                                   >
                                     Privacy Policy
                                   </a>
@@ -182,6 +246,7 @@ class Register extends React.Component {
                             className="mt-4"
                             color="primary"
                             type="button"
+                            onClick={this.signup}
                           >
                             Create account
                           </Button>
@@ -194,7 +259,6 @@ class Register extends React.Component {
             </Container>
           </section>
         </main>
-        <SimpleFooter />
       </>
     );
   }
