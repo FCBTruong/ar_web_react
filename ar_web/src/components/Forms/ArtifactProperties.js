@@ -72,6 +72,7 @@ class ArtifactProperties extends React.Component {
           aria-label="file system navigator"
           defaultCollapseIcon={<ExpandMoreIcon />}
           defaultExpandIcon={<ChevronRightIcon />}
+          defaultExpanded={["1"]}
           sx={{ height: "auto", flexGrow: 1, maxWidth: 400, overflowY: "auto" }}
         >
           {

@@ -40,18 +40,17 @@ function Model(props) {
       : require("assets/models/cardboard_cartoon.glb");
 
   var fileExtension = utilities.getFileExtension(urlAsset);
-  console.log('file extension3d ', fileExtension)
-  
-  var scene
-  switch(fileExtension)
-  {
+  console.log("file extension3d ", fileExtension);
+
+  var scene;
+  switch (fileExtension) {
     case "fbx":
       // eslint-disable-next-line react-hooks/rules-of-hooks
-      scene = useFBX(urlAsset)
+      scene = useFBX(urlAsset);
       break;
     default:
       // eslint-disable-next-line react-hooks/rules-of-hooks
-      scene = useGLTF(urlAsset).scene
+      scene = useGLTF(urlAsset).scene;
       break;
   }
 

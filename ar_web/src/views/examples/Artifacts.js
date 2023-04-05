@@ -12,7 +12,6 @@ import artifactMgr from "apis/artifact_mgr";
 import { ClipLoader, HashLoader } from "react-spinners";
 import utilities from "utilities/utilities";
 
-
 class Artifacts extends React.Component {
   // eslint-disable-next-line no-useless-constructor
   constructor(props) {
@@ -56,20 +55,31 @@ class Artifacts extends React.Component {
   render() {
     return (
       <main ref="main">
-        {this.state.isLoading ? 
-         <div
-         style={{
-             position: 'absolute', left: '50%', top: '50%',
-             transform: 'translate(-50%, -50%)'
-         }}
-         >
-         <HashLoader color="#36d7b7" />
-       </div>
-         
-         : (
+        {this.state.isLoading ? (
+          <div
+            style={{
+              position: "absolute",
+              left: "50%",
+              top: "50%",
+              transform: "translate(-50%, -50%)",
+            }}
+          >
+            <HashLoader color="#36d7b7" />
+          </div>
+        ) : (
           <div>
             <ArtifactsNavBar></ArtifactsNavBar>
-            <section className="section section-shaped section-lg">
+            <section className="section section-shaped section-xl">
+              <div className="shape shape-style-1 bg-gradient-default">
+                <span />
+                <span />
+                <span />
+                <span />
+                <span />
+                <span />
+                <span />
+                <span />
+              </div>
               {this.state.isCreatingArtifact ? (
                 <CreateArtifactForm museumId={this.state.museum.id} />
               ) : (
@@ -105,7 +115,10 @@ class Artifacts extends React.Component {
                                     style={{ width: "150px" }}
                                   />
                                   <p className="description mt-3">
-                                    {utilities.subStr(artifact.description, 150)}
+                                    {utilities.subStr(
+                                      artifact.description,
+                                      150
+                                    )}
                                   </p>
                                 </CardBody>
                               </Card>
