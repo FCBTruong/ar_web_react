@@ -224,6 +224,14 @@ class ArtifactEditor extends React.Component {
     });
   };
 
+  setEditorValue = (val)=>{
+    var desArtifact = { ...this.state.artifact };
+    desArtifact.artifact.data = val;
+    this.setState({
+      artifact: desArtifact,
+    });
+  }
+
   render() {
     return (
       <main ref="main">
@@ -240,7 +248,7 @@ class ArtifactEditor extends React.Component {
           </div>
         ) : (
           <div>
-            <ArtifactEditorBar artifact={""}/>
+            <ArtifactEditorBar/>
             <section className="section"></section>
             <div class="container-fluid">
               <br />
@@ -308,7 +316,7 @@ class ArtifactEditor extends React.Component {
                 */}
                 <div class="col">
                   <div>
-                    <ArtifactYoptaEditor />
+                    <ArtifactYoptaEditor artifact={this.state.artifact} />
                   </div>
                   {/* {this.state.currentTab === ArtifactEditor.TAB_NONE ? (
                     <Card

@@ -64,7 +64,7 @@ class Login extends React.Component {
   render() {
     return (
       <>
-        <DemoNavbar />
+
         <main ref="main">
           <section className="section section-shaped section-lg">
             <div className="shape shape-style-1 bg-gradient-default">
@@ -77,7 +77,7 @@ class Login extends React.Component {
               <span />
               <span />
             </div>
-            <Container className="pt-lg-7">
+            <Container className="pt-lg-0">
               <Row className="justify-content-center">
                 <Col lg="5">
                   <Card className="bg-secondary shadow border-0">
