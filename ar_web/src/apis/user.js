@@ -129,4 +129,21 @@ user.addAsset3D = async function (file) {
   return asset;
 };
 
+user.uploadToCloudinary = async function(file, type = 'image'){
+  // todo later
+  const media = {
+    width: 400,
+    height: 400,
+    format: 'image',
+    name: 'test',
+    id: 'test',
+    secure_url: require("assets/img/museum/museum_bg_0.jpeg"),
+  };
+
+  return {
+    data: media,
+    url: require("assets/img/museum/museum_bg_0.jpeg"),
+  };
+}
+
 export default user;

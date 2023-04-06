@@ -2,6 +2,7 @@ import user from "apis/user";
 
 import React from "react";
 import ArtifactProperties from "components/Forms/ArtifactProperties";
+import ArtifactYoptaEditor from "components/Forms/ArtifactYoptaEditor";
 
 // reactstrap components
 import {
@@ -239,37 +240,14 @@ class ArtifactEditor extends React.Component {
           </div>
         ) : (
           <div>
-            <ArtifactEditorBar></ArtifactEditorBar>
+            <ArtifactEditorBar artifact={""}/>
             <section className="section"></section>
             <div class="container-fluid">
-              {/* <div class="row">
-            <Button
-              className="btn-icon-only rounded-circle mt-0"
-              color="primary"
-              href="#pablo"
-              onClick={this.open3DTab}
-            >
-              3D
-            </Button>
-            <Button
-              className="btn-icon-only rounded-circle mt-0"
-              color="primary"
-              href="#pablo"
-            >
-              TXT
-            </Button>
-            <Button
-              className="btn-icon-only rounded-circle mt-0"
-              color="primary"
-              href="#pablo"
-              onClick={this.open3DTab}
-            >
-              <i class="fa fa-picture-o" aria-hidden="true"></i>
-            </Button>
-          </div> */}
               <br />
               <div class="row">
+                {/*
                 <div class="col">
+                  {/*
                   <FormGroup>
                     <InputGroup className="input-group-alternative">
                       <InputGroupAddon addonType="prepend">
@@ -325,10 +303,14 @@ class ArtifactEditor extends React.Component {
                     onClick={this.downloadQRCode}
                   >
                     Download QR Code
-                  </Button>
+                    </Button>
                 </div>
+                */}
                 <div class="col">
-                  {this.state.currentTab === ArtifactEditor.TAB_NONE ? (
+                  <div>
+                    <ArtifactYoptaEditor />
+                  </div>
+                  {/* {this.state.currentTab === ArtifactEditor.TAB_NONE ? (
                     <Card
                       className="shadow border-0 "
                       style={{ height: 500, width: "100%" }}
@@ -363,11 +345,11 @@ class ArtifactEditor extends React.Component {
                     </Card>
                   ) : (
                     <ModelsView />
-                  )}
+                  )} */}
                 </div>
-                <div class="col">
+                {/*<div class="col">
                   <ArtifactProperties {...this.state.artifact} />
-                </div>
+                  </div>*/}
               </div>
             </div>{" "}
           </div>
