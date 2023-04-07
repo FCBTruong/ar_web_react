@@ -2,7 +2,13 @@ import user from "apis/user";
 
 import React from "react";
 import ArtifactProperties from "components/Forms/ArtifactProperties";
-import ArtifactYoptaEditor from "components/Forms/ArtifactYoptaEditor";
+import ArtifactContentEditor from "components/Forms/ArtifactContentEditor";
+import NavItem from "reactstrap/lib/NavItem";
+import NavLink from "reactstrap/lib/NavLink";
+import classnames from "classnames";
+import Nav from "reactstrap/lib/Nav";
+import TabPane from "reactstrap/lib/TabPane";
+import TabContent from "reactstrap/lib/TabContent";
 
 // reactstrap components
 import {
@@ -24,67 +30,11 @@ import CreateArtifactForm from "components/Forms/CreateArtifactForm";
 import artifactMgr from "apis/artifact_mgr";
 import QRCode from "react-qr-code";
 
-import { Canvas } from "@react-three/fiber";
-import { OrbitControls, useFBX } from "@react-three/drei";
-import { useGLTF, Stage, PresentationControls } from "@react-three/drei";
-import ModelsView from "components/Forms/ModelsView";
 import ArtifactEditorBar from "components/Navbars/ArtifactEditorBar";
 import { HashLoader } from "react-spinners";
 import utilities from "utilities/utilities";
-
-function Model(props) {
-  console.log("props...", props);
-
-  var urlAsset =
-    props.artifact.modelAr.modelAsset && props.artifact.modelAr.modelAsset.url
-      ? props.artifact.modelAr.modelAsset.url
-      : require("assets/models/cardboard_cartoon.glb");
-
-  var fileExtension = utilities.getFileExtension(urlAsset);
-  console.log("file extension3d ", fileExtension);
-
-  var scene;
-  switch (fileExtension) {
-    case "fbx":
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      scene = useFBX(urlAsset);
-      break;
-    default:
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      scene = useGLTF(urlAsset).scene;
-      break;
-  }
-
-  return (
-    <primitive
-      object={scene}
-      scale={[
-        props.artifact.modelAr.scale.x,
-        props.artifact.modelAr.scale.y,
-        props.artifact.modelAr.scale.z,
-      ]}
-      rotation={[
-        props.artifact.modelAr.rotation.x,
-        props.artifact.modelAr.rotation.y,
-        props.artifact.modelAr.rotation.z,
-      ]}
-      position={[
-        props.artifact.modelAr.position.x,
-        props.artifact.modelAr.position.y,
-        props.artifact.modelAr.position.z,
-      ]}
-    />
-  );
-}
-
-function EmptyBox() {
-  return (
-    <mesh scale={[0.01, 0.01, 0.01]} rotation={[10, 0, 0]}>
-      <boxBufferGeometry attach="geometry" />
-      <meshLambertMaterial attach="material" color="hotpink" />
-    </mesh>
-  );
-}
+import { Box } from "@material-ui/core";
+import ArtifactAR3DEditor from "components/Forms/ArtifactAR3DEditor";
 
 class ArtifactEditor extends React.Component {
   // eslint-disable-next-line no-useless-constructor
@@ -108,6 +58,8 @@ class ArtifactEditor extends React.Component {
       museumId: _museumId,
       currentTab: ArtifactEditor.TAB_NONE,
       isLoading: false,
+      iconTabs: 1,
+      plainTabs: 1,
     };
   }
 
@@ -224,13 +176,12 @@ class ArtifactEditor extends React.Component {
     });
   };
 
-  setEditorValue = (val)=>{
-    var desArtifact = { ...this.state.artifact };
-    desArtifact.artifact.data = val;
+  toggleNavs = (e, state, index) => {
+    e.preventDefault();
     this.setState({
-      artifact: desArtifact,
+      [state]: index,
     });
-  }
+  };
 
   render() {
     return (
@@ -248,10 +199,8 @@ class ArtifactEditor extends React.Component {
           </div>
         ) : (
           <div>
-            <ArtifactEditorBar/>
-            <section className="section"></section>
-            <div class="container-fluid">
-              <br />
+            <ArtifactEditorBar />
+            <div class="container-xl mt-5">
               <div class="row">
                 {/*
                 <div class="col">
@@ -314,47 +263,149 @@ class ArtifactEditor extends React.Component {
                     </Button>
                 </div>
                 */}
-                <div class="col">
-                  <div>
-                    <ArtifactYoptaEditor artifact={this.state.artifact} />
-                  </div>
-                  {/* {this.state.currentTab === ArtifactEditor.TAB_NONE ? (
-                    <Card
-                      className="shadow border-0 "
-                      style={{ height: 500, width: "100%" }}
+                <Col lg="3">
+                  <div class="position-fixed">
+                    <Box
+                      position="fixed"
+                      border={1}
+                      borderTop={0}
+                      borderBottom={0}
+                      borderLeft={0}
+                      borderColor="grey.300"
+                      sx={{
+                        width: 300,
+                        height: "100%",
+                      }}
                     >
-                      {
-                        <Canvas
-                          dpr={[1, 2]}
-                          shadows
-                          camera={{ fav: 45 }}
-                          style={{ position: "absolute" }}
+                      <br />
+                      <div>
+                        <Button
+                          block
+                          className="btn-round justify-content-center"
+                          variant="light"
+                          color="secondary"
+                          size="md"
+                          type="button"
+                          style={{
+                            width: "100%",
+                          }}
                         >
-                          <PresentationControls
-                            speed={1.5}
-                            global
-                            zoom={1}
-                            polar={[-0.1, Math.PI / 4]}
+                          3D
+                        </Button>
+                        <Button
+                          block
+                          className="btn-round justify-content-center"
+                          variant="light"
+                          color="secondary"
+                          size="md"
+                          type="button"
+                          style={{
+                            width: "100%",
+                          }}
+                        >
+                          Artifacts
+                        </Button>
+                      </div>
+                      <br />
+                      <div>
+                        {
+                          // todo
+                        }
+                        <QRCode
+                          className="pt-0 img-center"
+                          id="qr-gen"
+                          size={256}
+                          style={{
+                            height: "auto",
+                            maxWidth: "50%",
+                            width: "50%",
+                            justifyContent: "flex-end",
+                          }}
+                          viewBox={`0 0 256 256`}
+                          value={artifactMgr.getUrlArtifact(
+                            this.state.museumId,
+                            this.state.artifact.id
+                          )}
+                        ></QRCode>
+                        <Row className="justify-content-center mt-1">
+                          <Button
+                            block
+                            className="btn-round justify-content-center"
+                            color="default"
+                            size="md"
+                            type="button"
+                            style={{
+                              width: "70%",
+                            }}
+                            onClick={this.downloadQRCode}
                           >
-                            <Stage environment={null}>
-                              {this.state.artifact.modelAr &&
-                              this.state.artifact.modelAr.modelAsset ? (
-                                <Model
-                                  artifact={this.state.artifact}
-                                  scale={0.05}
-                                />
-                              ) : (
-                                <EmptyBox />
-                              )}
-                            </Stage>
-                          </PresentationControls>
-                        </Canvas>
-                      }
-                    </Card>
-                  ) : (
-                    <ModelsView />
-                  )} */}
-                </div>
+                            Download QR Code
+                          </Button>
+                        </Row>
+                      </div>
+                    </Box>
+                  </div>
+                </Col>
+                <Col lg="7">
+                  <div className="nav-wrapper mt-2">
+                    <div class="w-50 align-center position-relative">
+                      <Nav
+                        className="nav-fill flex-column flex-md-row"
+                        class="w-50 p-3"
+                        id="tabs-icons-text"
+                        pills
+                        role="tablist"
+                      >
+                        <NavItem>
+                          <NavLink
+                            aria-selected={this.state.plainTabs === 1}
+                            className={classnames("mb-sm-3 mb-md-0", {
+                              active: this.state.plainTabs === 1,
+                            })}
+                            onClick={(e) => this.toggleNavs(e, "plainTabs", 1)}
+                            href="#pablo"
+                            role="tab"
+                          >
+                            Thông tin
+                          </NavLink>
+                        </NavItem>
+                        <NavItem>
+                          <NavLink
+                            aria-selected={this.state.plainTabs === 2}
+                            className={classnames("mb-sm-3 mb-md-0", {
+                              active: this.state.plainTabs === 2,
+                            })}
+                            onClick={(e) => this.toggleNavs(e, "plainTabs", 2)}
+                            href="#pablo"
+                            role="tab"
+                          >
+                            AR
+                          </NavLink>
+                        </NavItem>
+                      </Nav>
+                    </div>
+                    <Box
+                      sx={{ borderColor: "primary.main", border: 0 }}
+                      className="mt-1"
+                    >
+                      <TabContent
+                        activeTab={"plainTabs" + this.state.plainTabs}
+                        className="mt-1"
+                      >
+                        <TabPane tabId="plainTabs1">
+                          <div>
+                            <ArtifactContentEditor
+                              artifact={this.state.artifact}
+                            />
+                          </div>
+                        </TabPane>
+                        <TabPane tabId="plainTabs2">
+                          <ArtifactAR3DEditor artifact={this.state.artifact} />
+                        </TabPane>
+                      </TabContent>
+                    </Box>
+                  </div>
+                </Col>
                 {/*<div class="col">
                   <ArtifactProperties {...this.state.artifact} />
                   </div>*/}

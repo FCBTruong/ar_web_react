@@ -20,14 +20,13 @@ const media = {
   },
 };
 
-function ArtifactYoptaEditor(props) {
+function ArtifactContentEditor(props) {
   console.log("artifact...---", props.artifact);
   const [editorValue, setEditorValue] = useState([]);
- 
+
   useEffect(() => {
     props.artifact.data = editorValue;
   });
-
 
   return (
     <div className={s.container}>
@@ -36,10 +35,11 @@ function ArtifactYoptaEditor(props) {
         onChange={(val) => setEditorValue(val)}
         className={s.editor}
         media={media}
+        autoFocus={false}
         shouldStoreInLocalStorage={{ name: "localStorage-name" }}
       />
     </div>
   );
 }
 
-export default ArtifactYoptaEditor;
+export default ArtifactContentEditor;

@@ -1,98 +1,60 @@
-import React from "react";
-import { Link } from "react-router-dom";
-// reactstrap components
-import {
-  UncontrolledCollapse,
-  DropdownMenu,
-  DropdownItem,
-  UncontrolledDropdown,
-  NavbarBrand,
-  Navbar,
-  NavItem,
-  NavLink,
-  Nav,
-  Container,
-  Row,
-  Col,
-} from "reactstrap";
+import * as React from "react";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import IconButton from "@mui/material/IconButton";
+import MenuIcon from "@mui/icons-material/Menu";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import Button from "@mui/material/Button";
 
 class ArtifactEditorBar extends React.Component {
-
-  onBack = (e)=>{
+  onBack = (e) => {
     window.location.replace("/artifacts-page");
-  }
+  };
 
-  onSaveAndPublish = (e)=>{
-    window.ArtifactEditor.saveAndPublish()
-  }
+  onSaveAndPublish = (e) => {
+    window.ArtifactEditor.saveAndPublish();
+  };
   render() {
     return (
-      <>
-        {/* Navbar primary */}
-        <Navbar
-          fixed='top'
-          className="navbar-horizontal navbar-dark bg-primary mt-0"
-          expand="lg"
-        >
-               <NavbarBrand href="#pablo" onClick={this.onBack}>
-                BACK
-              </NavbarBrand>
-          <Container>
-            <button
-              aria-controls="navbar-primary"
-              aria-expanded={false}
-              aria-label="Toggle navigation"
-              className="navbar-toggler"
-              data-target="#navbar-primary"
-              data-toggle="collapse"
-              id="navbar-primary"
-              type="button"
+      <AppBar
+        position="fixed"
+        sx={{
+          backdropFilter: "blur(3px)",
+          backgroundColor: "rgba(255,255,255,0.9)",
+        }}
+      >
+        <Box height={5}></Box>
+        <Toolbar variant="dense">
+          <IconButton
+            edge="start"
+            color="dark"
+            aria-label="menu"
+            sx={{ mr: 2 }}
+            onClick={this.onBack}
+          >
+            <ArrowBackIcon />
+          </IconButton>
+          <Box
+            style={{
+              width: "100%",
+              position: "relative",
+            }}
+          >
+            <Button
+              sx={{
+                top: "50%",
+                left: "90%",
+              }}
+              onClick={this.onSaveAndPublish}
             >
-              <span className="navbar-toggler-icon" />
-            </button>
-            <UncontrolledCollapse navbar toggler="#navbar-primary">
-              <div className="navbar-collapse-header">
-                <Row>
-                  <Col className="collapse-brand" xs="6">
-                    <Link to="/">
-                      <img
-                        alt="..."
-                        src={require("assets/img/brand/blue.png")}
-                      />
-                    </Link>
-                  </Col>
-                  <Col className="collapse-close" xs="6">
-                    <button
-                      aria-controls="navbar-primary"
-                      aria-expanded={false}
-                      aria-label="Toggle navigation"
-                      className="navbar-toggler"
-                      data-target="#navbar-primary"
-                      data-toggle="collapse"
-                      id="navbar-primary"
-                      type="button"
-                    >
-                      <span />
-                      <span />
-                    </button>
-                  </Col>
-                </Row>
-              </div>
-              <Nav className="ml-lg-auto" navbar>
-                <NavItem>
-                  <NavLink
-                    href="#pablo"
-                    onClick={this.onSaveAndPublish}
-                    
-                  >
-                     SAVE & PUBLISH <span className="sr-only">(current)</span>
-                  </NavLink>
-                </NavItem>
-              </Nav>
-            </UncontrolledCollapse>
-          </Container>
-        </Navbar>
-      </>
+              Save & publish
+            </Button>{" "}
+          </Box>
+        </Toolbar>
+        <Box height={5}></Box>
+      </AppBar>
     );
   }
 }
