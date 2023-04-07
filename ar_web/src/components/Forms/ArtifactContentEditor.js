@@ -29,14 +29,16 @@ function ArtifactContentEditor(props) {
   });
 
   return (
-    <div className={s.container}>
+    <div className={s.container} spellcheck="false">
       <YoptaEditor
         value={editorValue}
         onChange={(val) => setEditorValue(val)}
         className={s.editor}
         media={media}
-        autoFocus={false}
         shouldStoreInLocalStorage={{ name: "localStorage-name" }}
+        components={[
+          
+        ]}
       />
     </div>
   );
