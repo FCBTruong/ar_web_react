@@ -1,10 +1,20 @@
 import { useState, useEffect } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, useFBX } from "@react-three/drei";
-import { useGLTF, Stage, PresentationControls } from "@react-three/drei";
+import {
+  Grid,
+  useGLTF,
+  Stage,
+  PresentationControls,
+  Environment,
+  GizmoHelper,
+  GizmoViewport,
+} from "@react-three/drei";
 import ModelsView from "components/Forms/ModelsView";
 import utilities from "utilities/utilities";
 import Card from "reactstrap/lib/Card";
+import ArtifactProperties from "./ArtifactProperties";
+import { Row, Col } from "reactstrap/lib/";
 
 function Model(props) {
   console.log("props...", props);
@@ -63,31 +73,42 @@ function EmptyBox() {
 function ArtifactAR3DEditor(props) {
   return (
     <div>
-      <Card className="shadow border-0 " style={{ height: 500, width: "100%" }}>
-        {
-          <Canvas
-            dpr={[1, 2]}
-            shadows
-            camera={{ fav: 45 }}
-            style={{ position: "absolute" }}
+      <Row>
+        <Col xs="8">
+          <Card
+            className="shadow border-0 "
+            style={{ height: 600, width: "100%" }}
           >
-            <PresentationControls
-              speed={1.5}
-              global
-              zoom={1}
-              polar={[-0.1, Math.PI / 4]}
-            >
-              <Stage environment={null}>
-                {props.artifact.modelAr && props.artifact.modelAr.modelAsset ? (
-                  <Model artifact={props.artifact} scale={0.05} />
-                ) : (
-                  <EmptyBox />
-                )}
-              </Stage>
-            </PresentationControls>
-          </Canvas>
-        }
-      </Card>
+            {
+              <Canvas shadows camera={{ position: [10, 12, 12], fov: 25 }}>
+                <PresentationControls speed={1.5} global zoom={1}>
+                  <Stage environment={null}>
+                    {props.artifact.modelAr &&
+                    props.artifact.modelAr.modelAsset ? (
+                      <Model artifact={props.artifact} scale={0.05} />
+                    ) : (
+                      <EmptyBox />
+                    )}
+                  </Stage>
+                </PresentationControls>
+                <Grid position={[0, -25, 0]} args={[100, 100]} />
+                <Environment preset="city" />
+                <GizmoHelper alignment="bottom-right" margin={[80, 80]}>
+                  <GizmoViewport
+                    axisColors={["#9d4b4b", "#2f7f4f", "#3b5b9d"]}
+                    labelColor="white"
+                  />
+                </GizmoHelper>
+              </Canvas>
+            }
+          </Card>
+        </Col>
+        <Col xs="4">
+          <div className="p-2">
+            <ArtifactProperties artifact={props.artifact} />
+          </div>
+        </Col>
+      </Row>
     </div>
   );
 }

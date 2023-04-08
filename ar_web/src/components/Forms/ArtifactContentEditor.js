@@ -5,6 +5,7 @@ import List from "@editorjs/list";
 import Paragraph from "components/customize-editorjs/paragraph";
 import Input from "reactstrap/lib/Input";
 import user from "apis/user";
+import ImageTool from "@editorjs/image";
 
 function ArtifactContentEditor(props) {
   console.log("artifact...---", props.artifact);
@@ -44,6 +45,39 @@ function ArtifactContentEditor(props) {
           class: List,
           inlineToolbar: true,
         },
+        image: {
+          class: ImageTool,
+          config: {
+            uploader: {
+              /**
+               * Upload file to the server and return an uploaded image data
+               * @param {File} file - file selected from the device or pasted by drag-n-drop
+               * @return {Promise.<{success, file: {url}}>}
+               */
+              uploadByFile(file) {
+                // your own uploading logic here
+                return user.uploadFile(file).then((link) => {
+                  return {
+                    success: 1,
+                    file: {
+                      url: link,
+                      // any other image data you want to store, such as width, height, color, extension, etc
+                    },
+                  };
+                });
+              },
+
+              /**
+               * Send URL-string to the server. Backend should load image by this URL and return an uploaded image data
+               * @param {string} url - pasted image URL
+               * @return {Promise.<{success, file: {url}}>}
+               */
+              uploadByUrl(url) {
+                // TODO later
+              },
+            },
+          },
+        },
       },
       onReady: () => {
         console.log("Editor.js is ready to work!");
@@ -62,7 +96,7 @@ function ArtifactContentEditor(props) {
       },
       placeholder: "Let`s write an awesome story!",
       data: JSON.parse(props.artifact.data),
-      readOnly: user.getData().editMode === "viewing"
+      readOnly: user.getData().editMode === "viewing",
     });
   };
 

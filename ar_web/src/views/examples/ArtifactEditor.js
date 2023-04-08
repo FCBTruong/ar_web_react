@@ -233,7 +233,7 @@ class ArtifactEditor extends React.Component {
                           orientation="vertical"
                         >
                           <Tab
-                            label="Mô tả"
+                            label="Thông tin"
                             style={{
                               border: "none",
                               outline: "none",
@@ -309,7 +309,7 @@ class ArtifactEditor extends React.Component {
                     </Box>
                   </div>
                 </Col>
-                <Col lg="8">
+                <Col lg="9">
                   <div className="nav-wrapper mt-2">
                     <Box
                       sx={{ borderColor: "primary.main", border: 0 }}
