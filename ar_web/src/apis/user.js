@@ -16,13 +16,17 @@ user.getData = function () {
     return user.userData;
   } else {
     var cachedUserData = localStorage.getItem("user_data");
-    console.log(cachedUserData)
+    console.log(cachedUserData);
     // eslint-disable-next-line no-use-before-define
     if (cachedUserData) {
       user.userData = JSON.parse(cachedUserData);
     }
     return user.userData;
   }
+};
+
+user.saveDataToCache = function () {
+  localStorage.setItem("user_data", JSON.stringify(user.userData));
 };
 
 user.requestData = async function () {
@@ -36,10 +40,19 @@ user.requestData = async function () {
   };
 
   await fetch(api.to("users/get-info"), requestOptions)
-    .then((response) => response.text())
+    .then((response) => {
+      if (response.status === 200) {
+        console.log(response);
+        return response.text();
+      } else {
+        alert("error request data");
+        // eslint-disable-next-line no-throw-literal
+        throw `error with status ${response.status}`;
+      }
+    })
     .then((result) => {
+      console.log("request user data successful");
       user.setData(JSON.parse(result));
-      console.log(result);
     })
     .catch((error) => console.log("error", error));
 };
@@ -129,14 +142,14 @@ user.addAsset3D = async function (file) {
   return asset;
 };
 
-user.uploadToCloudinary = async function(file, type = 'image'){
+user.uploadToCloudinary = async function (file, type = "image") {
   // todo later
   const media = {
     width: 400,
     height: 400,
-    format: 'image',
-    name: 'test',
-    id: 'test',
+    format: "image",
+    name: "test",
+    id: "test",
     secure_url: require("assets/img/museum/museum_bg_0.jpeg"),
   };
 
@@ -144,6 +157,30 @@ user.uploadToCloudinary = async function(file, type = 'image'){
     data: media,
     url: require("assets/img/museum/museum_bg_0.jpeg"),
   };
-}
+};
+
+user.setEditMode = function (editMode) {
+  user.getData().editMode = editMode;
+  user.saveDataToCache();
+
+  var myHeaders = new Headers();
+  myHeaders.append("Authorization", "Bearer " + auth.credential_token);
+
+  var raw = "";
+
+  var requestOptions = {
+    method: "PUT",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow",
+  };
+
+  var url = api.to("users/editmode?editmode=" + editMode);
+
+  fetch(url, requestOptions)
+    .then((response) => response.text())
+    .then((result) => console.log(result))
+    .catch((error) => console.log("error", error));
+};
 
 export default user;

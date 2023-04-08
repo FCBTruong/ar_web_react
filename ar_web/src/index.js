@@ -46,7 +46,7 @@ root.render(
       <Route
         path="/login-page"
         exact
-        render={(props) => <Login {...props} />}
+        render={(props) => <Login {...props} ref={Login => {window.Login = Login}}/>}
       />
       <Route
         path="/profile-page"

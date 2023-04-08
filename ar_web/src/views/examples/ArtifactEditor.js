@@ -9,6 +9,7 @@ import classnames from "classnames";
 import Nav from "reactstrap/lib/Nav";
 import TabPane from "reactstrap/lib/TabPane";
 import TabContent from "reactstrap/lib/TabContent";
+import "assets/css/my-style.css";
 
 // reactstrap components
 import {
@@ -35,6 +36,8 @@ import { HashLoader } from "react-spinners";
 import utilities from "utilities/utilities";
 import { Box } from "@material-ui/core";
 import ArtifactAR3DEditor from "components/Forms/ArtifactAR3DEditor";
+import ModelsView from "components/Forms/ModelsView";
+import { Tab, Tabs } from "@mui/material";
 
 class ArtifactEditor extends React.Component {
   // eslint-disable-next-line no-useless-constructor
@@ -176,11 +179,14 @@ class ArtifactEditor extends React.Component {
     });
   };
 
-  toggleNavs = (e, state, index) => {
-    e.preventDefault();
+  toggleTabs = (e, newValue) => {
     this.setState({
-      [state]: index,
+      plainTabs: newValue,
     });
+  };
+
+  updateEditMode = () => {
+    this.setState({});
   };
 
   render() {
@@ -202,67 +208,6 @@ class ArtifactEditor extends React.Component {
             <ArtifactEditorBar />
             <div class="container-xl mt-5">
               <div class="row">
-                {/*
-                <div class="col">
-                  {/*
-                  <FormGroup>
-                    <InputGroup className="input-group-alternative">
-                      <InputGroupAddon addonType="prepend">
-                        <InputGroupText></InputGroupText>
-                      </InputGroupAddon>
-                      <Input
-                        style={{
-                          fontWeight: "bold",
-                          fontSize: 25,
-                          textAlign: "center",
-                        }}
-                        placeholder="Artifact name"
-                        type="text"
-                        value={this.state.artifact.name}
-                        onFocus={(e) => {}}
-                        onBlur={(e) => {}}
-                        onChange={this.onChangeName}
-                      />
-                    </InputGroup>
-                  </FormGroup>
-                  <FormGroup className="mb-4">
-                    <Input
-                      className="form-control-alternative"
-                      cols="80"
-                      name="name"
-                      placeholder="Type a description"
-                      rows="4"
-                      value={this.state.artifact.description}
-                      type="textarea"
-                      spellCheck={false}
-                      onChange={this.onChangeDescription}
-                      maxLength={1000}
-                    />
-                  </FormGroup>
-                  <QRCode
-                    className="pt-0 img-center"
-                    id="qr-gen"
-                    size={256}
-                    style={{ height: "auto", maxWidth: "50%", width: "50%" }}
-                    viewBox={`0 0 256 256`}
-                    value={artifactMgr.getUrlArtifact(
-                      this.state.museumId,
-                      this.state.artifact.id
-                    )}
-                  ></QRCode>
-                  <br />
-                  <Button
-                    block
-                    className="btn-round"
-                    color="default"
-                    size="lg"
-                    type="button"
-                    onClick={this.downloadQRCode}
-                  >
-                    Download QR Code
-                    </Button>
-                </div>
-                */}
                 <Col lg="3">
                   <div class="position-fixed">
                     <Box
@@ -279,111 +224,93 @@ class ArtifactEditor extends React.Component {
                     >
                       <br />
                       <div>
-                        <Button
-                          block
-                          className="btn-round justify-content-center"
-                          variant="light"
-                          color="secondary"
-                          size="md"
-                          type="button"
-                          style={{
-                            width: "100%",
-                          }}
+                        <Tabs
+                          value={this.state.plainTabs}
+                          onChange={this.toggleTabs}
+                          variant="scrollable"
+                          scrollButtons="auto"
+                          aria-label="scrollable auto tabs example"
+                          orientation="vertical"
                         >
-                          3D
-                        </Button>
-                        <Button
-                          block
-                          className="btn-round justify-content-center"
-                          variant="light"
-                          color="secondary"
-                          size="md"
-                          type="button"
-                          style={{
-                            width: "100%",
-                          }}
-                        >
-                          Artifacts
-                        </Button>
+                          <Tab
+                            label="Mô tả"
+                            style={{
+                              border: "none",
+                              outline: "none",
+                            }}
+                          />
+                          <Tab
+                            label="AR"
+                            style={{
+                              border: "none",
+                              outline: "none",
+                            }}
+                          />
+                          <Tab
+                            label="Thư viện"
+                            style={{
+                              border: "none",
+                              outline: "none",
+                            }}
+                          />
+                          <Tab
+                            label="Hiện vật"
+                            style={{
+                              border: "none",
+                              outline: "none",
+                            }}
+                          />
+                          <Tab
+                            label="Cài đặt"
+                            style={{
+                              border: "none",
+                              outline: "none",
+                            }}
+                          />
+                        </Tabs>
                       </div>
                       <br />
-                      <div>
-                        {
-                          // todo
-                        }
-                        <QRCode
-                          className="pt-0 img-center"
-                          id="qr-gen"
-                          size={256}
-                          style={{
-                            height: "auto",
-                            maxWidth: "50%",
-                            width: "50%",
-                            justifyContent: "flex-end",
-                          }}
-                          viewBox={`0 0 256 256`}
-                          value={artifactMgr.getUrlArtifact(
-                            this.state.museumId,
-                            this.state.artifact.id
-                          )}
-                        ></QRCode>
-                        <Row className="justify-content-center mt-1">
-                          <Button
-                            block
-                            className="btn-round justify-content-center"
-                            color="default"
-                            size="md"
-                            type="button"
+                      <Row className="justify-content-center text-center mt-1">
+                        <div id="footer">
+                          <QRCode
+                            className="pt-1 img-center"
+                            id="qr-gen"
+                            size={256}
                             style={{
-                              width: "70%",
+                              height: "auto",
+                              maxWidth: "50%",
+                              width: "50%",
+                              justifyContent: "flex-end",
                             }}
-                            onClick={this.downloadQRCode}
-                          >
-                            Download QR Code
-                          </Button>
-                        </Row>
-                      </div>
+                            viewBox={`0 0 256 256`}
+                            value={artifactMgr.getUrlArtifact(
+                              this.state.museumId,
+                              this.state.artifact.id
+                            )}
+                          ></QRCode>
+                          <Row className="justify-content-center mt-1">
+                            <Button
+                              block
+                              className="btn-round justify-content-center"
+                              color="default"
+                              size="md"
+                              type="button"
+                              style={{
+                                width: "50%",
+                              }}
+                              onClick={this.downloadQRCode}
+                            >
+                              Tải QR Code
+                            </Button>
+                          </Row>
+                          <Box height={5} />
+                        </div>
+                      </Row>
                     </Box>
                   </div>
                 </Col>
-                <Col lg="7">
+                <Col lg="8">
                   <div className="nav-wrapper mt-2">
-                    <div class="w-50 align-center position-relative">
-                      <Nav
-                        className="nav-fill flex-column flex-md-row"
-                        class="w-50 p-3"
-                        id="tabs-icons-text"
-                        pills
-                        role="tablist"
-                      >
-                        <NavItem>
-                          <NavLink
-                            aria-selected={this.state.plainTabs === 1}
-                            className={classnames("mb-sm-3 mb-md-0", {
-                              active: this.state.plainTabs === 1,
-                            })}
-                            onClick={(e) => this.toggleNavs(e, "plainTabs", 1)}
-                            href="#pablo"
-                            role="tab"
-                          >
-                            Thông tin
-                          </NavLink>
-                        </NavItem>
-                        <NavItem>
-                          <NavLink
-                            aria-selected={this.state.plainTabs === 2}
-                            className={classnames("mb-sm-3 mb-md-0", {
-                              active: this.state.plainTabs === 2,
-                            })}
-                            onClick={(e) => this.toggleNavs(e, "plainTabs", 2)}
-                            href="#pablo"
-                            role="tab"
-                          >
-                            AR
-                          </NavLink>
-                        </NavItem>
-                      </Nav>
-                    </div>
                     <Box
                       sx={{ borderColor: "primary.main", border: 0 }}
                       className="mt-1"
@@ -392,15 +319,18 @@ class ArtifactEditor extends React.Component {
                         activeTab={"plainTabs" + this.state.plainTabs}
                         className="mt-1"
                       >
-                        <TabPane tabId="plainTabs1">
+                        <TabPane tabId="plainTabs0">
                           <div>
                             <ArtifactContentEditor
                               artifact={this.state.artifact}
                             />
                           </div>
                         </TabPane>
-                        <TabPane tabId="plainTabs2">
+                        <TabPane tabId="plainTabs1">
                           <ArtifactAR3DEditor artifact={this.state.artifact} />
+                        </TabPane>
+                        <TabPane tabId="plainTabs2">
+                          <ModelsView />
                         </TabPane>
                       </TabContent>
                     </Box>

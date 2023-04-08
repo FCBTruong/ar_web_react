@@ -70,6 +70,7 @@
     "react": "^18.2.0",
     "react-datetime": "3.1.1",
     "react-dom": "^18.2.0",
+    "react-mobile-app-button": "^1.0.13",
     "react-qr-code": "^2.0.11",
     "react-router-dom": "^5.1.2",
     "react-scripts": "5.0.1",

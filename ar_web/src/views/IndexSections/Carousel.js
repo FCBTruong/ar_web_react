@@ -15,30 +15,61 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
+import auth from "apis/auth";
 import React from "react";
 
 // reactstrap components
 import { Button, Container, Row, Col, UncontrolledCarousel } from "reactstrap";
+import { HashLoader } from "react-spinners";
 
 const items = [
   {
-    src: require("assets/img/theme/img-1-1200x1000.jpg"),
+    src: require("assets/img/theme/img_theme_0.jpeg"),
     altText: "",
     caption: "",
     header: "",
   },
   {
-    src: require("assets/img/theme/img-2-1200x1000.jpg"),
+    src: require("assets/img/theme/img_theme_1.jpg"),
     altText: "",
     caption: "",
-    header: "",
+    header: "dd",
+  },
+  {
+    src: require("assets/img/theme/img_theme_2.jpeg"),
+    altText: "",
+    caption: "",
+    header: "dd",
   },
 ];
 
 class Carousel extends React.Component {
+  state = {
+    isLoading: false,
+  };
+  onLogin = (e) => {
+    this.setState({
+      isLoading: true
+    })
+    if (!auth.loginWithToken()) {
+      window.location.replace("/login-page");
+    }
+  };
   render() {
     return (
       <>
+       {this.state.isLoading ? (
+            <div
+              style={{
+                position: "absolute",
+                left: "50%",
+                top: "50%",
+                transform: "translate(-50%, -50%)",
+              }}
+            >
+              <HashLoader color="#36d7b7" />
+            </div>
+          ):
         <section className="section section-shaped">
           <div className="shape shape-style-1 shape-default">
             <span />
@@ -52,19 +83,22 @@ class Carousel extends React.Component {
             <Row className="justify-content-between align-items-center">
               <Col className="mb-5 mb-lg-0" lg="5">
                 <h1 className="text-white font-weight-light">
-                  Augmented Reality
+                  Thực tế ảo tăng cường
                 </h1>
                 <p className="lead text-white mt-4">
-                  UniteAR platform offers zero coding augmented reality tools to
-                  create interactive AR experiences, custom AR Apps and WebAR
-                  plugins
+                  Nền tảng AR cung cấp các công cụ (zero coding) giúp tăng tính
+                  tương tác, trải nghiệm khách tham quan dựa trên công nghệ thực
+                  tế ảo tăng cường
                 </p>
                 <Button
-                  className="btn-white mt-4"
-                  color="default"
-                  href="/login-page"
+                  className="btn-neutral btn-icon mt-4"
+                  color="primary"
+                  onClick={this.onLogin}
                 >
-                  LOGIN
+                  <span className="btn-inner--icon mr-1">
+                    <i class="fa fa-sign-in" aria-hidden="true"></i>
+                  </span>
+                  <span className="btn-inner--text"> Đăng nhập</span>
                 </Button>
               </Col>
               <Col className="mb-lg-auto" lg="6">
@@ -88,6 +122,7 @@ class Carousel extends React.Component {
             </svg>
           </div>
         </section>
+  }
       </>
     );
   }

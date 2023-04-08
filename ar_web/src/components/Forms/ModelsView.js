@@ -49,8 +49,8 @@ class ModelsView extends React.Component {
               {user.userData.assets.map((asset, index) => {
                 return (
                   <Card
-                    className="shadow border-0 mt-4 ml-4"
-                    style={{ width: 300 }}
+                    className="shadow border-0 mt-4 ml-2"
+                    style={{ width: 250 }}
                   >
                     <p>{asset.url}</p>
                     <p>{asset.id}</p>

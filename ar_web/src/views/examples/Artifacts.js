@@ -11,6 +11,8 @@ import { useGLTF, Stage, PresentationControls } from "@react-three/drei";
 import artifactMgr from "apis/artifact_mgr";
 import { ClipLoader, HashLoader } from "react-spinners";
 import utilities from "utilities/utilities";
+import { Box } from "@mui/system";
+import ArtifactCard from "components/Forms/ArtifactCard";
 
 class Artifacts extends React.Component {
   // eslint-disable-next-line no-useless-constructor
@@ -34,11 +36,6 @@ class Artifacts extends React.Component {
             },
     };
   }
-
-  onClickArtifact = (e, artifact) => {
-    console.log("on click artifact", artifact);
-    artifactMgr.openEditor(artifact.id);
-  };
 
   createArtifact = (e) => {
     this.setState({ isCreatingArtifact: true });
@@ -67,19 +64,9 @@ class Artifacts extends React.Component {
             <HashLoader color="#36d7b7" />
           </div>
         ) : (
-          <div>
+          <Box sx={{height: '100vh', bgcolor: '#cfe8fc'}}>
             <ArtifactsNavBar></ArtifactsNavBar>
-            <section className="section section-shaped section-xl">
-              <div className="shape shape-style-1 bg-gradient-default">
-                <span />
-                <span />
-                <span />
-                <span />
-                <span />
-                <span />
-                <span />
-                <span />
-              </div>
+            <section className="section section-shaped">
               {this.state.isCreatingArtifact ? (
                 <CreateArtifactForm museumId={this.state.museum.id} />
               ) : (
@@ -90,38 +77,7 @@ class Artifacts extends React.Component {
                         {this.state.museum.artifacts.map((artifact, index) => {
                           return (
                             <Col lg="4 mb-4">
-                              <Card
-                                className="card-lift--hover shadow border-0 "
-                                style={{ width: 300 }}
-                                onClick={(e) => {
-                                  this.onClickArtifact(e, artifact);
-                                }}
-                              >
-                                <CardBody
-                                  className="py-3"
-                                  style={{ height: 400 }}
-                                >
-                                  <h6 className="text-primary text-uppercase mx-auto">
-                                    {artifact.name}
-                                  </h6>
-                                  <img
-                                    alt="..."
-                                    className="img-fluid rounded shadow-lg"
-                                    src={
-                                      artifact.image
-                                        ? artifact.image
-                                        : require("assets/img/theme/team-3-800x800.jpg")
-                                    }
-                                    style={{ width: "150px" }}
-                                  />
-                                  <p className="description mt-3">
-                                    {utilities.subStr(
-                                      artifact.description,
-                                      150
-                                    )}
-                                  </p>
-                                </CardBody>
-                              </Card>
+                              <ArtifactCard artifact={artifact}/>
                             </Col>
                           );
                         })}
@@ -131,7 +87,7 @@ class Artifacts extends React.Component {
                 </Container>
               )}
             </section>
-          </div>
+          </Box>
         )}
       </main>
     );
