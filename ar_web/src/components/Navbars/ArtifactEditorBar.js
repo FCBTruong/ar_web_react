@@ -9,6 +9,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Button from "@mui/material/Button";
 import EditContentMenu from "components/Menu/EditContentMenu";
 import Row from "reactstrap/lib/Row";
+import AccountMenu from "components/Account/AccountMenu";
 
 class ArtifactEditorBar extends React.Component {
   onBack = (e) => {
@@ -49,7 +50,7 @@ class ArtifactEditorBar extends React.Component {
                 width={130}
                 style={{
                   top: "50%",
-                  left: "80%",
+                  left: "75%",
                   position: "relative",
                 }}
               >
@@ -58,12 +59,21 @@ class ArtifactEditorBar extends React.Component {
               <Button
                 sx={{
                   top: "50%",
-                  left: "80%",
+                  left: "75%",
                 }}
                 onClick={this.onSaveAndPublish}
               >
                 Save & publish
-              </Button>{" "}
+              </Button>
+              <Box
+                style={{
+                  top: "50%",
+                  left: "75%",
+                  position: "relative",
+                }}
+              >
+                <AccountMenu />
+              </Box>
             </Row>
           </Box>
         </Toolbar>

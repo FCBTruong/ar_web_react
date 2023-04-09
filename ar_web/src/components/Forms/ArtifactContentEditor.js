@@ -94,7 +94,7 @@ function ArtifactContentEditor(props) {
             console.log("Saving failed: ", error);
           });
       },
-      placeholder: "Let`s write an awesome story!",
+      placeholder: "Hãy bắt đầu viết thông tin về hiện vật",
       data: JSON.parse(props.artifact.data),
       readOnly: user.getData().editMode === "viewing",
     });

@@ -99,7 +99,7 @@ class CreateArtifactForm extends React.Component {
                   >
                     <InputGroup className="input-group-alternative">
                       <Input
-                        placeholder="Artifact name"
+                        placeholder="Tên hiện vật"
                         type="text"
                         onFocus={(e) => this.setState({ nameFocused: true })}
                         onBlur={(e) => this.setState({ nameFocused: false })}
@@ -112,7 +112,7 @@ class CreateArtifactForm extends React.Component {
                       className="form-control-alternative"
                       cols="80"
                       name="name"
-                      placeholder="Type a description..."
+                      placeholder="Mô tả hiện vật..."
                       rows="4"
                       type="textarea"
                       onChange={this.onChangeIntroduction}

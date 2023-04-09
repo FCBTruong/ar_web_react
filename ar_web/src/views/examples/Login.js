@@ -45,11 +45,21 @@ class Login extends React.Component {
     document.scrollingElement.scrollTop = 0;
     this.refs.main.scrollTop = 0;
   }
-  state = {
-    email: "",
-    password: "",
-    isLoading: false,
-  };
+
+  constructor(props){
+    super(props);
+    this.state = {
+      email: "",
+      password: "",
+      isLoading: false,
+      isRemember: localStorage.getItem('remember_me') ? localStorage.getItem('remember_me') : false
+    };
+
+    if(this.state.isRemember){
+      
+    }
+  }
+
 
   handleEmailChange = (e) => {
     this.setState({ email: e.target.value });
@@ -63,6 +73,10 @@ class Login extends React.Component {
     });
     auth.login(this.state.email, this.state.password);
   };
+
+  toggleRemember = (e)=>{
+
+  }
 
   render() {
     return (
@@ -167,6 +181,16 @@ class Login extends React.Component {
                               className="custom-control-input"
                               id=" customCheckLogin"
                               type="checkbox"
+                              checked={this.state.isRemember}
+                              onChange={
+                                (e)=>{
+                                  this.setState({
+                                    isRemember: !this.state.isRemember
+                                  })
+                                  localStorage.setItem('remember_me', this.state.isRemember)
+                                  console.log('mmmm')
+                                }
+                              }
                             />
                             <label
                               className="custom-control-label"

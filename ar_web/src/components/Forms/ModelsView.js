@@ -86,7 +86,7 @@ class ModelsView extends React.Component {
                       height: 300,
                       backgroundColor: "#dee0e0",
                     }}
-                    className="ml-2"
+                    className="ml-2 mt-2"
                     onMouseOver={() => {
                       this.setState({
                         indexCardHovering: index,

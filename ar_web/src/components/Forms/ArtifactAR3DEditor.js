@@ -10,7 +10,6 @@ import {
   GizmoHelper,
   GizmoViewport,
 } from "@react-three/drei";
-import ModelsView from "components/Forms/ModelsView";
 import utilities from "utilities/utilities";
 import Card from "reactstrap/lib/Card";
 import ArtifactProperties from "./ArtifactProperties";
@@ -71,6 +70,7 @@ function EmptyBox() {
 }
 
 function ArtifactAR3DEditor(props) {
+  console.log('props-----------')
   return (
     <div>
       <Row>

@@ -10,6 +10,7 @@ import Nav from "reactstrap/lib/Nav";
 import TabPane from "reactstrap/lib/TabPane";
 import TabContent from "reactstrap/lib/TabContent";
 import "assets/css/my-style.css";
+import ArtifactSettings from "components/Forms/ArtifactSettings";
 
 // reactstrap components
 import {
@@ -260,6 +261,13 @@ class ArtifactEditor extends React.Component {
                               outline: "none",
                             }}
                           />
+                           <Tab
+                            label="Phân tích"
+                            style={{
+                              border: "none",
+                              outline: "none",
+                            }}
+                          />
                           <Tab
                             label="Cài đặt"
                             style={{
@@ -331,6 +339,12 @@ class ArtifactEditor extends React.Component {
                         </TabPane>
                         <TabPane tabId="plainTabs2">
                           <ModelsView />
+                        </TabPane>
+                        <TabPane tabId="plainTabs4">
+                          Analyze metrics and understand your visitors
+                        </TabPane>
+                        <TabPane tabId="plainTabs5">
+                          <ArtifactSettings museumId={this.state.museumId} artifact={this.state.artifact}/>
                         </TabPane>
                       </TabContent>
                     </Box>

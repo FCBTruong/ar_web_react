@@ -41,7 +41,7 @@ export default function ArtifactCard(props) {
           src={
             props.artifact.image
               ? props.artifact.image
-              : require("assets/img/theme/team-3-800x800.jpg")
+              : require("assets/img/theme/image_default_artifact.jpeg")
           }
           style={{ width: "100%" }}
         />

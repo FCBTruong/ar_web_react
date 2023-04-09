@@ -105,4 +105,10 @@ auth.loginWithToken = async function () {
     .catch((error) => console.log("error", error));
 };
 
+auth.signOut = function(){
+  auth.credential_token = ""
+  localStorage.setItem("credential_token", "")
+  window.location.replace("/");
+}
+
 export default auth;
