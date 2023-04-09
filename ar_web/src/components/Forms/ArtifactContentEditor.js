@@ -12,7 +12,8 @@ function ArtifactContentEditor(props) {
   const editorInstance = useRef();
 
   try {
-    JSON.parse(props.artifact.data);
+    var parsedDt = JSON.parse(props.artifact.data);
+    console.log('parsed ', parsedDt)
   } catch (e) {
     console.log("exception with content data", e);
     props.artifact.data = "{}";

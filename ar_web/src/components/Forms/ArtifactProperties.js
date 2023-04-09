@@ -89,7 +89,7 @@ class ArtifactProperties extends React.Component {
                   />
                 )}
                 <br />
-                {/* {this.props.artifact.modelAr &&
+                {this.props.artifact.modelAr &&
                 this.props.artifact.modelAr.modelAsset ? (
                   <div>
                     <div>
@@ -226,6 +226,7 @@ class ArtifactProperties extends React.Component {
                               <InputGroupText>X</InputGroupText>
                             </InputGroupAddon>
                             <Input
+                              step="0.1"
                               placeholder=""
                               type="number"
                               value={this.props.artifact.modelAr.scale.x}
@@ -247,6 +248,7 @@ class ArtifactProperties extends React.Component {
                             <Input
                               placeholder=""
                               type="number"
+                              step="0.1"
                               value={this.props.artifact.modelAr.scale.y}
                               onChange={(e) => {
                                 window.ArtifactEditor.changeModelScale(
@@ -266,6 +268,7 @@ class ArtifactProperties extends React.Component {
                             <Input
                               placeholder=""
                               type="number"
+                              step="0.1"
                               value={this.props.artifact.modelAr.scale.z}
                               onChange={(e) => {
                                 window.ArtifactEditor.changeModelScale(
@@ -280,7 +283,7 @@ class ArtifactProperties extends React.Component {
                       </div>
                     </div>
                   </div>
-                ) : null} */}
+                ) : null}
               </div>
             </TreeItem>
           }

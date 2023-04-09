@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Canvas } from "@react-three/fiber";
-import { OrbitControls, useFBX } from "@react-three/drei";
+import { OrbitControls, useAnimations, useFBX } from "@react-three/drei";
 import {
   Grid,
   useGLTF,
@@ -26,17 +26,19 @@ function Model(props) {
   var fileExtension = utilities.getFileExtension(urlAsset);
   console.log("file extension3d ", fileExtension);
 
-  var scene;
-  switch (fileExtension) {
-    case "fbx":
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      scene = useFBX(urlAsset);
-      break;
-    default:
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      scene = useGLTF(urlAsset).scene;
-      break;
-  }
+  const group = useRef();
+  const { scene, nodes, animations, materials } = useGLTF(urlAsset);
+  const { actions, names } = useAnimations(animations, group);
+  console.log("anim ...", animations);
+
+  useEffect(() => {
+    console.log("here", actions);
+    if (names.length > 0) {
+      console.log('jolo', names[0])
+      console.log(actions[names[0]]);
+      if (actions[names[0]] !== undefined) actions[names[0]].play();
+    }
+  });
 
   return (
     <primitive
@@ -70,7 +72,7 @@ function EmptyBox() {
 }
 
 function ArtifactAR3DEditor(props) {
-  console.log('props-----------')
+  console.log("props-----------");
   return (
     <div>
       <Row>
