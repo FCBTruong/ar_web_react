@@ -36,7 +36,7 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 
 
 root.render(
-  <BrowserRouter>
+  <BrowserRouter basename="/">
     <Switch>
       <Route path="/" exact render={(props) => <Index {...props} />} />
       <Route
