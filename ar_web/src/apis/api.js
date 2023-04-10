@@ -2,7 +2,7 @@
 var api = {};
 
 api.to = function(s){
-    return "https://localhost:5001/api/" + s
+    return "https://ar-dashboard.azurewebsites.net/api/" + s
 }
 
 export default api;

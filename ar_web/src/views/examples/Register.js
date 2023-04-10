@@ -89,10 +89,9 @@ class Register extends React.Component {
   render() {
     return (
       <>
-        <DemoNavbar />
         <main ref="main">
           <section className="section section-shaped section-lg">
-            <Container className="pt-lg-7">
+            <Container className="pt-lg-1">
               <Row className="justify-content-center">
                 <Col lg="5">
                   <Card className="bg-secondary shadow border-0">

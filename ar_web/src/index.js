@@ -34,6 +34,7 @@ import ArtifactEditor from "views/examples/ArtifactEditor";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
+
 root.render(
   <BrowserRouter>
     <Switch>
