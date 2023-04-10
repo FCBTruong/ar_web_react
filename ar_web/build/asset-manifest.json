@@ -1,0 +1,39 @@
+{
+  "files": {
+    "main.css": "./static/css/main.705a0fc5.css",
+    "main.js": "./static/js/main.8841d9ed.js",
+    "static/media/cardboard_cartoon.glb": "./static/media/cardboard_cartoon.3f77f09774e139fc86b3.glb",
+    "static/media/img_theme_1.jpg": "./static/media/img_theme_1.842a6f88d4692623b323.jpg",
+    "static/media/image_default_artifact.jpeg": "./static/media/image_default_artifact.f1f004f1856e766f5d78.jpeg",
+    "static/media/fontawesome-webfont.svg?v=4.7.0": "./static/media/fontawesome-webfont.c1e38fd9e0e74ba58f7a.svg",
+    "static/media/img_theme_0.jpeg": "./static/media/img_theme_0.298ab171e8a833bb6651.jpeg",
+    "static/media/img_theme_2.jpeg": "./static/media/img_theme_2.0a3c41b12715cda2dd5c.jpeg",
+    "static/media/team-3-800x800.jpg": "./static/media/team-3-800x800.70911cddbb86ea83b652.jpg",
+    "static/media/fontawesome-webfont.eot": "./static/media/fontawesome-webfont.8b43027f47b20503057d.eot",
+    "static/media/fontawesome-webfont.ttf?v=4.7.0": "./static/media/fontawesome-webfont.1e59d2330b4c6deb84b3.ttf",
+    "static/media/museum_bg_0.jpeg": "./static/media/museum_bg_0.a8b78acbf623f0812640.jpeg",
+    "static/media/nucleo-icons.svg": "./static/media/nucleo-icons.01ebecaf50461162d4bc.svg",
+    "static/media/team-4-800x800.jpg": "./static/media/team-4-800x800.99c612eb60728a5aeeb0.jpg",
+    "static/media/fontawesome-webfont.woff?v=4.7.0": "./static/media/fontawesome-webfont.f691f37e57f04c152e23.woff",
+    "static/media/fontawesome-webfont.woff2?v=4.7.0": "./static/media/fontawesome-webfont.20fd1704ea223900efa9.woff2",
+    "static/media/argon-react.png": "./static/media/argon-react.128d71d316a8e92aff4a.png",
+    "static/media/argon-react-white.png": "./static/media/argon-react-white.e4dd3b41697ada43fdcb.png",
+    "static/media/nucleo-icons.eot": "./static/media/nucleo-icons.19abb5402a664606b14c.eot",
+    "static/media/nucleo-icons.ttf": "./static/media/nucleo-icons.d6a66724e7a7bf1bba65.ttf",
+    "static/media/nucleo-icons.woff": "./static/media/nucleo-icons.c82c9b7c40130b7116d3.woff",
+    "static/media/nucleo-icons.woff2": "./static/media/nucleo-icons.cba267483aa6a7cb6e33.woff2",
+    "static/media/google.svg": "./static/media/google.eae9aa9354350126d1b032847835a051.svg",
+    "static/media/github.svg": "./static/media/github.6c95555646a0ecabf549179c97bf0e7d.svg",
+    "static/media/Huawei.svg": "./static/media/Huawei.1cf2bf4d8de15fd547edbc1fbd5b873b.svg",
+    "static/media/Google-Play.svg": "./static/media/Google-Play.95f8e8937a9f1fe95b9d48854d8c1d21.svg",
+    "static/media/Apple-light.svg": "./static/media/Apple-light.75997320c47fc7050429a0b1a2413749.svg",
+    "static/media/Apple.svg": "./static/media/Apple.0c2d92f8a33e07737db627b157b65bfe.svg",
+    "index.html": "./index.html",
+    "main.705a0fc5.css.map": "./static/css/main.705a0fc5.css.map",
+    "main.8841d9ed.js.map": "./static/js/main.8841d9ed.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.705a0fc5.css",
+    "static/js/main.8841d9ed.js"
+  ]
+}
