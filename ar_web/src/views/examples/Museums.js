@@ -46,7 +46,7 @@ class Museums extends React.Component {
   openMuseum = (e, museum) => {
     console.log("open museum ", museum);
     localStorage.setItem("current_museum_id", museum.id);
-    window.location.replace("/artifacts-page");
+    window.location.replace("/#artifacts-page");
   };
 
   render() {

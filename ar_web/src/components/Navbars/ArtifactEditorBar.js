@@ -13,7 +13,7 @@ import AccountMenu from "components/Account/AccountMenu";
 
 class ArtifactEditorBar extends React.Component {
   onBack = (e) => {
-    window.location.replace("/artifacts-page");
+    window.location.replace("/#artifacts-page");
   };
 
   onSaveAndPublish = (e) => {

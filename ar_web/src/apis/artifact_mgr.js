@@ -91,7 +91,7 @@ artifactMgr.getUrlArtifact = function (museumId, artifactId) {
 
 artifactMgr.openEditor = function (artifactId) {
   localStorage.setItem("current_artifact_id", artifactId);
-  window.location.replace("/artifact-editor-page");
+  window.location.replace("/#artifact-editor-page");
 };
 
 artifactMgr.removeArtifact = function (museumId, artifactId) {
@@ -120,7 +120,7 @@ artifactMgr.removeArtifact = function (museumId, artifactId) {
     })
     .then((result) => {
       console.log(result);
-      window.location.replace("/artifacts-page");
+      window.location.replace("/#artifacts-page");
     })
     .catch((error) => console.log("error", error));
 };

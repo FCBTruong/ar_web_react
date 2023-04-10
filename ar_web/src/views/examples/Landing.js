@@ -38,13 +38,13 @@ const items = [
     src: require("assets/img/theme/img_theme_1.jpg"),
     altText: "",
     caption: "",
-    header: "dd",
+    header: "",
   },
   {
     src: require("assets/img/theme/img_theme_2.jpeg"),
     altText: "",
     caption: "",
-    header: "dd",
+    header: "",
   },
 ];
 
@@ -64,7 +64,7 @@ class LandingPage extends React.Component {
     });
     var login = await auth.loginWithToken()
     if (!login) {
-      window.location.replace("/login-page");
+      window.location.replace("/#login-page");
     }
   };
 

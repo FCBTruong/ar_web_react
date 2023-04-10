@@ -52,7 +52,7 @@ class Carousel extends React.Component {
       isLoading: true
     })
     if (!auth.loginWithToken()) {
-      window.location.replace("/login-page");
+      window.location.replace("/#login-page");
     }
   };
   render() {
