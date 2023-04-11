@@ -53,6 +53,11 @@ class ArtifactProperties extends React.Component {
 
   change3DModel = (e) => {
     var file = e.target.files[0];
+    var extension = file.name.split('.').pop();
+    if(extension !== "glb"){
+      alert("Chỉ hỗ trợ model định dạng glb")
+      return;
+    }
 
     user.addAsset3D(file).then((asset) => {
       window.ArtifactEditor.onAddAsset3D(asset);
