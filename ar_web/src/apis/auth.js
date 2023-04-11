@@ -55,7 +55,7 @@ auth.signup = function (_email, _password, _name) {
   var raw = JSON.stringify({
     username: _name,
     password: _password,
-    email: _emailf,
+    email: _email,
   });
 
   var requestOptions = {
@@ -66,7 +66,28 @@ auth.signup = function (_email, _password, _name) {
   };
 
   fetch(api.to("signup"), requestOptions)
-    .then((response) => response.text())
+    .then((response) => {
+      if (response.status === 200) {
+        console.log(response);
+        return response.text();
+      } 
+      if (response.status === 409) {
+        alert("Email này đã được đăng ký, vui lòng sử dụng email khác");
+        window.Register.setState({
+          isLoading: false
+        })
+        // eslint-disable-next-line no-throw-literal
+        throw `error with status ${response.status}`;
+      } 
+      else {
+        alert("Đăng ký thất bại, hãy thử lại");
+        window.Register.setState({
+          isLoading: false
+        })
+        // eslint-disable-next-line no-throw-literal
+        throw `error with status ${response.status}`;
+      }
+    })
     .then((result) => {
       console.log(result);
       auth.onLoginSuccess(JSON.parse(result).token);

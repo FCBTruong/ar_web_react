@@ -49,6 +49,10 @@ class CreateMuseumForm extends React.Component {
         this.state.museumForm_name,
         this.state.museumForm_introduction
       );
+
+      window.Museums.setState({
+        isLoading: true
+      })
     }
   };
 

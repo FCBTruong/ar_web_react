@@ -40,6 +40,7 @@ class Museums extends React.Component {
   doneCreateMuseum = (e) => {
     this.setState({
       isCreating: false,
+      isLoading: false
     });
   };
 
@@ -67,16 +68,7 @@ class Museums extends React.Component {
           <div>
             {!this.state.isCreating ? <HomeNavbar></HomeNavbar> : null}
             <section className="section section-shaped section-lg">
-              <div className="shape shape-style-1 bg-gradient-default">
-                <span />
-                <span />
-                <span />
-                <span />
-                <span />
-                <span />
-                <span />
-                <span />
-              </div>
+             
               {this.state.isCreating ? (
                 <CreateMuseumForm></CreateMuseumForm>
               ) : (

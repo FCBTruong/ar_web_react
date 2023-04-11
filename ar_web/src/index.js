@@ -57,7 +57,7 @@ root.render(
       <Route
         path="/register-page"
         exact
-        render={(props) => <Register {...props} />}
+        render={(props) => <Register {...props} ref={Register => {window.Register = Register}} />}
       />
       <Route
         path="/museums-page"

@@ -80,11 +80,11 @@ class Register extends React.Component {
       return;
     }
     if (!this.validateInput(this.state.email, TYPE_EMAIL)) {
-      alert("Email không hợp lệ (từ 6-35 ký tự)");
+      alert("Email không hợp lệ (từ 6-35 ký tự, không chứa ký tự đặc biệt)");
       return false;
     }
     if (!this.validateInput(this.state.password, TYPE_PASSWORD)) {
-      alert("Mật khẩu cần có từ 6-15 ký tự");
+      alert("Mật khẩu cần có từ 6-15 ký tự (chỉ gồm các ký tự a-z, 0-9");
       return false;
     }
     if (!this.validateInput(this.state.name)) {

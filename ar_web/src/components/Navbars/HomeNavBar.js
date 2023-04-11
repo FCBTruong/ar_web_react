@@ -72,7 +72,6 @@ class HomeNavbar extends React.Component {
               <Nav className="ml-lg-auto" navbar>
                 <NavItem>
                   <NavLink
-                    href="#pablo"
                     onClick={(e) => {
                       window.Museums.createMuseum();
                     }}
@@ -90,7 +89,6 @@ class HomeNavbar extends React.Component {
                     aria-expanded={false}
                     aria-haspopup={true}
                     data-toggle="dropdown"
-                    href="#pablo"
                     id="navbar-primary_dropdown_1"
                     onClick={(e) => e.preventDefault()}
                     role="button"

@@ -77,9 +77,20 @@ user.createMuseum = function (name, introduction) {
   };
 
   fetch(api.to("museums"), requestOptions)
-    .then((response) => response.text())
+    .then((response) => {
+      if (response.status === 200) {
+        console.log(response);
+        return response.text();
+      } else {
+        alert("error create museum, please try again");
+        // eslint-disable-next-line no-throw-literal
+        throw `error with status ${response.status}`;
+      }
+    })
     .then((result) => {
       console.log(result);
+      var museum = JSON.parse(result)
+      user.getData().museums.push(museum)
       window.Museums.doneCreateMuseum();
     })
     .catch((error) => console.log("error", error));
@@ -109,7 +120,7 @@ user.uploadFile = async function (file) {
     .then((response) => response.text())
     .then((result) => {
       console.log(result);
-      return JSON.parse(result).link;
+      return JSON.parse(result).url;
     })
     .catch((error) => console.log("error", error));
 

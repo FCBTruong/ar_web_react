@@ -26,7 +26,7 @@ class ArtifactsNavBar extends React.Component {
           expand="lg"
         >
           <Container>
-            <NavbarBrand href="#pablo" onClick={(e) => e.preventDefault()}>
+            <NavbarBrand onClick={(e) => e.preventDefault()}>
               Artifacts
             </NavbarBrand>
             <button
@@ -72,7 +72,6 @@ class ArtifactsNavBar extends React.Component {
               <Nav className="ml-lg-auto" navbar>
                 <NavItem>
                   <NavLink
-                    href="#pablo"
                     onClick={(e) => {
                       window.Artifacts.createArtifact();
                     }}
