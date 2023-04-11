@@ -9,7 +9,7 @@ auth.login = function (_email, _password) {
   myHeaders.append("Content-Type", "application/json");
 
   var raw = JSON.stringify({
-    username: _email,
+    email: _email,
     password: _password,
   });
 
