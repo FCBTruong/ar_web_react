@@ -48,13 +48,14 @@ auth.onLoginSuccess = function (token) {
 };
 
 auth.signup = function (_email, _password, _name) {
+  console.log('signup ' + _email + ' : ' + _password + ' : ' + _name)
   var myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
 
   var raw = JSON.stringify({
-    username: _email,
+    username: _name,
     password: _password,
-    email: _name,
+    email: _emailf,
   });
 
   var requestOptions = {
