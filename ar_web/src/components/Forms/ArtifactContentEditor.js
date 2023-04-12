@@ -12,11 +12,11 @@ function ArtifactContentEditor(props) {
   const editorInstance = useRef();
 
   try {
-    var parsedDt = JSON.parse(props.artifact.data);
+    var parsedDt = JSON.parse(props.artifact.information);
     console.log('parsed ', parsedDt)
   } catch (e) {
     console.log("exception with content data", e);
-    props.artifact.data = "{}";
+    props.artifact.information = "{}";
   }
 
   const initEditor = () => {
@@ -88,15 +88,15 @@ function ArtifactContentEditor(props) {
         editor
           .save()
           .then((outputData) => {
-            props.artifact.data = JSON.stringify(outputData);
-            console.log("on save ...", props.artifact.data);
+            props.artifact.information = JSON.stringify(outputData);
+            console.log("on save ...", props.artifact.information);
           })
           .catch((error) => {
             console.log("Saving failed: ", error);
           });
       },
       placeholder: "Hãy bắt đầu viết thông tin về hiện vật",
-      data: JSON.parse(props.artifact.data),
+      data: JSON.parse(props.artifact.information),
       readOnly: user.getData().editMode === "viewing",
     });
   };

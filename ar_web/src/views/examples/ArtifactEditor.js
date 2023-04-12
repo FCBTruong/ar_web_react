@@ -63,7 +63,7 @@ class ArtifactEditor extends React.Component {
       currentTab: ArtifactEditor.TAB_NONE,
       isLoading: false,
       iconTabs: 1,
-      plainTabs: 1,
+      plainTabs: 0,
     };
   }
 
