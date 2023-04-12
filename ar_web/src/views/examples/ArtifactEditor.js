@@ -60,9 +60,7 @@ class ArtifactEditor extends React.Component {
     this.state = {
       artifact: artifactMgr.getArtifact(_museumId, _artifactId),
       museumId: _museumId,
-      currentTab: ArtifactEditor.TAB_NONE,
       isLoading: false,
-      iconTabs: 1,
       plainTabs: 0,
     };
   }
@@ -85,18 +83,6 @@ class ArtifactEditor extends React.Component {
       downloadLink.click();
     };
     img.src = `data:image/svg+xml;base64,${btoa(svgData)}`;
-  };
-
-  open3DTab = (e) => {
-    this.setState({
-      currentTab: ArtifactEditor.TAB_3D,
-    });
-  };
-
-  closeTabs = (e) => {
-    this.setState({
-      currentTab: ArtifactEditor.TAB_NONE,
-    });
   };
 
   onChangeDescription = (e) => {
@@ -181,6 +167,7 @@ class ArtifactEditor extends React.Component {
   };
 
   toggleTabs = (e, newValue) => {
+    console.log('new va ' + newValue + 'c')
     this.setState({
       plainTabs: newValue,
     });
