@@ -15,6 +15,29 @@ import Card from "reactstrap/lib/Card";
 import ArtifactProperties from "./ArtifactProperties";
 import { Row, Col } from "reactstrap/lib/";
 
+function Box(props) {
+  // This reference gives us direct access to the THREE.Mesh object
+  const ref = useRef();
+  // Hold state for hovered and clicked events
+  const [hovered, hover] = useState(false);
+  const [clicked, click] = useState(false);
+  // Subscribe this component to the render-loop, rotate the mesh every frame
+
+  // Return the view, these are regular Threejs elements expressed in JSX
+  return (
+    <mesh
+      {...props}
+      ref={ref}
+      scale={clicked ? 1.5 : 1}
+      onClick={(event) => click(!clicked)}
+      onPointerOver={(event) => hover(true)}
+      onPointerOut={(event) => hover(false)}
+    >
+      <boxGeometry args={[1, 1, 1]} />
+      <meshStandardMaterial color={hovered ? "hotpink" : "orange"} />
+    </mesh>
+  );
+}
 function Model(props) {
   console.log("props...", props);
 
@@ -34,7 +57,7 @@ function Model(props) {
   useEffect(() => {
     console.log("here", actions);
     if (names.length > 0) {
-      console.log('jolo', names[0])
+      console.log("jolo", names[0]);
       console.log(actions[names[0]]);
       if (actions[names[0]] !== undefined) actions[names[0]].play();
     }
@@ -44,9 +67,9 @@ function Model(props) {
     <primitive
       object={scene}
       scale={[
-        props.artifact.modelAr.scale.x,
-        props.artifact.modelAr.scale.y,
-        props.artifact.modelAr.scale.z,
+        props.artifact.modelAr.scale.x * props.scale,
+        props.artifact.modelAr.scale.y * props.scale,
+        props.artifact.modelAr.scale.z * props.scale,
       ]}
       rotation={[
         props.artifact.modelAr.rotation.x,
@@ -55,7 +78,7 @@ function Model(props) {
       ]}
       position={[
         props.artifact.modelAr.position.x,
-        props.artifact.modelAr.position.y,
+        props.artifact.modelAr.position.y - 2,
         props.artifact.modelAr.position.z,
       ]}
     />
@@ -63,10 +86,11 @@ function Model(props) {
 }
 
 function EmptyBox() {
+  const ref = useRef();
   return (
-    <mesh scale={[0.01, 0.01, 0.01]} rotation={[10, 0, 0]}>
-      <boxBufferGeometry attach="geometry" />
-      <meshLambertMaterial attach="material" color="hotpink" />
+    <mesh scale={[1, 1, 1]} rotation={[10, 0, 0]} ref={ref}>
+      <boxGeometry args={[1, 1, 1]} />
+      <meshStandardMaterial attach="material" color="hotpink" />
     </mesh>
   );
 }
@@ -84,14 +108,12 @@ function ArtifactAR3DEditor(props) {
             {
               <Canvas shadows camera={{ position: [10, 12, 12], fov: 25 }}>
                 <PresentationControls speed={1.5} global zoom={1}>
-                  <Stage environment={null}>
-                    {props.artifact.modelAr &&
-                    props.artifact.modelAr.modelAsset ? (
-                      <Model artifact={props.artifact} scale={0.05} />
-                    ) : (
-                      <EmptyBox />
-                    )}
-                  </Stage>
+                  {props.artifact.modelAr &&
+                  props.artifact.modelAr.modelAsset ? (
+                    <Model artifact={props.artifact} scale={0.3} />
+                  ) : (
+                    <EmptyBox />
+                  )}
                 </PresentationControls>
                 <Grid position={[0, -25, 0]} args={[100, 100]} />
                 <Environment preset="city" />
