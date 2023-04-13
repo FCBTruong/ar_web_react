@@ -6,6 +6,7 @@ import Paragraph from "components/customize-editorjs/paragraph";
 import Input from "reactstrap/lib/Input";
 import user from "apis/user";
 import ImageTool from "@editorjs/image";
+import AudioTool from 'components/customize-editorjs/audio'
 
 function ArtifactContentEditor(props) {
   console.log("artifact...---", props.artifact);
@@ -13,7 +14,7 @@ function ArtifactContentEditor(props) {
 
   try {
     var parsedDt = JSON.parse(props.artifact.information);
-    console.log('parsed ', parsedDt)
+    console.log("parsed ", parsedDt);
   } catch (e) {
     console.log("exception with content data", e);
     props.artifact.information = "{}";
@@ -77,6 +78,12 @@ function ArtifactContentEditor(props) {
                 // TODO later
               },
             },
+          },
+        },
+        audio: {
+          class: AudioTool,
+          config: {
+            endpointUrl: "",
           },
         },
       },

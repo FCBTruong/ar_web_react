@@ -84,9 +84,12 @@ artifactMgr.getArtifact = function (museumId, artifactId) {
 
 // should return the url to for vistors scan qr code
 artifactMgr.getUrlArtifact = function (museumId, artifactId) {
-  return api.to(
+  var urlQRCode = api.to(
     "guests/" + user.userData.id + "/" + museumId + "/" + artifactId
   );
+  console.log('urlqrcode: ' + urlQRCode)
+
+  return urlQRCode
 };
 
 artifactMgr.openEditor = function (artifactId) {
