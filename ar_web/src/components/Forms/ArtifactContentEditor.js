@@ -6,7 +6,9 @@ import Paragraph from "components/customize-editorjs/paragraph";
 import Input from "reactstrap/lib/Input";
 import user from "apis/user";
 import ImageTool from "@editorjs/image";
-import AudioTool from 'components/customize-editorjs/audio'
+import AudioTool from "components/customize-editorjs/audio";
+import VideoTool from "@weekwood/editorjs-video";
+import Embed from "@editorjs/embed";
 
 function ArtifactContentEditor(props) {
   console.log("artifact...---", props.artifact);
@@ -84,6 +86,52 @@ function ArtifactContentEditor(props) {
           class: AudioTool,
           config: {
             endpointUrl: "",
+          },
+        },
+        embed: {
+          class: Embed,
+          config: {
+            services: {
+              youtube: true,
+              coub: true,
+            },
+          },
+        },
+
+        video: {
+          class: VideoTool,
+          config: {
+            uploader: {
+              /**
+               * Upload file to the server and return an uploaded video data
+               * @param {File} file - file selected from the device or pasted by drag-n-drop
+               * @return {Promise.<{success, file: {url}}>}
+               */
+              uploadByFile(file) {
+                // your own uploading logic here
+                return user.uploadFile(file).then((link) => {
+                  return {
+                    success: 1,
+                    file: {
+                      url: link,
+                      // any other image data you want to store, such as width, height, color, extension, etc
+                    },
+                  };
+                });
+              },
+
+              /**
+               * Send URL-string to the server. Backend should load video by this URL and return an uploaded video data
+               * @param {string} url - pasted video URL
+               * @return {Promise.<{success, file: {url}}>}
+               */
+              uploadByUrl(url) {},
+            },
+
+            player: {
+              controls: true,
+              autoplay: false,
+            },
           },
         },
       },
