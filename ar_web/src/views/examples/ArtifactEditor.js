@@ -167,7 +167,7 @@ class ArtifactEditor extends React.Component {
   };
 
   toggleTabs = (e, newValue) => {
-    console.log('new va ' + newValue + 'c')
+    console.log("new va " + newValue + "c");
     this.setState({
       plainTabs: newValue,
     });
@@ -194,10 +194,10 @@ class ArtifactEditor extends React.Component {
         ) : (
           <div>
             <ArtifactEditorBar />
-            <div class="container-xl mt-5">
-              <div class="row">
+            <div className="container-xl mt-5">
+              <div className="row">
                 <Col lg="3">
-                  <div class="position-fixed">
+                  <div className="position-fixed">
                     <Box
                       position="fixed"
                       border={1}
@@ -248,7 +248,7 @@ class ArtifactEditor extends React.Component {
                               outline: "none",
                             }}
                           />
-                           <Tab
+                          <Tab
                             label="Phân tích"
                             style={{
                               border: "none",
@@ -331,7 +331,10 @@ class ArtifactEditor extends React.Component {
                           Analyze metrics and understand your visitors
                         </TabPane>
                         <TabPane tabId="plainTabs5">
-                          <ArtifactSettings museumId={this.state.museumId} artifact={this.state.artifact}/>
+                          <ArtifactSettings
+                            museumId={this.state.museumId}
+                            artifact={this.state.artifact}
+                          />
                         </TabPane>
                       </TabContent>
                     </Box>

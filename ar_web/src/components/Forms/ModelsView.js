@@ -81,6 +81,7 @@ class ModelsView extends React.Component {
               {user.userData.assets.map((asset, index) => {
                 return (
                   <Card
+                    key={index}
                     style={{
                       width: 250,
                       height: 300,
