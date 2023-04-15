@@ -52,13 +52,7 @@ function ArtifactContentEditor(props) {
         image: {
           class: ImageTool,
           config: {
-            inputs: {
-              alt: {
-                placeholder: 'Alt text',
-                // add any other configuration options for alt text input here
-              },
-              // remove the caption input field
-            },
+            captionPlaceholder: '',
             uploader: {
               /**
                * Upload file to the server and return an uploaded image data
@@ -88,6 +82,7 @@ function ArtifactContentEditor(props) {
               },
             },
           },
+          inlineToolbar: true,
         },
         audio: {
           class: AudioTool,

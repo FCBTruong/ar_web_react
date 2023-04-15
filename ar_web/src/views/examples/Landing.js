@@ -26,6 +26,8 @@ import Col from "reactstrap/lib/Col";
 import UncontrolledCarousel from "reactstrap/lib/UncontrolledCarousel";
 import Container from "reactstrap/lib/Container";
 import Button from "reactstrap/lib/Button";
+import { useState } from "react";
+import { useHistory } from "react-router-dom";
 
 const items = [
   {
@@ -48,107 +50,97 @@ const items = [
   },
 ];
 
-class LandingPage extends React.Component {
-  componentDidMount() {
-    document.documentElement.scrollTop = 0;
-    document.scrollingElement.scrollTop = 0;
-    this.refs.main.scrollTop = 0;
-  }
+function LandingPage() {
+  const history = useHistory();
+  const [isLoading, setLoading] = useState(false);
 
-  state = {
-    isLoading: false,
-  };
-  onLogin = async (e) => {
-    this.setState({
-      isLoading: true,
-    });
-    var login = await auth.loginWithToken()
+  var onLogin = async (e) => {
+    history.push('/landing-page')
+    setLoading(true);
+    var login = await auth.loginWithToken();
     if (!login) {
       window.location.replace("/login-page");
     }
   };
 
-  render() {
-    return (
-      <>
-        <main ref="main">
-          {this.state.isLoading ? (
-            <div
-              style={{
-                position: "absolute",
-                left: "50%",
-                top: "50%",
-                transform: "translate(-50%, -50%)",
-              }}
-            >
-              <HashLoader color="#36d7b7" />
-            </div>
-          ) : (
-            <>
-              (
-              <section className="section section-shaped">
-                <div className="shape shape-style-1 shape-default">
-                  <span />
-                  <span />
-                  <span />
-                  <span />
-                  <span />
-                  <span />
-                </div>
-                <Container className="py-md">
-                  <Row className="justify-content-between align-items-center">
-                    <Col className="mb-5 mb-lg-0" lg="5">
-                      <h1 className="text-white font-weight-light">
-                        Thực tế ảo tăng cường
-                      </h1>
-                      <p className="lead text-white mt-4">
-                        Nền tảng AR cung cấp các công cụ (zero coding) giúp tăng
-                        tính tương tác, trải nghiệm khách tham quan dựa trên
-                        công nghệ thực tế ảo tăng cường
-                      </p>
-                      <Button
-                        className="btn-neutral btn-icon mt-4"
-                        color="primary"
-                        onClick={this.onLogin}
-                      >
-                        <span className="btn-inner--icon mr-1">
-                          <i class="fa fa-sign-in" aria-hidden="true"></i>
-                        </span>
-                        <span className="btn-inner--text"> Đăng nhập</span>
-                      </Button>
-                    </Col>
-                    <Col className="mb-lg-auto" lg="6">
-                      <div className="rounded shadow-lg overflow-hidden transform-perspective-right">
-                        <UncontrolledCarousel items={items} />
-                      </div>
-                    </Col>
-                  </Row>
-                </Container>
-                {/* SVG separator */}
-                <div className="separator separator-bottom separator-skew">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    preserveAspectRatio="none"
-                    version="1.1"
-                    viewBox="0 0 2560 100"
-                    x="0"
-                    y="0"
-                  >
-                    <polygon
-                      className="fill-white"
-                      points="2560 0 2560 100 0 100"
-                    />
-                  </svg>
-                </div>
-              </section>
-              )
-              <Download />
-            </>
-          )}
-        </main>
-      </>
-    );
-  }
+  return (
+    <>
+      <main>
+        {isLoading ? (
+          <div
+            style={{
+              position: "absolute",
+              left: "50%",
+              top: "50%",
+              transform: "translate(-50%, -50%)",
+            }}
+          >
+            <HashLoader color="#36d7b7" />
+          </div>
+        ) : (
+          <>
+            <section className="section section-shaped">
+              <div className="shape shape-style-1 shape-default">
+                <span />
+                <span />
+                <span />
+                <span />
+                <span />
+                <span />
+              </div>
+              <Container className="py-md">
+                <Row className="justify-content-between align-items-center">
+                  <Col className="mb-5 mb-lg-0" lg="5">
+                    <h1 className="text-white font-weight-light">
+                      Thực tế ảo tăng cường
+                    </h1>
+                    <p className="lead text-white mt-4">
+                      Nền tảng AR cung cấp các công cụ (zero coding) giúp tăng
+                      tính tương tác, trải nghiệm khách tham quan dựa trên công
+                      nghệ thực tế ảo tăng cường
+                    </p>
+                    <Button
+                      className="btn-neutral btn-icon mt-4"
+                      color="primary"
+                      onClick={onLogin}
+                    >
+                      <span className="btn-inner--icon mr-1">
+                        <i class="fa fa-sign-in" aria-hidden="true"></i>
+                      </span>
+                      <span className="btn-inner--text"> Đăng nhập</span>
+                    </Button>
+                  </Col>
+                  <Col className="mb-lg-auto" lg="6">
+                    <div className="rounded shadow-lg overflow-hidden transform-perspective-right">
+                      <UncontrolledCarousel items={items} />
+                    </div>
+                  </Col>
+                </Row>
+              </Container>
+              {/* SVG separator */}
+              <div className="separator separator-bottom separator-skew">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  preserveAspectRatio="none"
+                  version="1.1"
+                  viewBox="0 0 2560 100"
+                  x="0"
+                  y="0"
+                >
+                  <polygon
+                    className="fill-white"
+                    points="2560 0 2560 100 0 100"
+                  />
+                </svg>
+              </div>
+            </section>
+            )
+            <Download />
+          </>
+        )}
+      </main>
+    </>
+  );
 }
 
 export default LandingPage;
