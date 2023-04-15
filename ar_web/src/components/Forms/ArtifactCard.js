@@ -5,13 +5,6 @@ import {
   CardBody,
   Container,
   Row,
-  Col,
-  Badge,
-  UncontrolledButtonDropdown,
-  UncontrolledDropdown,
-  DropdownMenu,
-  DropdownItem,
-  DropdownToggle,
 } from "reactstrap";
 import utilities from "utilities/utilities";
 import artifactMgr from "apis/artifact_mgr";
