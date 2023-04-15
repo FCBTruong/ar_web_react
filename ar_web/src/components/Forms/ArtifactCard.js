@@ -15,10 +15,13 @@ import {
 } from "reactstrap";
 import utilities from "utilities/utilities";
 import artifactMgr from "apis/artifact_mgr";
+import { useHistory } from "react-router-dom";
 
 export default function ArtifactCard(props) {
+  const history = useHistory()
   const onClickArtifact = (e, artifact) => {
     console.log("on click artifact", artifact);
+    history.push('/artifacts-page')
     artifactMgr.openEditor(artifact.id);
   };
   return (
