@@ -99,8 +99,8 @@ class ArtifactProperties extends React.Component {
                   <div>
                     <div>
                       <p>Position</p>
-                      <div class="row">
-                        <div class="col">
+                      <div className="row">
+                        <div className="col">
                           <InputGroup className="mb-4">
                             <InputGroupAddon addonType="prepend">
                               <InputGroupText>X</InputGroupText>
@@ -119,7 +119,7 @@ class ArtifactProperties extends React.Component {
                             />
                           </InputGroup>
                         </div>
-                        <div class="col">
+                        <div className="col">
                           <InputGroup className="mb-4">
                             <InputGroupAddon addonType="prepend">
                               <InputGroupText>Y</InputGroupText>
@@ -138,7 +138,7 @@ class ArtifactProperties extends React.Component {
                             />
                           </InputGroup>
                         </div>
-                        <div class="col">
+                        <div className="col">
                           <InputGroup className="mb-4">
                             <InputGroupAddon addonType="prepend">
                               <InputGroupText>Z</InputGroupText>
@@ -162,8 +162,8 @@ class ArtifactProperties extends React.Component {
 
                     <div>
                       <p>Rotation</p>
-                      <div class="row">
-                        <div class="col">
+                      <div className="row">
+                        <div className="col">
                           <InputGroup className="mb-4">
                             <InputGroupAddon addonType="prepend">
                               <InputGroupText>X</InputGroupText>
@@ -182,7 +182,7 @@ class ArtifactProperties extends React.Component {
                             />
                           </InputGroup>
                         </div>
-                        <div class="col">
+                        <div className="col">
                           <InputGroup className="mb-4">
                             <InputGroupAddon addonType="prepend">
                               <InputGroupText>Y</InputGroupText>
@@ -201,7 +201,7 @@ class ArtifactProperties extends React.Component {
                             />
                           </InputGroup>
                         </div>
-                        <div class="col">
+                        <div className="col">
                           <InputGroup className="mb-4">
                             <InputGroupAddon addonType="prepend">
                               <InputGroupText>Z</InputGroupText>
@@ -224,8 +224,8 @@ class ArtifactProperties extends React.Component {
                     </div>
                     <div>
                       <p>Scale</p>
-                      <div class="row">
-                        <div class="col">
+                      <div className="row">
+                        <div className="col">
                           <InputGroup className="mb-4">
                             <InputGroupAddon addonType="prepend">
                               <InputGroupText>X</InputGroupText>
@@ -245,7 +245,7 @@ class ArtifactProperties extends React.Component {
                             />
                           </InputGroup>
                         </div>
-                        <div class="col">
+                        <div className="col">
                           <InputGroup className="mb-4">
                             <InputGroupAddon addonType="prepend">
                               <InputGroupText>Y</InputGroupText>
@@ -265,7 +265,7 @@ class ArtifactProperties extends React.Component {
                             />
                           </InputGroup>
                         </div>
-                        <div class="col">
+                        <div className="col">
                           <InputGroup className="mb-4">
                             <InputGroupAddon addonType="prepend">
                               <InputGroupText>Z</InputGroupText>

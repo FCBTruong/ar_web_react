@@ -193,7 +193,7 @@ class ArtifactEditor extends React.Component {
           </div>
         ) : (
           <div>
-            <ArtifactEditorBar />
+            <ArtifactEditorBar></ArtifactEditorBar>
             <div className="container-xl mt-5">
               <div className="row">
                 <Col lg="3">

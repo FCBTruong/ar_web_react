@@ -26,8 +26,10 @@ class ArtifactsNavBar extends React.Component {
           expand="lg"
         >
           <Container>
-            <NavbarBrand onClick={(e) => e.preventDefault()}>
-              Artifacts
+            <NavbarBrand href="#pablo" onClick={(e) => e.preventDefault()}>
+              {
+                this.props.museum.name ? this.props.museum.name : ""
+              }
             </NavbarBrand>
             <button
               aria-controls="navbar-primary"

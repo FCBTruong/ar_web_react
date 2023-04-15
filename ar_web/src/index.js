@@ -36,7 +36,7 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 
 
 root.render(
-  <HashRouter>
+  <BrowserRouter>
     <Switch>
       <Route path="/" exact render={(props) => <Index {...props} />} />
       <Route
@@ -76,5 +76,5 @@ root.render(
       />
       <Redirect to="/" />
     </Switch>
-  </HashRouter>
+  </BrowserRouter>
 );

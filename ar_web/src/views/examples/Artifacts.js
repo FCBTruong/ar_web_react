@@ -65,7 +65,7 @@ class Artifacts extends React.Component {
           </div>
         ) : (
           <Box sx={{height: '100vh', bgcolor: '#cfe8fc'}}>
-            <ArtifactsNavBar></ArtifactsNavBar>
+            <ArtifactsNavBar museum={this.state.museum}></ArtifactsNavBar>
             <section className="section section-shaped">
               {this.state.isCreatingArtifact ? (
                 <CreateArtifactForm museumId={this.state.museum.id} />
@@ -76,7 +76,7 @@ class Artifacts extends React.Component {
                       <Row className="row-grid">
                         {this.state.museum.artifacts.map((artifact, index) => {
                           return (
-                            <Col lg="4 mb-4">
+                            <Col lg="4 mb-4" key={index}>
                               <ArtifactCard artifact={artifact}/>
                             </Col>
                           );

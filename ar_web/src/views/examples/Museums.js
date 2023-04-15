@@ -47,7 +47,7 @@ class Museums extends React.Component {
   openMuseum = (e, museum) => {
     console.log("open museum ", museum);
     localStorage.setItem("current_museum_id", museum.id);
-    window.location.replace("/#artifacts-page");
+    window.location.replace("/artifacts-page");
   };
 
   render() {
@@ -85,7 +85,7 @@ class Museums extends React.Component {
                               {user.userData
                                 ? user.userData.museums.map((museum, index) => {
                                     return (
-                                      <Col lg="12 mb-5">
+                                      <Col lg="12 mb-5" key={index}>
                                         <Card
                                           className="card-lift--hover shadow border-0"
                                           onClick={(e) =>

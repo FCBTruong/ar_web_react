@@ -44,7 +44,7 @@ auth.login = function (_email, _password) {
 auth.onLoginSuccess = function (token) {
   auth.credential_token = token;
   localStorage.setItem("credential_token", auth.credential_token);
-  window.location.replace("/#museums-page");
+  window.location.replace("/museums-page");
 };
 
 auth.signup = function (_email, _password, _name) {

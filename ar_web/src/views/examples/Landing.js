@@ -64,7 +64,7 @@ class LandingPage extends React.Component {
     });
     var login = await auth.loginWithToken()
     if (!login) {
-      window.location.replace("/#login-page");
+      window.location.replace("/login-page");
     }
   };
 
