@@ -1,11 +1,22 @@
-import React from "react";
+import React, { useEffect, useRef, Suspense } from "react";
 import user from "apis/user";
 import { Card, Row, Col, Input, Button, CardBody } from "reactstrap";
 import { Canvas } from "@react-three/fiber";
-import { OrbitControls, useFBX } from "@react-three/drei";
-import { useGLTF, Stage, PresentationControls } from "@react-three/drei";
+import { alpha } from "@mui/material/styles";
+import {
+  Grid,
+  useGLTF,
+  Stage,
+  PresentationControls,
+  Environment,
+  GizmoHelper,
+  GizmoViewport,
+} from "@react-three/drei";
 import utilities from "utilities/utilities";
 import { Box } from "@mui/system";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+import { useLoader } from "@react-three/fiber";
+import { HashLoader } from "react-spinners";
 
 function Model3DView(props) {
   var urlAsset = props.url;
@@ -14,21 +25,17 @@ function Model3DView(props) {
   console.log("file extension3d ", fileExtension);
 
   var scene;
-  switch (fileExtension) {
-    case "fbx":
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      scene = useFBX(urlAsset);
-      break;
-    default:
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      scene = useGLTF(urlAsset).scene;
-      break;
-  }
+  const gltf = useLoader(GLTFLoader, urlAsset);
+  const groupRef = useRef();
+
+  useEffect(() => {
+    groupRef.current.add(gltf.scene);
+  }, [gltf]);
 
   return (
-    <primitive
-      object={scene}
-      scale={[1, 1, 1]}
+    <group
+      ref={groupRef}
+      scale={[props.scale, props.scale, props.scale]}
       rotation={[0, 0, 0]}
       position={[0, 0, 0]}
     />
@@ -66,6 +73,14 @@ class ModelsView extends React.Component {
     window.ArtifactEditor.toggleTabs(0, 1);
   };
 
+  onRemoveModel = (e, asset) => {
+    user.removeAsset3D(asset.id);
+
+    this.setState({
+      
+    })
+  };
+
   render() {
     return (
       <main>
@@ -89,6 +104,7 @@ class ModelsView extends React.Component {
                     }}
                     className="ml-2 mt-2"
                     onMouseOver={() => {
+                      console.log("hmmm");
                       this.setState({
                         indexCardHovering: index,
                       });
@@ -99,33 +115,41 @@ class ModelsView extends React.Component {
                       });
                     }}
                   >
-                    <Box height={260}>
-                      <Canvas
-                        dpr={[1, 2]}
-                        shadows
-                        camera={{ fav: 45 }}
-                        style={{ position: "absolute" }}
+                    <Box height={280}>
+                      <Suspense
+                        fallback={
+                          <div
+                            style={{
+                              position: "absolute",
+                              left: "50%",
+                              top: "45%",
+                              transform: "translate(-50%, -50%)",
+                            }}
+                          >
+                            <HashLoader color="#36d7b7" />
+                          </div>
+                        }
                       >
-                        <PresentationControls
-                          speed={1.5}
-                          global
-                          zoom={1}
-                          polar={[-0.1, Math.PI / 4]}
+                        <Canvas
+                          shadows
+                          camera={{ position: [10, 12, 12], fov: 25 }}
                         >
-                          <Stage environment={null}>
-                            <Model3DView url={asset.url} scale={0.05} />
-                          </Stage>
-                        </PresentationControls>
-                      </Canvas>
+                          <Model3DView url={asset.url} scale={0.3} />
+
+                          <Environment preset="city" />
+                        </Canvas>
+                      </Suspense>
                     </Box>
+
                     {this.state.indexCardHovering === index ? (
                       <Box
+                        position="absolute"
                         width="100%"
                         height="100%"
                         alignItems="center"
                         justifyContent="center"
                         sx={{
-                          backgroundColor: "red",
+                          backgroundColor: alpha("#000000", 0.5),
                         }}
                       >
                         <Button
@@ -134,6 +158,13 @@ class ModelsView extends React.Component {
                           }}
                         >
                           Add
+                        </Button>
+                        <Button
+                          onClick={(e) => {
+                            this.onRemoveModel(e, asset);
+                          }}
+                        >
+                          Remove
                         </Button>
                       </Box>
                     ) : (

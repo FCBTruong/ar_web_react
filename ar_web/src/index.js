@@ -31,6 +31,7 @@ import Register from "views/examples/Register.js";
 import Museums from "views/examples/Museums";
 import Artifacts from "views/examples/Artifacts";
 import ArtifactEditor from "views/examples/ArtifactEditor";
+import MuseumEdit from "components/Forms/MuseumEdit";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -73,6 +74,11 @@ root.render(
         path="/artifact-editor-page"
         exact
         render={(props) => <ArtifactEditor {...props} ref={ArtifactEditor => {window.ArtifactEditor = ArtifactEditor}} />}
+      />
+         <Route
+        path="/museum-edit-page"
+        exact
+        render={(props) => <MuseumEdit {...props} />}
       />
       <Redirect to="/" />
     </Switch>

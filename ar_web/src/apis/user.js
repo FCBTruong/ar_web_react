@@ -89,8 +89,8 @@ user.createMuseum = function (name, introduction) {
     })
     .then((result) => {
       console.log(result);
-      var museum = JSON.parse(result)
-      user.getData().museums.push(museum)
+      var museum = JSON.parse(result);
+      user.getData().museums.push(museum);
       window.Museums.doneCreateMuseum();
     })
     .catch((error) => console.log("error", error));
@@ -151,6 +151,28 @@ user.addAsset3D = async function (file) {
     })
     .catch((error) => console.log("error", error));
   return asset;
+};
+
+user.removeAsset3D = async function (assetId) {
+  var idx = user.getData().assets.findIndex(a => a.id === assetId)
+  user.getData().assets.splice(idx, 1)
+  user.saveDataToCache()
+  var myHeaders = new Headers();
+  myHeaders.append("Authorization", "Bearer " + auth.credential_token);
+
+  var formdata = new FormData();
+
+  var requestOptions = {
+    method: "DELETE",
+    headers: myHeaders,
+    body: formdata,
+    redirect: "follow",
+  };
+
+  await fetch(api.to("asset3d/" + assetId), requestOptions)
+    .then((response) => response.text())
+    .then((result) => console.log(result))
+    .catch((error) => console.log("error", error));
 };
 
 user.uploadToCloudinary = async function (file, type = "image") {

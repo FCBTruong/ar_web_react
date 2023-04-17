@@ -15,6 +15,8 @@ import {
   Row,
   Col,
 } from "reactstrap";
+import { Box } from "@mui/system";
+import AccountMenu from "components/Account/AccountMenu";
 
 class HomeNavbar extends React.Component {
   render() {
@@ -76,50 +78,13 @@ class HomeNavbar extends React.Component {
                       window.Museums.createMuseum();
                     }}
                   >
-                    Create <span className="sr-only">(current)</span>
+                    Tạo bảo tàng <span className="sr-only">(current)</span>
                   </NavLink>
                 </NavItem>
+            
                 <NavItem>
-                  <NavLink href="#pablo" onClick={(e) => e.preventDefault()}>
-                    Profile
-                  </NavLink>
+                  <AccountMenu />
                 </NavItem>
-                <UncontrolledDropdown nav>
-                  <NavLink
-                    aria-expanded={false}
-                    aria-haspopup={true}
-                    data-toggle="dropdown"
-                    id="navbar-primary_dropdown_1"
-                    onClick={(e) => e.preventDefault()}
-                    role="button"
-                  >
-                    Settings
-                  </NavLink>
-                  <DropdownMenu
-                    aria-labelledby="navbar-primary_dropdown_1"
-                    right
-                  >
-                    <DropdownItem
-                      href="#pablo"
-                      onClick={(e) => e.preventDefault()}
-                    >
-                      Action
-                    </DropdownItem>
-                    <DropdownItem
-                      href="#pablo"
-                      onClick={(e) => e.preventDefault()}
-                    >
-                      Another action
-                    </DropdownItem>
-                    <DropdownItem divider />
-                    <DropdownItem
-                      href="#pablo"
-                      onClick={(e) => e.preventDefault()}
-                    >
-                      Something else here
-                    </DropdownItem>
-                  </DropdownMenu>
-                </UncontrolledDropdown>
               </Nav>
             </UncontrolledCollapse>
           </Container>

@@ -64,7 +64,7 @@ class Artifacts extends React.Component {
             <HashLoader color="#36d7b7" />
           </div>
         ) : (
-          <Box sx={{height: '100vh', bgcolor: '#cfe8fc'}}>
+          <Box sx={{height: '100vh', bgcolor: '#fcfbfa'}}>
             <ArtifactsNavBar museum={this.state.museum}></ArtifactsNavBar>
             <section className="section section-shaped">
               {this.state.isCreatingArtifact ? (

@@ -1,19 +1,20 @@
-import * as React from 'react';
-import { useState } from 'react';
-import Box from '@mui/material/Box';
-import Avatar from '@mui/material/Avatar';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Tooltip from '@mui/material/Tooltip';
-import PersonAdd from '@mui/icons-material/PersonAdd';
-import Settings from '@mui/icons-material/Settings';
-import Logout from '@mui/icons-material/Logout';
-import LogoutIcon from '@mui/icons-material/Logout';
-import auth from 'apis/auth';
+import * as React from "react";
+import { useState } from "react";
+import Box from "@mui/material/Box";
+import Avatar from "@mui/material/Avatar";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import Divider from "@mui/material/Divider";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import Tooltip from "@mui/material/Tooltip";
+import PersonAdd from "@mui/icons-material/PersonAdd";
+import Settings from "@mui/icons-material/Settings";
+import Logout from "@mui/icons-material/Logout";
+import LogoutIcon from "@mui/icons-material/Logout";
+import auth from "apis/auth";
+import user from "apis/user";
 
 export default function AccountMenu(props) {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -27,26 +28,28 @@ export default function AccountMenu(props) {
 
   const handleSignout = () => {
     handleClose();
-    auth.signOut()
-  }
+    auth.signOut();
+  };
 
-  const handleProfile = () => {
-
-  }
+  const handleProfile = () => {};
 
   return (
     <div>
-      <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
+      <Box sx={{ height: 40, alignItems: "center", textAlign: "center" }}>
         <Tooltip title="Account settings">
           <IconButton
+            style={{
+              border: "none",
+              outline: "none",
+            }}
             onClick={handleClick}
             size="small"
             sx={{ ml: 2 }}
-            aria-controls={open ? 'account-menu' : undefined}
+            aria-controls={open ? "account-menu" : undefined}
             aria-haspopup="true"
-            aria-expanded={open ? 'true' : undefined}
+            aria-expanded={open ? "true" : undefined}
           >
-            <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+            <Avatar sx={{ width: 40, height: 40 }}>M</Avatar>
           </IconButton>
         </Tooltip>
       </Box>
@@ -59,38 +62,53 @@ export default function AccountMenu(props) {
         PaperProps={{
           elevation: 0,
           sx: {
-            overflow: 'visible',
-            filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+            overflow: "visible",
+            filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
             mt: 1.5,
-            '& .MuiAvatar-root': {
+            "& .MuiAvatar-root": {
               width: 32,
               height: 32,
               ml: -0.5,
               mr: 1,
             },
-            '&:before': {
+            "&:before": {
               content: '""',
-              display: 'block',
-              position: 'absolute',
+              display: "block",
+              position: "absolute",
               top: 0,
               right: 14,
               width: 10,
               height: 10,
-              bgcolor: 'background.paper',
-              transform: 'translateY(-50%) rotate(45deg)',
+              bgcolor: "background.paper",
+              transform: "translateY(-50%) rotate(45deg)",
               zIndex: 0,
             },
           },
         }}
-        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+        transformOrigin={{ horizontal: "right", vertical: "top" }}
+        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
+        <div style={{ padding: "10px" }}>
+          <p style={{ marginBottom: "0px" }}>Signed in as</p>
+          <p
+            style={{
+              fontWeight: "bold",
+              marginTop: "0px",
+              marginBottom: "0px",
+            }}
+          >
+            {user.getData().name}
+          </p>
+        </div>
+
+        <Box sx={{ height: 2, minWidth: '200px', backgroundColor: "#c4c4c4" }}></Box>
+
         <MenuItem onClick={handleProfile}>
           <Avatar /> Thông tin
         </MenuItem>
         <Divider />
         <MenuItem onClick={handleSignout}>
-         <LogoutIcon/>
+          <LogoutIcon />
           Thoát
         </MenuItem>
       </Menu>
