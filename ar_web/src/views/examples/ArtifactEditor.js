@@ -241,20 +241,7 @@ class ArtifactEditor extends React.Component {
                               outline: "none",
                             }}
                           />
-                          <Tab
-                            label="Hiện vật"
-                            style={{
-                              border: "none",
-                              outline: "none",
-                            }}
-                          />
-                          <Tab
-                            label="Phân tích"
-                            style={{
-                              border: "none",
-                              outline: "none",
-                            }}
-                          />
+                         
                           <Tab
                             label="Cài đặt"
                             style={{
@@ -327,10 +314,7 @@ class ArtifactEditor extends React.Component {
                         <TabPane tabId="plainTabs2">
                           <ModelsView />
                         </TabPane>
-                        <TabPane tabId="plainTabs4">
-                          Analyze metrics and understand your visitors
-                        </TabPane>
-                        <TabPane tabId="plainTabs5">
+                        <TabPane tabId="plainTabs3">
                           <ArtifactSettings
                             museumId={this.state.museumId}
                             artifact={this.state.artifact}

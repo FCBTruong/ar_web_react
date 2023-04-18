@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 // reactstrap components
-import { Button, Card, CardBody, Container, Row, Col, Badge } from "reactstrap";
+import { CardBody, Container, Row, Col, Badge } from "reactstrap";
 import HomeNavbar from "components/Navbars/HomeNavBar";
 import CreateMuseumForm from "components/Forms/CreateMuseumForm";
 import user from "apis/user";
@@ -12,11 +12,16 @@ import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import ClickAwayListener from '@mui/material/ClickAwayListener';
-import Grow from '@mui/material/Grow';
-import Paper from '@mui/material/Paper';
-import MenuList from '@mui/material/MenuList';
-import Popper from '@mui/material/Popper';
+import ClickAwayListener from "@mui/material/ClickAwayListener";
+import Grow from "@mui/material/Grow";
+import Paper from "@mui/material/Paper";
+import MenuList from "@mui/material/MenuList";
+import Popper from "@mui/material/Popper";
+import Card from "@mui/material/Card";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import { Box } from "@mui/system";
+import { Button } from "@mui/material";
+import CardContent from "@mui/material/CardContent";
 
 class Museums extends React.Component {
   constructor(props) {
@@ -46,6 +51,12 @@ class Museums extends React.Component {
   doneCreateMuseum = (e) => {
     this.setState({
       isCreating: false,
+      isLoading: false,
+    });
+  };
+
+  doneDeleteMuseum = (e) => {
+    this.setState({
       isLoading: false,
     });
   };
@@ -107,61 +118,67 @@ class Museums extends React.Component {
 function MuseumCard(props) {
   const [open, setOpen] = useState(false);
   const history = useHistory();
-  const anchorRef = React.useRef<HTMLButtonElement>(null);
+  const anchorRef = React.useRef < HTMLButtonElement > null;
+  const [isHovered, setIsHovered] = useState(false);
 
-  
-  var openMuseum = (e, museum) => {
-    console.log("open museum ", museum);
+  var openMuseum = (e) => {
     history.push("/museums-page");
-    localStorage.setItem("current_museum_id", museum.id);
+    localStorage.setItem("current_museum_id", props.museum.id);
     window.location.replace("/artifacts-page");
   };
 
   var openOptions = (e, museum) => {
-    setOpen(true)
+    setOpen(true);
   };
 
-  var removeMuseum = (e, museum) => {
-    
-    this.handleClose()
+  var deleteMuseum = (e) => {
+    handleClose(e);
+    user.deleteMuseum(props.museum.id);
+    this.handleClose();
   };
 
-  var editMuseum = (e, museum) => {
-    handleClose(e, museum);
+  var editMuseum = (e) => {
+    handleClose(e);
     history.push("/museums-page");
-    window.location.replace('/museum-edit-page')
-  }
+    window.location.replace("/museum-edit-page");
+  };
 
   const handleClose = (event) => {
-    event.stopPropagation()
-    if (
-      anchorRef.current &&
-      anchorRef.current.contains(event.target)
-    ) {
+    event.stopPropagation();
+    if (anchorRef.current && anchorRef.current.contains(event.target)) {
       return;
     }
     setOpen(false);
   };
 
   function handleListKeyDown(event) {
-    if (event.key === 'Tab') {
+    if (event.key === "Tab") {
       event.preventDefault();
       setOpen(false);
-    } else if (event.key === 'Escape') {
+    } else if (event.key === "Escape") {
       setOpen(false);
     }
   }
 
+  const handleMouseEnter = () => {
+    console.log("hhhh");
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+
   return (
     <Col lg="12 mb-5">
       <Card
-        className="card-lift--hover shadow border-0"
-        onClick={(e) => openMuseum(e, props.museum)}
         style={{
           height: "auto",
         }}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
       >
-        <CardBody className="py-4">
+        <CardContent>
           <IconButton
             style={{
               border: "none",
@@ -178,36 +195,25 @@ function MuseumCard(props) {
             <MoreVertIcon />
           </IconButton>
           <Popper
-          open={open}
-          anchorEl={anchorRef.current}
-          role={undefined}
-          placement="bottom-start"
-          transition
-          disablePortal
-        >
-           {({ TransitionProps, placement }) => (
-            <Grow
-              {...TransitionProps}
-              style={{
-                transformOrigin:
-                  placement === 'bottom-start' ? 'left top' : 'left bottom',
-              }}
-            >
-              <Paper>
-                <ClickAwayListener onClickAway={handleClose}>
-                  <MenuList
-                    autoFocusItem={open}
-                    id="composition-menu"
-                    aria-labelledby="composition-button"
-                    onKeyDown={handleListKeyDown}
-                  >
-                    <MenuItem onClick={handleClose}>Xóa</MenuItem>
-                    <MenuItem onClick={editMuseum}>Sửa</MenuItem>
-                  </MenuList>
-                </ClickAwayListener>
-              </Paper>
-            </Grow>
-          )}</Popper>
+            open={open}
+       
+            placement="bottom"
+   
+          >
+            <Paper>
+              <ClickAwayListener onClickAway={handleClose}>
+                <MenuList
+                  autoFocusItem={open}
+                  id="composition-menu"
+                  aria-labelledby="composition-button"
+                  onKeyDown={handleListKeyDown}
+                >
+                  <MenuItem onClick={deleteMuseum}>Xóa</MenuItem>
+                  <MenuItem onClick={editMuseum}>Sửa</MenuItem>
+                </MenuList>
+              </ClickAwayListener>
+            </Paper>
+          </Popper>
           <h5
             className="text-primary text-uppercase mx-auto"
             style={{
@@ -230,8 +236,15 @@ function MuseumCard(props) {
                 : require("assets/img/museum/museum_bg_0.jpeg")
             }
             style={{ width: "100%" }}
+            onClick={openMuseum}
           />
-        </CardBody>
+         
+          {isHovered ? (
+            <div>
+             DKM
+            </div>
+          ) : null}
+        </CardContent>
       </Card>
     </Col>
   );

@@ -96,6 +96,38 @@ user.createMuseum = function (name, introduction) {
     .catch((error) => console.log("error", error));
 };
 
+user.deleteMuseum = function (id) {
+  var myHeaders = new Headers();
+  myHeaders.append("Authorization", "Bearer " + auth.credential_token);
+
+  var requestOptions = {
+    method: "DELETE",
+    headers: myHeaders,
+    redirect: "follow",
+  };
+
+  fetch(api.to("museums/" + id), requestOptions)
+    .then((response) => {
+      if (response.status === 200) {
+        console.log(response);
+        return response.text();
+      } else {
+        alert("error delete museum, please try again");
+        // eslint-disable-next-line no-throw-literal
+        throw `error with status ${response.status}`;
+      }
+    })
+    .then((result) => {
+      console.log(result);
+      user.getData().museums = user.getData().museums.filter(
+        (museum) => museum.id !== id
+      );
+      user.saveDataToCache();
+      window.Museums.doneDeleteMuseum();
+    })
+    .catch((error) => console.log("error", error));
+}
+
 user.getMuseumById = function (id) {
   console.log("id... museum ", id);
   return user.userData.museums.find((museum) => museum.id === id);
