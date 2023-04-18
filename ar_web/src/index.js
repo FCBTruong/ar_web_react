@@ -79,7 +79,7 @@ root.render(
         path="/museum-edit-page"
         exact
         render={(props) => <MuseumEdit {...props} />}
-      />
+        />
       <Redirect to="/" />
     </Switch>
   </BrowserRouter>

@@ -15,9 +15,11 @@ import Logout from "@mui/icons-material/Logout";
 import LogoutIcon from "@mui/icons-material/Logout";
 import auth from "apis/auth";
 import user from "apis/user";
+import { useHistory } from "react-router-dom";
 
 export default function AccountMenu(props) {
   const [anchorEl, setAnchorEl] = useState(null);
+  const history = useHistory();
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -31,7 +33,9 @@ export default function AccountMenu(props) {
     auth.signOut();
   };
 
-  const handleProfile = () => {};
+  const handleProfile = () => {
+    window.location.replace("/profile-page");
+  };
 
   return (
     <div>
@@ -49,7 +53,7 @@ export default function AccountMenu(props) {
             aria-haspopup="true"
             aria-expanded={open ? "true" : undefined}
           >
-            <Avatar sx={{ width: 40, height: 40 }}>M</Avatar>
+            <Avatar sx={{ width: 40, height: 40 }}>{user.getData().name[0].toUpperCase()}</Avatar>
           </IconButton>
         </Tooltip>
       </Box>
