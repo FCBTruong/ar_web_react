@@ -22,6 +22,8 @@ import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { Box } from "@mui/system";
 import { Button } from "@mui/material";
 import CardContent from "@mui/material/CardContent";
+import { alpha } from "@mui/system";
+import Popover from "@mui/material/Popover";
 
 class Museums extends React.Component {
   constructor(props) {
@@ -175,8 +177,6 @@ function MuseumCard(props) {
         style={{
           height: "auto",
         }}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
       >
         <CardContent>
           <IconButton
@@ -194,12 +194,7 @@ function MuseumCard(props) {
           >
             <MoreVertIcon />
           </IconButton>
-          <Popper
-            open={open}
-       
-            placement="bottom"
-   
-          >
+          <Popper open={open} placement="bottom">
             <Paper>
               <ClickAwayListener onClickAway={handleClose}>
                 <MenuList
@@ -227,23 +222,44 @@ function MuseumCard(props) {
               ? utilities.subStr(props.museum.introduction, 200)
               : "empty"}
           </p>
-          <img
-            alt="..."
-            className="img-fluid rounded shadow-lg mx-auto"
-            src={
-              props.museum.image
-                ? props.museum.image
-                : require("assets/img/museum/museum_bg_0.jpeg")
-            }
-            style={{ width: "100%" }}
-            onClick={openMuseum}
-          />
-         
-          {isHovered ? (
-            <div>
-             DKM
-            </div>
-          ) : null}
+          <Box sx={{ position: "relative", display: "inline-block" }}
+           onMouseEnter={handleMouseEnter}
+           onMouseLeave={handleMouseLeave}>
+            <img
+              alt="..."
+              className="img-fluid rounded shadow-lg mx-auto"
+              src={
+                props.museum.image
+                  ? props.museum.image
+                  : require("assets/img/museum/museum_bg_0.jpeg")
+              }
+              style={{ width: "100%" }}
+             
+            />
+
+            {isHovered && (
+              <Box
+                sx={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  width: "100%",
+                  height: "100%",
+                  backgroundColor: "rgba(0, 0, 0, 0.5)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Button variant="outlined" href="#outlined-buttons"
+                onClick={openMuseum} sx={{minWidth:'100px', borderColor:'white', color:'white',
+                borderRadius: '20px',
+                '&:hover': { borderColor: 'white', backgroundColor:'white', color:'black' }}}>
+  Xem
+</Button>
+              </Box>
+            )}
+          </Box>
         </CardContent>
       </Card>
     </Col>

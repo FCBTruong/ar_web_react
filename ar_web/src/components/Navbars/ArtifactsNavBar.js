@@ -35,10 +35,11 @@ function ArtifactsNavBar(props) {
         <Container>
           <IconButton
             edge="start"
-            style={{ color: "white" }}
+            style={{ color: "white", border: 'none', outline: 'none'  }}
             aria-label="menu"
-            sx={{ mr: 2 }}
+            sx={{ mr: 2}}
             onClick={onBack}
+            
           >
             <ArrowBackIcon />
           </IconButton>

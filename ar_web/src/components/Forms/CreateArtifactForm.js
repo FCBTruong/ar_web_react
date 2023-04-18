@@ -90,7 +90,7 @@ class CreateArtifactForm extends React.Component {
             <Col lg="8">
               <Card className="bg-gradient-secondary shadow">
                 <CardBody className="p-lg-5">
-                  <h4 className="mb-1">Thêm artifact cho bảo tàng của bạn</h4>
+                  <h4 className="mb-1">Thêm hiện vật trưng bày</h4>
                   <p className="mt-0">AR Technology</p>
                   <FormGroup
                     className={classnames("mt-5", {
@@ -127,7 +127,7 @@ class CreateArtifactForm extends React.Component {
                       type="button"
                       onClick={this.create}
                     >
-                      CREATE
+                      Tạo mới
                     </Button>
                   </div>
                 </CardBody>

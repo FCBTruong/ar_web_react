@@ -1,7 +1,7 @@
 import React from "react";
 
 // reactstrap components
-import { Button, Card, CardBody, Container, Row, Col, Badge } from "reactstrap";
+import { Container, Row, Col } from "reactstrap";
 import user from "apis/user";
 import ArtifactsNavBar from "components/Navbars/ArtifactsNavBar";
 import CreateArtifactForm from "components/Forms/CreateArtifactForm";
@@ -13,6 +13,7 @@ import { ClipLoader, HashLoader } from "react-spinners";
 import utilities from "utilities/utilities";
 import { Box } from "@mui/system";
 import ArtifactCard from "components/Forms/ArtifactCard";
+import Button from "@mui/material/Button";
 
 class Artifacts extends React.Component {
   // eslint-disable-next-line no-useless-constructor
@@ -71,6 +72,20 @@ class Artifacts extends React.Component {
                 <CreateArtifactForm museumId={this.state.museum.id} />
               ) : (
                 <Container>
+                  {
+                    this.state.museum.artifacts.length === 0 ?(<div>
+                      <h5 className="text-center">Bạn không có hiện vật nào trưng bày</h5>
+                      <br/>
+                      <Button onClick={this.createArtifact} className='center'
+                      variant="contained"
+                       style={{
+                        border: "none",
+                        outline: "none",
+                        minWidth: "100px",
+                      }}>
+                        Tạo mới
+                      </Button>
+                    </div>):(
                   <Row className="justify-content-center">
                     <Col lg="12">
                       <Row className="row-grid">
@@ -83,7 +98,8 @@ class Artifacts extends React.Component {
                         })}
                       </Row>
                     </Col>
-                  </Row>
+                  </Row>)
+  }
                 </Container>
               )}
             </section>
