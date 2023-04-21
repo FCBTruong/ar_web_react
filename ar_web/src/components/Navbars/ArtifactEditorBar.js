@@ -36,6 +36,10 @@ class ArtifactEditorBar extends React.Component {
             aria-label="menu"
             sx={{ mr: 2 }}
             onClick={this.onBack}
+            style={{
+              border: "none",
+              outline: "none",
+            }}
           >
             <ArrowBackIcon />
           </IconButton>

@@ -93,7 +93,7 @@ export default function AccountMenu(props) {
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
         <div style={{ padding: "10px" }}>
-          <p style={{ marginBottom: "0px" }}>Signed in as</p>
+          <p style={{ marginBottom: "0px" }}>Đăng nhập với</p>
           <p
             style={{
               fontWeight: "bold",

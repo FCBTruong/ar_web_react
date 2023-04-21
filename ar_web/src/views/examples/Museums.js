@@ -3,7 +3,7 @@ import React, { useState } from "react";
 // reactstrap components
 import { CardBody, Container, Row, Col, Badge } from "reactstrap";
 import HomeNavbar from "components/Navbars/HomeNavBar";
-import CreateMuseumForm from "components/Forms/CreateMuseumForm";
+import MuseumForm from "components/Forms/MuseumForm";
 import user from "apis/user";
 import { HashLoader } from "react-spinners";
 import utilities from "utilities/utilities";
@@ -24,6 +24,13 @@ import { Button } from "@mui/material";
 import CardContent from "@mui/material/CardContent";
 import { alpha } from "@mui/system";
 import Popover from "@mui/material/Popover";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+
+import museumsMgr from "apis/museums_mgr";
 
 class Museums extends React.Component {
   constructor(props) {
@@ -82,31 +89,57 @@ class Museums extends React.Component {
             {!this.state.isCreating ? <HomeNavbar></HomeNavbar> : null}
             <section className="section section-shaped section-lg">
               {this.state.isCreating ? (
-                <CreateMuseumForm></CreateMuseumForm>
+                <MuseumForm></MuseumForm>
               ) : (
                 <div>
                   <br />
                   <br />
                   <br />
-                  <Container className="pt-lg-7">
-                    <section className="section section-lg pt-lg-0 mt--200">
-                      <Container>
-                        <Row className="justify-content-center">
-                          <Col lg="8">
-                            <Row className="row-grid">
-                              {user.userData
-                                ? user.userData.museums.map((museum, index) => {
-                                    return (
-                                      <MuseumCard museum={museum} key={index} />
-                                    );
-                                  })
-                                : null}
-                            </Row>
-                          </Col>
-                        </Row>
-                      </Container>
-                    </section>
-                  </Container>
+                  {user.getData() && user.getData().museums.length === 0 ? (
+                    <div>
+                      <h5 className="text-center">
+                        Bắt đầu tạo bảo tàng của bạn
+                      </h5>
+                      <br />
+                      <Button
+                        onClick={this.createMuseum}
+                        className="center"
+                        variant="contained"
+                        style={{
+                          border: "none",
+                          outline: "none",
+                          minWidth: "100px",
+                        }}
+                      >
+                        Tạo mới
+                      </Button>
+                    </div>
+                  ) : (
+                    <Container className="pt-lg-7">
+                      <section className="section section-lg pt-lg-0 mt--200">
+                        <Container>
+                          <Row className="justify-content-center">
+                            <Col lg="8">
+                              <Row className="row-grid">
+                                {user.getData()
+                                  ? user
+                                      .getData()
+                                      .museums.map((museum, index) => {
+                                        return (
+                                          <MuseumCard
+                                            museum={museum}
+                                            key={index}
+                                          />
+                                        );
+                                      })
+                                  : null}
+                              </Row>
+                            </Col>
+                          </Row>
+                        </Container>
+                      </section>
+                    </Container>
+                  )}
                 </div>
               )}
             </section>
@@ -123,6 +156,8 @@ function MuseumCard(props) {
   const anchorRef = React.useRef < HTMLButtonElement > null;
   const [isHovered, setIsHovered] = useState(false);
 
+  const [openPopup, setOpenPopup] = useState(false);
+
   var openMuseum = (e) => {
     history.push("/museums-page");
     localStorage.setItem("current_museum_id", props.museum.id);
@@ -133,10 +168,18 @@ function MuseumCard(props) {
     setOpen(true);
   };
 
+  const askForRemove = (e) => {
+    setOpenPopup(true);
+  };
+
+  const handleClosePopup = (e) => {
+    setOpenPopup(false);
+  };
+
   var deleteMuseum = (e) => {
+    handleClosePopup(false);
     handleClose(e);
-    user.deleteMuseum(props.museum.id);
-    this.handleClose();
+    museumsMgr.deleteMuseum(props.museum.id);
   };
 
   var editMuseum = (e) => {
@@ -203,7 +246,7 @@ function MuseumCard(props) {
                   aria-labelledby="composition-button"
                   onKeyDown={handleListKeyDown}
                 >
-                  <MenuItem onClick={deleteMuseum}>Xóa</MenuItem>
+                  <MenuItem onClick={askForRemove}>Xóa</MenuItem>
                   <MenuItem onClick={editMuseum}>Sửa</MenuItem>
                 </MenuList>
               </ClickAwayListener>
@@ -222,19 +265,20 @@ function MuseumCard(props) {
               ? utilities.subStr(props.museum.introduction, 200)
               : "empty"}
           </p>
-          <Box sx={{ position: "relative", display: "inline-block" }}
-           onMouseEnter={handleMouseEnter}
-           onMouseLeave={handleMouseLeave}>
+          <Box
+            sx={{ position: "relative", display: "inline-block" }}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+          >
             <img
               alt="..."
               className="img-fluid rounded shadow-lg mx-auto"
               src={
-                props.museum.image
-                  ? props.museum.image
+                props.museum.imageUrl
+                  ? props.museum.imageUrl
                   : require("assets/img/museum/museum_bg_0.jpeg")
               }
               style={{ width: "100%" }}
-             
             />
 
             {isHovered && (
@@ -251,16 +295,52 @@ function MuseumCard(props) {
                   justifyContent: "center",
                 }}
               >
-                <Button variant="outlined" href="#outlined-buttons"
-                onClick={openMuseum} sx={{minWidth:'100px', borderColor:'white', color:'white',
-                borderRadius: '20px',
-                '&:hover': { borderColor: 'white', backgroundColor:'white', color:'black' }}}>
-  Xem
-</Button>
+                <Button
+                  variant="outlined"
+                  href="#outlined-buttons"
+                  onClick={openMuseum}
+                  sx={{
+                    minWidth: "100px",
+                    borderColor: "white",
+                    color: "white",
+                    borderRadius: "20px",
+                    "&:hover": {
+                      borderColor: "white",
+                      backgroundColor: "white",
+                      color: "black",
+                    },
+                  }}
+                >
+                  Xem
+                </Button>
               </Box>
             )}
           </Box>
+          <h5 className="description mt-3">
+            <i class="fa fa-map-marker" aria-hidden="true"></i>
+
+            {props.museum.address
+              ? " " + utilities.subStr(props.museum.address, 200)
+              : " empty"}
+          </h5>
         </CardContent>
+        <Dialog
+          open={openPopup}
+          onClose={handleClosePopup}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">{"Xóa bảo tàng?"}</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              Bạn có chắc muốn xóa không?
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClosePopup}>Hủy</Button>
+            <Button onClick={deleteMuseum}>Đồng ý</Button>
+          </DialogActions>
+        </Dialog>
       </Card>
     </Col>
   );

@@ -90,8 +90,7 @@ class CreateArtifactForm extends React.Component {
             <Col lg="8">
               <Card className="bg-gradient-secondary shadow">
                 <CardBody className="p-lg-5">
-                  <h4 className="mb-1">Thêm hiện vật trưng bày</h4>
-                  <p className="mt-0">AR Technology</p>
+                  <h5 style={{textAlign: 'center'}}>Thêm hiện vật trưng bày</h5>
                   <FormGroup
                     className={classnames("mt-5", {
                       focused: this.state.nameFocused,
