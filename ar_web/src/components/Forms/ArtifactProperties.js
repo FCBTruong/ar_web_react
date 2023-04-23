@@ -227,9 +227,7 @@ class ArtifactProperties extends React.Component {
                       <div className="row">
                         <div className="col">
                           <InputGroup className="mb-4">
-                            <InputGroupAddon addonType="prepend">
-                              <InputGroupText>X</InputGroupText>
-                            </InputGroupAddon>
+                           
                             <Input
                               step="0.1"
                               placeholder=""
@@ -238,47 +236,7 @@ class ArtifactProperties extends React.Component {
                               onChange={(e) => {
                                 window.ArtifactEditor.changeModelScale(
                                   e.target.value,
-                                  this.props.artifact.modelAr.scale.y,
-                                  this.props.artifact.modelAr.scale.z
-                                );
-                              }}
-                            />
-                          </InputGroup>
-                        </div>
-                        <div className="col">
-                          <InputGroup className="mb-4">
-                            <InputGroupAddon addonType="prepend">
-                              <InputGroupText>Y</InputGroupText>
-                            </InputGroupAddon>
-                            <Input
-                              placeholder=""
-                              type="number"
-                              step="0.1"
-                              value={this.props.artifact.modelAr.scale.y}
-                              onChange={(e) => {
-                                window.ArtifactEditor.changeModelScale(
-                                  this.props.artifact.modelAr.scale.x,
                                   e.target.value,
-                                  this.props.artifact.modelAr.scale.z
-                                );
-                              }}
-                            />
-                          </InputGroup>
-                        </div>
-                        <div className="col">
-                          <InputGroup className="mb-4">
-                            <InputGroupAddon addonType="prepend">
-                              <InputGroupText>Z</InputGroupText>
-                            </InputGroupAddon>
-                            <Input
-                              placeholder=""
-                              type="number"
-                              step="0.1"
-                              value={this.props.artifact.modelAr.scale.z}
-                              onChange={(e) => {
-                                window.ArtifactEditor.changeModelScale(
-                                  this.props.artifact.modelAr.scale.x,
-                                  this.props.artifact.modelAr.scale.y,
                                   e.target.value
                                 );
                               }}
@@ -292,35 +250,8 @@ class ArtifactProperties extends React.Component {
               </div>
             </TreeItem>
           }
-          <TreeItem nodeId="2" label="Image">
-            <p>Load your artifact image</p>
-            {this.state.isLoadingImage ? (
-              <HashLoader color="#36d7b7" />
-            ) : (
-              <div>
-                <img
-                  alt="..."
-                  className="img-fluid rounded shadow-lg"
-                  src={
-                    this.props.artifact.image
-                      ? this.props.artifact.image
-                      : require("assets/img/theme/team-3-800x800.jpg")
-                  }
-                  style={{ width: "150px" }}
-                />
-                <FormGroup>
-                  <Input
-                    type="file"
-                    name="file"
-                    id="exampleFile"
-                    onChange={this.changeImageHandler}
-                  />
-                </FormGroup>{" "}
-              </div>
-            )}
-          </TreeItem>
           <TreeItem nodeId="4" label="Audio">
-            <div></div>
+            <div>VVV</div>
           </TreeItem>
         </TreeView>
       </div>

@@ -40,6 +40,7 @@ class MuseumForm extends React.Component {
       mode: this.props.mode ? this.props.mode : "create",
       isLoadingImage: false,
       isLoading: false,
+      openingTime: props.museum ? props.museum.openingTime : "",
     };
   }
 
@@ -53,6 +54,10 @@ class MuseumForm extends React.Component {
 
   onChangeAddress = (e) => {
     this.setState({ address: e.target.value });
+  };
+
+  onChangeOpeningTime = (e) => {
+    this.setState({ openingTime: e.target.value });
   };
 
   changeImageHandler = (e) => {
@@ -233,6 +238,26 @@ class MuseumForm extends React.Component {
                         value={this.state.address}
                       />
                     </InputGroup>
+                    {this.state.mode === "update" && (
+                      <div>
+                        <br />
+                        <InputGroup className="input-group-alternative">
+                        <InputGroupAddon addonType="prepend">
+                          <InputGroupText>
+                          <i class="fa fa-clock-o" aria-hidden="true"></i>
+                          </InputGroupText>
+                        </InputGroupAddon>
+                        <Input
+                          placeholder="Thời gian mở cửa"
+                          type="text"
+                          onFocus={(e) => this.setState({ nameFocused: true })}
+                          onBlur={(e) => this.setState({ nameFocused: false })}
+                          onChange={this.onChangeOpeningTime}
+                          value={this.state.openingTime}
+                        />
+                      </InputGroup>
+                      </div>
+                    )}
                     <div>
                       <br />
                       {this.state.mode === "create" ? (

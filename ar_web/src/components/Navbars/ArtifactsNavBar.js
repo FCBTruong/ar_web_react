@@ -90,7 +90,7 @@ function ArtifactsNavBar(props) {
                     window.Artifacts.createArtifact();
                   }}
                 >
-                  Create <span className="sr-only">(current)</span>
+                  Tạo hiện vật <span className="sr-only">(current)</span>
                 </NavLink>
               </NavItem>
             </Nav>

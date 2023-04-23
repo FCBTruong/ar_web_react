@@ -33,7 +33,6 @@ class Profile extends React.Component {
   render() {
     return (
       <>
-        <DemoNavbar />
         <main className="profile-page" ref="main">
           <section className="section-profile-cover section-shaped my-0">
             {/* Circles background */}
@@ -160,7 +159,6 @@ class Profile extends React.Component {
             </Container>
           </section>
         </main>
-        <SimpleFooter />
       </>
     );
   }

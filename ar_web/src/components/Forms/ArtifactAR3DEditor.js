@@ -14,6 +14,10 @@ import utilities from "utilities/utilities";
 import Card from "reactstrap/lib/Card";
 import ArtifactProperties from "./ArtifactProperties";
 import { Row, Col } from "reactstrap/lib/";
+import { useFrame } from "@react-three/fiber";
+import { AnimationMixer } from "three";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+import { useLoader } from 'react-three-fiber';
 
 function Box(props) {
   // This reference gives us direct access to the THREE.Mesh object
@@ -49,23 +53,21 @@ function Model(props) {
   var fileExtension = utilities.getFileExtension(urlAsset);
   console.log("file extension3d ", fileExtension);
 
-  const group = useRef();
-  const { scene, nodes, animations, materials } = useGLTF(urlAsset);
-  const { actions, names } = useAnimations(animations, group);
-  console.log("anim ...", animations);
+  const gltf = useLoader(GLTFLoader, urlAsset);
+  const mixer = useRef();
+
+  useFrame((_, delta) => mixer.current.update(delta));
 
   useEffect(() => {
-    console.log("here", actions);
-    if (names.length > 0) {
-      console.log("jolo", names[0]);
-      console.log(actions[names[0]]);
-      if (actions[names[0]] !== undefined) actions[names[0]].play();
-    }
-  });
+    mixer.current = new AnimationMixer(gltf.scene);
+    const action = mixer.current.clipAction(gltf.animations[0]);
+    action.play();
+  }, [gltf.animations, gltf.scene, mixer]);
+
 
   return (
     <primitive
-      object={scene}
+      object={gltf.scene}
       scale={[
         props.artifact.modelAr.scale.x * props.scale,
         props.artifact.modelAr.scale.y * props.scale,

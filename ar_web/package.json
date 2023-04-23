@@ -82,6 +82,7 @@
     "react-router-dom": "^5.1.2",
     "react-scripts": "5.0.1",
     "react-spinners": "^0.13.8",
+    "react-three-fiber": "^6.0.13",
     "reactstrap": "8.4.1",
     "sass": "1.53.0",
     "slate": "^0.93.0",
