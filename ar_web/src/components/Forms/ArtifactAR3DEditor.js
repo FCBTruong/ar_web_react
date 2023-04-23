@@ -17,7 +17,7 @@ import { Row, Col } from "reactstrap/lib/";
 import { useFrame } from "@react-three/fiber";
 import { AnimationMixer } from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-import { useLoader } from 'react-three-fiber';
+import { useLoader } from '@react-three/fiber';
 
 function Box(props) {
   // This reference gives us direct access to the THREE.Mesh object
