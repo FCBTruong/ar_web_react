@@ -135,6 +135,7 @@ artifactMgr.uploadImage = async function (museumId, artifactId, file) {
     var artifact = artifactMgr.getArtifact(museumId, artifactId)
     artifact.image = url
   }
+  return url
 }
 
 export default artifactMgr;

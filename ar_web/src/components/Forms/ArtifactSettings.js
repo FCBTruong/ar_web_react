@@ -9,9 +9,8 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { HashLoader } from "react-spinners";
 import artifactMgr from "apis/artifact_mgr";
 import { Box } from "@material-ui/core";
-import Brightness5Icon from '@mui/icons-material/Brightness5';
-import {Input as InputMUI}  from "@mui/material";
-
+import Brightness5Icon from "@mui/icons-material/Brightness5";
+import { Input as InputMUI } from "@mui/material";
 // reactstrap components
 import {
   FormGroup,
@@ -21,11 +20,28 @@ import {
   Input,
 } from "reactstrap";
 
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles({
+  disabledButton: {
+    pointerEvents: "none",
+    opacity: 1,
+    // any other styles you want to apply to the disabled button can go here
+    "&.Mui-disabled": {
+
+    },
+  },
+});
+
 export default function ArtifactSettings(props) {
   const [open, setOpen] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const [description, setDescription] = useState(props.artifact.description);
   const [name, setName] = useState(props.artifact.name);
+  const [image, setImage] = useState(props.artifact.image);
+
+  const classes = useStyles();
+
   const askForRemove = (e) => {
     setOpen(true);
   };
@@ -40,10 +56,14 @@ export default function ArtifactSettings(props) {
     handleClose();
   };
 
-  const changeImageHandler = (e) => {
+  const changeImageHandler = async (e) => {
     if (e.target.files.length === 0) return;
     const file = e.target.files[0];
-    artifactMgr.uploadImage(props.museumId, props.artifact.id, file);
+    setLoading(true)
+    var url = await artifactMgr.uploadImage(props.museumId, props.artifact.id, file);
+    props.artifact.image = url;
+    setImage(url);
+    setLoading(false)
   };
 
   const onChangeDescription = (e) => {
@@ -76,26 +96,30 @@ export default function ArtifactSettings(props) {
               style={{ display: "none" }}
             />
             <label htmlFor="image-input">
-              <Button variant="contained" sx={{ outline: "none" }}>
+              <Button
+                variant="contained"
+                sx={{ outline: "none" }}
+                className={classes.disabledButton}
+              >
                 Chọn ảnh
               </Button>
             </label>
           </div>
           <div>
-            {props.artifact.image && (
+            {image && (
               <img
-                src={props.artifact.image}
+                src={image}
                 alt="Preview"
                 style={{ maxWidth: "600px" }}
               />
             )}
           </div>
           <br />
-          <div style={{ maxWidth: '600px' }}>
+          <div style={{ maxWidth: "600px" }}>
             <InputGroup className="input-group-alternative">
               <InputGroupAddon addonType="prepend">
                 <InputGroupText>
-                 <Brightness5Icon/>
+                  <Brightness5Icon />
                 </InputGroupText>
               </InputGroupAddon>
               <Input
