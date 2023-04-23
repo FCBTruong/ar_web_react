@@ -4,7 +4,7 @@ import user from "./user";
 
 var museumsMgr = {};
 
-museumsMgr.update = function (museumId, museum) {
+museumsMgr.update = async function (museumId, museum) {
   var myHeaders = new Headers();
   myHeaders.append("Authorization", "Bearer " + auth.credential_token);
   myHeaders.append("Content-Type", "application/json");
@@ -18,9 +18,28 @@ museumsMgr.update = function (museumId, museum) {
     redirect: "follow",
   };
 
-  fetch(api.to("museums/" + museumId), requestOptions)
-    .then((response) => response.text())
-    .then((result) => console.log(result))
+  await fetch(api.to("museums/" + museumId), requestOptions)
+    .then((response) => {
+      if (response.status === 200) {
+        console.log(response);
+        return response.text();
+      } else {
+        alert("error update museum, please try again");
+        // eslint-disable-next-line no-throw-literal
+        throw `error with status ${response.status}`;
+      }
+    })
+    .then((result) => {
+      console.log(result);
+      var museum = JSON.parse(result);
+      user.getData().museums = user.getData().museums.map((m) => {
+        if (m.id === museum.id) {
+          return museum;
+        } else {
+          return m;
+        }
+      });
+    })
     .catch((error) => console.log("error", error));
 };
 

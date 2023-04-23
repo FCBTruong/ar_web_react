@@ -14,6 +14,8 @@ import utilities from "utilities/utilities";
 import { Box } from "@mui/system";
 import ArtifactCard from "components/Forms/ArtifactCard";
 import Button from "@mui/material/Button";
+import { AppBar, Toolbar, Typography, TextField } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
 
 class Artifacts extends React.Component {
   // eslint-disable-next-line no-useless-constructor
@@ -35,6 +37,8 @@ class Artifacts extends React.Component {
           : {
               artifacts: [],
             },
+
+      search: "",
     };
   }
 
@@ -65,41 +69,73 @@ class Artifacts extends React.Component {
             <HashLoader color="#36d7b7" />
           </div>
         ) : (
-          <Box sx={{height: '100vh', bgcolor: '#fcfbfa'}}>
+          <Box sx={{ height: "100vh", bgcolor: "#fcfbfa" }}>
             <ArtifactsNavBar museum={this.state.museum}></ArtifactsNavBar>
             <section className="section section-shaped">
               {this.state.isCreatingArtifact ? (
                 <CreateArtifactForm museumId={this.state.museum.id} />
               ) : (
                 <Container>
-                  {
-                    this.state.museum.artifacts.length === 0 ?(<div>
-                      <h5 className="text-center">Bạn không có hiện vật nào trưng bày</h5>
-                      <br/>
-                      <Button onClick={this.createArtifact} className='center'
-                      variant="contained"
-                       style={{
-                        border: "none",
-                        outline: "none",
-                        minWidth: "100px",
-                      }}>
+                  {this.state.museum.artifacts.length === 0 ? (
+                    <div>
+                      <h5 className="text-center">
+                        Bạn không có hiện vật nào trưng bày
+                      </h5>
+                      <br />
+                      <Button
+                        onClick={this.createArtifact}
+                        className="center"
+                        variant="contained"
+                        style={{
+                          border: "none",
+                          outline: "none",
+                          minWidth: "100px",
+                        }}
+                      >
                         Tạo mới
                       </Button>
-                    </div>):(
-                  <Row className="justify-content-center">
-                    <Col lg="12">
-                      <Row className="row-grid">
-                        {this.state.museum.artifacts.map((artifact, index) => {
-                          return (
-                            <Col lg="4 mb-4" key={index}>
-                              <ArtifactCard artifact={artifact}/>
-                            </Col>
-                          );
-                        })}
-                      </Row>
-                    </Col>
-                  </Row>)
-  }
+                    </div>
+                  ) : (
+                    <div>
+                       <Toolbar>
+                        <SearchIcon />
+                        <TextField
+                          variant="standard"
+                          placeholder="Search"
+                          sx={{ mr: 2 }}
+                          onChange={(e) => {
+                            this.setState({ search: e.target.value });
+                          }}
+                        />
+                      </Toolbar>
+                      <br />
+                    <Row className="justify-content-center">
+                      <Col lg="12">
+                        <Row className="row-grid">
+                          {
+                            // Filter artifacts
+                            this.state.museum.artifacts.filter((artifact) => {
+                              return (
+                                artifact.name
+                                  .toLowerCase()
+                                  .indexOf(this.state.search.toLowerCase()) !==
+                                  -1
+                              );
+                            })                
+                          .map((artifact) => {
+                            return (
+                              <ArtifactCard
+                                artifact={artifact}
+                                museumId={this.state.museum.id}
+                              />
+                            );
+                          }
+                          )}
+                        </Row>
+                      </Col>
+                    </Row>
+                    </div>
+                  )}
                 </Container>
               )}
             </section>

@@ -128,4 +128,13 @@ artifactMgr.removeArtifact = function (museumId, artifactId) {
     .catch((error) => console.log("error", error));
 };
 
+artifactMgr.uploadImage = async function (museumId, artifactId, file) {
+  var url = await user.uploadFile(file)
+  console.log('url: ' + url)
+  if(url){
+    var artifact = artifactMgr.getArtifact(museumId, artifactId)
+    artifact.image = url
+  }
+}
+
 export default artifactMgr;

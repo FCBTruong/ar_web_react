@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 
 // reactstrap components
 import { CardBody, Container, Row, Col, Badge } from "reactstrap";
@@ -153,7 +153,7 @@ class Museums extends React.Component {
 function MuseumCard(props) {
   const [open, setOpen] = useState(false);
   const history = useHistory();
-  const anchorRef = React.useRef < HTMLButtonElement > null;
+  const anchorRef = useRef(null);
   const [isHovered, setIsHovered] = useState(false);
 
   const [openPopup, setOpenPopup] = useState(false);
@@ -183,6 +183,7 @@ function MuseumCard(props) {
   };
 
   var editMuseum = (e) => {
+    localStorage.setItem("editing_museum_id", props.museum.id);
     handleClose(e);
     history.push("/museums-page");
     window.location.replace("/museum-edit-page");
@@ -223,6 +224,7 @@ function MuseumCard(props) {
       >
         <CardContent>
           <IconButton
+            ref={anchorRef}
             style={{
               border: "none",
               outline: "none",
@@ -237,7 +239,13 @@ function MuseumCard(props) {
           >
             <MoreVertIcon />
           </IconButton>
-          <Popper open={open} placement="bottom">
+
+          <Popper
+            open={open}
+            anchorEl={anchorRef.current}
+            placement="bottom"
+            style={{ zIndex: 9999 }}
+          >
             <Paper>
               <ClickAwayListener onClickAway={handleClose}>
                 <MenuList
@@ -246,8 +254,46 @@ function MuseumCard(props) {
                   aria-labelledby="composition-button"
                   onKeyDown={handleListKeyDown}
                 >
-                  <MenuItem onClick={askForRemove}>Xóa</MenuItem>
-                  <MenuItem onClick={editMuseum}>Sửa</MenuItem>
+                  <MenuItem>
+                    <Button
+                      variant="outlined"
+                      href="#outlined-buttons"
+                      sx={{
+                        minWidth: "100px",
+                        borderColor: "red",
+                        color: "red",
+                        borderRadius: "10px",
+                        "&:hover": {
+                          borderColor: "white",
+                          backgroundColor: "red",
+                          color: "white",
+                        },
+                      }}
+                      onClick={askForRemove}
+                    >
+                      Xóa
+                    </Button>
+                  </MenuItem>
+                  <MenuItem>
+                    <Button
+                      variant="outlined"
+                      href="#outlined-buttons"
+                      sx={{
+                        minWidth: "100px",
+                        borderColor: "black",
+                        color: "black",
+                        borderRadius: "10px",
+                        "&:hover": {
+                          borderColor: "white",
+                          backgroundColor: "green",
+                          color: "white",
+                        },
+                      }}
+                      onClick={editMuseum}
+                    >
+                      Sửa
+                    </Button>
+                  </MenuItem>
                 </MenuList>
               </ClickAwayListener>
             </Paper>

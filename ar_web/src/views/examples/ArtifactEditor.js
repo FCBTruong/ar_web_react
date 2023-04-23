@@ -1,34 +1,19 @@
 import user from "apis/user";
 
 import React from "react";
-import ArtifactProperties from "components/Forms/ArtifactProperties";
 import ArtifactContentEditor from "components/Forms/ArtifactContentEditor";
-import NavItem from "reactstrap/lib/NavItem";
-import NavLink from "reactstrap/lib/NavLink";
-import classnames from "classnames";
-import Nav from "reactstrap/lib/Nav";
 import TabPane from "reactstrap/lib/TabPane";
 import TabContent from "reactstrap/lib/TabContent";
 import "assets/css/my-style.css";
 import ArtifactSettings from "components/Forms/ArtifactSettings";
+import Prompt from "react-router-dom/Prompt";
 
 // reactstrap components
 import {
   Button,
-  Card,
-  CardBody,
-  Container,
   Row,
   Col,
-  Badge,
-  FormGroup,
-  Input,
-  InputGroup,
-  InputGroupAddon,
-  InputGroupText,
 } from "reactstrap";
-import ArtifactsNavBar from "components/Navbars/ArtifactsNavBar";
-import CreateArtifactForm from "components/Forms/CreateArtifactForm";
 import artifactMgr from "apis/artifact_mgr";
 import QRCode from "react-qr-code";
 
@@ -62,6 +47,7 @@ class ArtifactEditor extends React.Component {
       museumId: _museumId,
       isLoading: false,
       plainTabs: 0,
+      isFormDirty: false,
     };
   }
 
@@ -90,6 +76,7 @@ class ArtifactEditor extends React.Component {
     desArtifact.description = e.target.value;
     this.setState({
       artifact: desArtifact,
+      isFormDirty: true
     });
   };
 
@@ -98,6 +85,7 @@ class ArtifactEditor extends React.Component {
     desArtifact.name = e.target.value;
     this.setState({
       artifact: desArtifact,
+      isFormDirty: true
     });
   };
 
@@ -108,6 +96,7 @@ class ArtifactEditor extends React.Component {
     artifactMgr.update(this.state.museumId, this.state.artifact).then((s) => {
       this.setState({
         isLoading: false,
+        isFormDirty: false,
       });
     });
   };
@@ -118,6 +107,7 @@ class ArtifactEditor extends React.Component {
     desArtifact.image = s;
     this.setState({
       artifact: desArtifact,
+      isFormDirty: true
     });
   };
 
@@ -173,12 +163,31 @@ class ArtifactEditor extends React.Component {
     });
   };
 
+  componentDidMount() {
+    const handler = (event) => {
+      event.preventDefault();
+      event.returnValue = "";
+    };
+    if(this.state.isFormDirty){
+      window.addEventListener("beforeunload", handler);
+    }
+    else {
+      window.removeEventListener("beforeunload", handler);
+    }
+  }
+
+
   updateEditMode = () => {
     this.setState({});
   };
 
   render() {
     return (
+      <React.Fragment>
+          <Prompt
+              when={this.state.isFormDirty}
+              message="Your changes have not been saved. Are you sure you want to leave?"
+            />
       <main ref="main">
         {this.state.isLoading ? (
           <div
@@ -241,7 +250,7 @@ class ArtifactEditor extends React.Component {
                               outline: "none",
                             }}
                           />
-                         
+
                           <Tab
                             label="Cài đặt"
                             style={{
@@ -332,6 +341,7 @@ class ArtifactEditor extends React.Component {
           </div>
         )}
       </main>
+      </React.Fragment>
     );
   }
 }

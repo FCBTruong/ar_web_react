@@ -19,23 +19,29 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 
 import { Button } from "@material-ui/core";
-import { Box } from "@mui/material";
+import { Box, Stack, InputLabel } from "@mui/material";
 
 import user from "apis/user";
 import museumsMgr from "apis/museums_mgr";
 import classnames from "classnames";
 import { HashLoader } from "react-spinners";
+import ImageIcon from "@mui/icons-material/Image";
 
 class MuseumForm extends React.Component {
-  state = {
-    nameFocused: false,
-    name: "",
-    introduction: "",
-    address: "",
-    imageUrl: "",
-    mode: "create",
-    isLoadingImage: false,
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      nameFocused: false,
+      name: props.museum ? props.museum.name : "",
+      introduction: props.museum ? props.museum.introduction : "",
+      address: props.museum ? props.museum.address : "",
+      imageUrl: props.museum ? props.museum.imageUrl : "",
+      mode: this.props.mode ? this.props.mode : "create",
+      isLoadingImage: false,
+      isLoading: false,
+    };
+  }
 
   onChangeName = (e) => {
     this.setState({ name: e.target.value });
@@ -63,6 +69,25 @@ class MuseumForm extends React.Component {
     }
   };
 
+  updateMuseum = (e) => {
+    if (this.props.museum) {
+      // update
+      this.setState({
+        isLoading: true,
+      });
+      var updateMuseum = { ...this.props.museum };
+      updateMuseum.name = this.state.name;
+      updateMuseum.address = this.state.address;
+      updateMuseum.introduction = this.state.introduction;
+      updateMuseum.imageUrl = this.state.imageUrl;
+      museumsMgr.update(this.props.museum.id, updateMuseum).then(() => {
+        this.setState({
+          isLoading: false,
+        });
+      });
+    }
+  };
+
   create = (e) => {
     if (this.state.name === "" || this.state.introduction === "") {
       alert("Bạn chưa nhập thông tin");
@@ -81,133 +106,201 @@ class MuseumForm extends React.Component {
     }
   };
   onClose = (e) => {
-    window.Museums.setState({
-      isCreating: false,
-    });
+    if (this.props.mode === "create") {
+      if (window.Museums) {
+        window.Museums.setState({
+          isCreating: false,
+        });
+      }
+    } else {
+      window.location.replace("/museums-page");
+    }
   };
 
   render() {
     return (
-      <Container>
-        <IconButton
-          color="secondary"
-          aria-label="add an alarm"
-          onClick={this.onClose}
-          style={{ outline: "none" }}
-        >
-          <CloseIcon />
-        </IconButton>
-        <br />
-        <br />
-        <Row className="justify-content-center mt--0">
-          <Col lg="8">
-            <Card className="bg-gradient-secondary shadow">
-              <CardBody className="p-lg-5">
-                <h5
-                  style={{
-                    textAlign: "center",
-                  }}
-                >
-                  Nhập thông tin bảo tàng
-                </h5>
-                <FormGroup
-                  className={classnames("mt-5", {
-                    focused: this.state.nameFocused,
-                  })}
-                >
-                  <InputGroup className="input-group-alternative">
-                    <InputGroupAddon addonType="prepend">
-                      <InputGroupText>
-                        <MuseumIcon />
-                      </InputGroupText>
-                    </InputGroupAddon>
-                    <Input
-                      placeholder="Tên bảo tàng"
-                      type="text"
-                      onFocus={(e) => this.setState({ nameFocused: true })}
-                      onBlur={(e) => this.setState({ nameFocused: false })}
-                      onChange={this.onChangeName}
-                    />
-                  </InputGroup>
-                </FormGroup>
-                <FormGroup>
-                  <div>
-                    {" "}
-                    {this.state.isLoadingImage ? (
+      <div>
+        {this.state.isLoading ? (
+          <div
+            style={{
+              position: "absolute",
+              left: "50%",
+              top: "50%",
+              transform: "translate(-50%, -50%)",
+            }}
+          >
+            <HashLoader color="#36d7b7" />
+          </div>
+        ) : (
+          <Container>
+            <IconButton
+              color="secondary"
+              aria-label="add an alarm"
+              onClick={this.onClose}
+              style={{ outline: "none" }}
+            >
+              <CloseIcon />
+            </IconButton>
+            <br />
+            <br />
+            <Row className="justify-content-center mt--0">
+              <Col lg="8">
+                <Card className="bg-gradient-secondary shadow">
+                  <CardBody className="p-lg-5">
+                    <h5
+                      style={{
+                        textAlign: "center",
+                      }}
+                    >
+                      Nhập thông tin bảo tàng
+                    </h5>
+                    <FormGroup
+                      className={classnames("mt-5", {
+                        focused: this.state.nameFocused,
+                      })}
+                    >
+                      <InputGroup className="input-group-alternative">
+                        <InputGroupAddon addonType="prepend">
+                          <InputGroupText>
+                            <MuseumIcon />
+                          </InputGroupText>
+                        </InputGroupAddon>
+                        <Input
+                          placeholder="Tên bảo tàng"
+                          type="text"
+                          onFocus={(e) => this.setState({ nameFocused: true })}
+                          onBlur={(e) => this.setState({ nameFocused: false })}
+                          onChange={this.onChangeName}
+                          value={this.state.name}
+                        />
+                      </InputGroup>
+                    </FormGroup>
+                    <FormGroup>
                       <div>
-                        <HashLoader color="#36d7b7" />
+                        {this.state.isLoadingImage ? (
+                          <div>
+                            <HashLoader color="#36d7b7" />
+                          </div>
+                        ) : (
+                          <div>
+                            <Input
+                              id="image-input"
+                              type="file"
+                              accept=".png, .jpg, .jpeg,"
+                              onChange={this.changeImageHandler}
+                              style={{ display: "none" }}
+                            />
+                            <label htmlFor="image-input">
+                              <Button component="span" variant="contained">
+                                Chọn ảnh
+                              </Button>
+                            </label>
+                            {this.state.imageUrl && (
+                              <img
+                                src={this.state.imageUrl}
+                                alt="Preview"
+                                style={{ width: "100%" }}
+                              />
+                            )}
+                          </div>
+                        )}
                       </div>
-                    ) : null}
-                  </div>
-                  <Input
-                    type="file"
-                    name="file"
-                    id="exampleFile"
-                    accept=".jpg,.png,.jpeg"
-                    onChange={this.changeImageHandler}
-                  ></Input>
-                </FormGroup>{" "}
-                <FormGroup className="mb-4">
-                  <Input
-                    className="form-control-alternative"
-                    cols="80"
-                    name="name"
-                    placeholder="Giới thiệu ngắn về bảo tàng"
-                    rows="4"
-                    type="textarea"
-                    onChange={this.onChangeIntroduction}
-                  />
-                </FormGroup>
-                <InputGroup className="input-group-alternative">
-                  <InputGroupAddon addonType="prepend">
-                    <InputGroupText>
-                      <i class="fa fa-map-marker" aria-hidden="true"></i>
-                    </InputGroupText>
-                  </InputGroupAddon>
-                  <Input
-                    placeholder="Địa chỉ"
-                    type="text"
-                    onFocus={(e) => this.setState({ nameFocused: true })}
-                    onBlur={(e) => this.setState({ nameFocused: false })}
-                    onChange={this.onChangeAddress}
-                  />
-                </InputGroup>
-                <div>
-                  <br />
-                  {this.state.mode === "create" ? (
-                    <Box sx={{ display: "flex", justifyContent: "center" }}>
-                      <Button
-                        variant="contained"
-                        onClick={this.create}
-                        style={{
-                          minWidth: "100px",
-                          backgroundColor: "#1E90FF",
-                          "&:hover": {
-                            backgroundColor: "#0066CC",
-                          },
-                          color: "white",
-                          outline: "none",
-                        }}
-                      >
-                        Tạo
-                      </Button>
-                    </Box>
-                  ) : (
+                    </FormGroup>{" "}
+                    <FormGroup className="mb-4">
+                      <Input
+                        className="form-control-alternative"
+                        cols="80"
+                        name="name"
+                        placeholder="Giới thiệu ngắn về bảo tàng"
+                        rows="4"
+                        type="textarea"
+                        onChange={this.onChangeIntroduction}
+                        value={this.state.introduction}
+                      />
+                    </FormGroup>
+                    <InputGroup className="input-group-alternative">
+                      <InputGroupAddon addonType="prepend">
+                        <InputGroupText>
+                          <i class="fa fa-map-marker" aria-hidden="true"></i>
+                        </InputGroupText>
+                      </InputGroupAddon>
+                      <Input
+                        placeholder="Địa chỉ"
+                        type="text"
+                        onFocus={(e) => this.setState({ nameFocused: true })}
+                        onBlur={(e) => this.setState({ nameFocused: false })}
+                        onChange={this.onChangeAddress}
+                        value={this.state.address}
+                      />
+                    </InputGroup>
                     <div>
-                      <Button variant="contained" style={{ outline: "none" }}>
-                        Lưu
-                      </Button>
-                      <Button variant="contained" style={{ outline: "none" }}>
-                        Live
-                      </Button>
+                      <br />
+                      {this.state.mode === "create" ? (
+                        <Box sx={{ display: "flex", justifyContent: "center" }}>
+                          <Button
+                            variant="contained"
+                            onClick={this.create}
+                            style={{
+                              minWidth: "100px",
+                              backgroundColor: "#1E90FF",
+                              "&:hover": {
+                                backgroundColor: "#0066CC",
+                              },
+                              color: "white",
+                              outline: "none",
+                            }}
+                          >
+                            Tạo
+                          </Button>
+                        </Box>
+                      ) : (
+                        <div>
+                          <Box
+                            sx={{ display: "flex", justifyContent: "center" }}
+                          >
+                            <Stack direction="row" spacing={2}>
+                              <Button
+                                variant="contained"
+                                style={{
+                                  minWidth: "100px",
+                                  backgroundColor: "#1E90FF",
+                                  "&:hover": {
+                                    backgroundColor: "#0066CC",
+                                  },
+                                  color: "white",
+                                  outline: "none",
+                                }}
+                                onClick={this.updateMuseum}
+                              >
+                                Lưu
+                              </Button>
+
+                              <Button
+                                variant="contained"
+                                style={{
+                                  minWidth: "100px",
+                                  backgroundColor: "#1E90FF",
+                                  "&:hover": {
+                                    backgroundColor: "#0066CC",
+                                  },
+                                  color: "white",
+                                  outline: "none",
+                                }}
+                              >
+                                Sync
+                              </Button>
+                            </Stack>
+                          </Box>
+                        </div>
+                      )}
                     </div>
-                  )}
-                </div>
-              </CardBody>
-            </Card>
-          </Col>
-        </Row>
-      </Container>
+                  </CardBody>
+                </Card>
+              </Col>
+            </Row>
+          </Container>
+        )}
+      </div>
     );
   }
 }

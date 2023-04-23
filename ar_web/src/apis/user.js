@@ -59,7 +59,7 @@ user.requestData = async function () {
 
 user.getMuseumById = function (id) {
   console.log("id... museum ", id);
-  return user.userData.museums.find((museum) => museum.id === id);
+  return user.getData().museums.find((museum) => museum.id === id);
 };
 
 user.uploadFile = async function (file) {

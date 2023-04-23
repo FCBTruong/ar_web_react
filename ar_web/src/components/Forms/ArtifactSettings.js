@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { Button } from "@material-ui/core";
+import { Button } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -9,11 +9,23 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { HashLoader } from "react-spinners";
 import artifactMgr from "apis/artifact_mgr";
 import { Box } from "@material-ui/core";
+import Brightness5Icon from '@mui/icons-material/Brightness5';
+import {Input as InputMUI}  from "@mui/material";
+
+// reactstrap components
+import {
+  FormGroup,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupText,
+  Input,
+} from "reactstrap";
 
 export default function ArtifactSettings(props) {
   const [open, setOpen] = useState(false);
   const [isLoading, setLoading] = useState(false);
-
+  const [description, setDescription] = useState(props.artifact.description);
+  const [name, setName] = useState(props.artifact.name);
   const askForRemove = (e) => {
     setOpen(true);
   };
@@ -28,6 +40,21 @@ export default function ArtifactSettings(props) {
     handleClose();
   };
 
+  const changeImageHandler = (e) => {
+    if (e.target.files.length === 0) return;
+    const file = e.target.files[0];
+    artifactMgr.uploadImage(props.museumId, props.artifact.id, file);
+  };
+
+  const onChangeDescription = (e) => {
+    props.artifact.description = e.target.value;
+    setDescription(e.target.value);
+  };
+
+  const onChangeName = (e) => {
+    props.artifact.name = e.target.value;
+    setName(e.target.value);
+  };
   return (
     <div>
       {isLoading ? (
@@ -38,7 +65,76 @@ export default function ArtifactSettings(props) {
         </Box>
       ) : (
         <div>
-          <Button variant="outlined" color="secondary" onClick={askForRemove}>
+          <br />
+          <br />
+          <div>
+            <InputMUI
+              id="image-input"
+              type="file"
+              accept=".jpg, .jpeg, .png"
+              onChange={changeImageHandler}
+              style={{ display: "none" }}
+            />
+            <label htmlFor="image-input">
+              <Button variant="contained" sx={{ outline: "none" }}>
+                Chọn ảnh
+              </Button>
+            </label>
+          </div>
+          <div>
+            {props.artifact.image && (
+              <img
+                src={props.artifact.image}
+                alt="Preview"
+                style={{ maxWidth: "600px" }}
+              />
+            )}
+          </div>
+          <br />
+          <div style={{ maxWidth: '600px' }}>
+            <InputGroup className="input-group-alternative">
+              <InputGroupAddon addonType="prepend">
+                <InputGroupText>
+                 <Brightness5Icon/>
+                </InputGroupText>
+              </InputGroupAddon>
+              <Input
+                placeholder="Tên hiện vật"
+                type="text"
+                onChange={onChangeName}
+                value={name}
+              />
+            </InputGroup>
+            <br />
+            <FormGroup className="mb-4">
+              <Input
+                className="form-control-alternative"
+                cols="80"
+                name="name"
+                placeholder="Giới thiệu ngắn về bảo tàng"
+                rows="4"
+                type="textarea"
+                onChange={onChangeDescription}
+                value={description}
+              />
+            </FormGroup>
+          </div>
+          <Button
+            variant="outlined"
+            href="#outlined-buttons"
+            sx={{
+              minWidth: "100px",
+              borderColor: "red",
+              color: "red",
+              borderRadius: "10px",
+              "&:hover": {
+                borderColor: "white",
+                backgroundColor: "red",
+                color: "white",
+              },
+            }}
+            onClick={askForRemove}
+          >
             Xóa
           </Button>
           <Dialog
