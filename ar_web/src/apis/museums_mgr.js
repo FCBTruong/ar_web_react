@@ -39,6 +39,7 @@ museumsMgr.update = async function (museumId, museum) {
           return m;
         }
       });
+      alert('Cập nhật thành công');
     })
     .catch((error) => console.log("error", error));
 };

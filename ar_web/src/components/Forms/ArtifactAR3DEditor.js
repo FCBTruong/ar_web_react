@@ -17,7 +17,7 @@ import { Row, Col } from "reactstrap/lib/";
 import { useFrame } from "@react-three/fiber";
 import { AnimationMixer } from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-import { useLoader } from '@react-three/fiber';
+import { useLoader } from "@react-three/fiber";
 
 function Box(props) {
   // This reference gives us direct access to the THREE.Mesh object
@@ -56,14 +56,18 @@ function Model(props) {
   const gltf = useLoader(GLTFLoader, urlAsset);
   const mixer = useRef();
 
-  useFrame((_, delta) => mixer.current.update(delta));
+  useFrame((_, delta) => {
+    if (mixer.current) mixer.current.update(delta);
+  });
 
   useEffect(() => {
+    mixer.current = null;
+    if (gltf.animations.length === 0) return;
+    console.log("gltf.animations", gltf.animations);
     mixer.current = new AnimationMixer(gltf.scene);
     const action = mixer.current.clipAction(gltf.animations[0]);
     action.play();
   }, [gltf.animations, gltf.scene, mixer]);
-
 
   return (
     <primitive

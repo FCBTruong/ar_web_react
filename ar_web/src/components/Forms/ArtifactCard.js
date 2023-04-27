@@ -48,7 +48,7 @@ export default function ArtifactCard(props) {
   }
   return (
     <Card
-      className="shadow border-0 "
+      className="shadow border-0 mr-2 ml-2 mb-4"
       style={{ width: 300 }}
       onClick={(e) => {
         onClickArtifact(e, props.artifact);
