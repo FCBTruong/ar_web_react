@@ -39,7 +39,7 @@ museumsMgr.update = async function (museumId, museum) {
           return m;
         }
       });
-      alert('Cập nhật thành công');
+      alert("Cập nhật thành công");
     })
     .catch((error) => console.log("error", error));
 };
@@ -110,6 +110,40 @@ museumsMgr.deleteMuseum = function (id) {
         .museums.filter((museum) => museum.id !== id);
       user.saveDataToCache();
       window.Museums.doneDeleteMuseum();
+    })
+    .catch((error) => console.log("error", error));
+};
+
+museumsMgr.requestPublish = async function (museum){
+  var myHeaders = new Headers();
+  myHeaders.append("Authorization", "Bearer " + auth.credential_token);
+  myHeaders.append("Content-Type", "application/json");
+
+  var raw = JSON.stringify({
+    museum,
+  });
+
+  var requestOptions = {
+    method: "PUT",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow",
+  };
+
+  await fetch(api.to("public/request-publish-museum"), requestOptions)
+    .then((response) => {
+      if (response.status === 200) {
+        console.log(response);
+        return response.text();
+      } else {
+        alert("error request publish museum, please try again");
+        // eslint-disable-next-line no-throw-literal
+        throw `error with status ${response.status}`;
+      }
+    })
+    .then((result) => {
+      console.log(result);
+      alert("Yêu cầu thành công, vui lòng chờ để admin duyệt");
     })
     .catch((error) => console.log("error", error));
 };

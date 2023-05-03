@@ -85,7 +85,7 @@ export default function ArtifactSettings(props) {
         </Box>
       ) : (
         <div>
-          <br />
+          <h6>Thông tin sẽ hiển thị công khai</h6>
           <br />
           <div>
             <InputMUI
@@ -119,7 +119,7 @@ export default function ArtifactSettings(props) {
             <InputGroup className="input-group-alternative">
               <InputGroupAddon addonType="prepend">
                 <InputGroupText>
-                  <Brightness5Icon />
+                  
                 </InputGroupText>
               </InputGroupAddon>
               <Input

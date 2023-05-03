@@ -4,6 +4,12 @@ var user = {};
 
 user.userData = null;
 
+user.UserRole = {
+  ADMIN: 2,
+  USER: 1,
+  GUEST: 0
+}
+
 // load from cache
 
 user.setData = function (_userData) {

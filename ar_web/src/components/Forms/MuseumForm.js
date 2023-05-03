@@ -85,6 +85,7 @@ class MuseumForm extends React.Component {
       updateMuseum.address = this.state.address;
       updateMuseum.introduction = this.state.introduction;
       updateMuseum.imageUrl = this.state.imageUrl;
+      updateMuseum.openingTime = this.state.openingTime;
       museumsMgr.update(this.props.museum.id, updateMuseum).then(() => {
         this.setState({
           isLoading: false,
@@ -121,6 +122,21 @@ class MuseumForm extends React.Component {
       window.location.replace("/museums-page");
     }
   };
+
+  requestPublish = async (e) => {
+    if (this.props.museum) {
+      // update
+      this.setState({
+        isLoading: true,
+      });
+      await museumsMgr.requestPublish(this.props.museum)
+
+      this.setState({
+        isLoading: false,
+      })
+    }
+  }
+
 
   render() {
     return (
@@ -311,8 +327,9 @@ class MuseumForm extends React.Component {
                                   color: "white",
                                   outline: "none",
                                 }}
+                                onClick={this.requestPublish}
                               >
-                                Sync
+                                Yêu cầu duyệt
                               </Button>
                             </Stack>
                           </Box>

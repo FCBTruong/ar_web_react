@@ -16,6 +16,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import auth from "apis/auth";
 import user from "apis/user";
 import { useHistory } from "react-router-dom";
+import DashboardIcon from '@mui/icons-material/Dashboard';
 
 export default function AccountMenu(props) {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -33,7 +34,13 @@ export default function AccountMenu(props) {
     auth.signOut();
   };
 
+  const handleAdmin = () => {
+    history.push("/museums-page");
+    window.location.replace("/admin-page");
+  };
+
   const handleProfile = () => {
+    history.push("/museums-page");
     window.location.replace("/profile-page");
   };
 
@@ -111,6 +118,12 @@ export default function AccountMenu(props) {
           <Avatar /> Thông tin
         </MenuItem>
         <Divider />
+        {
+          parseInt(user.getData().role) === user.UserRole.ADMIN ? <MenuItem onClick={handleAdmin}>
+          <DashboardIcon />
+          Admin
+        </MenuItem> : null
+}
         <MenuItem onClick={handleSignout}>
           <LogoutIcon />
           Thoát

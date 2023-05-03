@@ -312,7 +312,13 @@ function MuseumCard(props) {
               : "empty"}
           </p>
           <Box
-            sx={{ position: "relative", display: "inline-block" }}
+            sx={{
+              position: "relative",
+              display: "inline-block",
+              minWidth: '100%',
+              minHeight: 100,
+              backgroundColor: 'rgba(0, 0, 0, 0.2)',
+            }}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
           >
@@ -334,6 +340,8 @@ function MuseumCard(props) {
                   top: 0,
                   left: 0,
                   width: "100%",
+                  minWidth: 100,
+                  minHeight: 100,
                   height: "100%",
                   backgroundColor: "rgba(0, 0, 0, 0.5)",
                   display: "flex",
@@ -367,6 +375,14 @@ function MuseumCard(props) {
 
             {props.museum.address
               ? " " + utilities.subStr(props.museum.address, 200)
+              : " empty"}
+          </h5>
+          <h5 className="description mt-3">
+          <i class="fa fa-clock-o" aria-hidden="true"></i>
+
+
+            {props.museum.openingTime
+              ? " " + utilities.subStr(props.museum.openingTime, 200)
               : " empty"}
           </h5>
         </CardContent>

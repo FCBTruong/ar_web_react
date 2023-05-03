@@ -22,10 +22,12 @@ import Input from "@mui/material/Input";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import * as THREE from "three";
 import { useState } from "react";
+import { useMemo } from "react";
+import { AnimationMixer } from "three";
+import { useFrame } from "@react-three/fiber";
 
 function Model3DView(props) {
-  var urlAsset =
-    "https://museumconnectfiles.blob.core.windows.net/users/7ade8677-c572-4810-8ceb-22584f39761d/ffbe303f-fa82-4f7a-899f-b3e1ed40d443.glb"; //props.url;
+  var urlAsset = props.url;
   console.log("urlasset:" + urlAsset);
 
   var fileExtension = utilities.getFileExtension(urlAsset);
@@ -33,6 +35,7 @@ function Model3DView(props) {
 
   const gltf = useLoader(GLTFLoader, urlAsset);
   const groupRef = useRef();
+
   var model = gltf.scene;
 
   var box = new THREE.Box3().setFromObject(model);
@@ -40,19 +43,23 @@ function Model3DView(props) {
   box.getSize(size);
 
   var maxDimension = Math.max(size.x, size.y, size.z);
-  var scale = 6.0 / maxDimension;
+  const [scale, setScale] = useState(6.0 / maxDimension);
 
-  useEffect(() => {
-   
-  }, [gltf]);
+  
+  const clonedObject = model.clone(true);
+
 
   return (
-    <primitive
-      object={gltf.scene}
-      scale={[scale, scale, scale]}
-      rotation={[0, 0, 0]}
-      position={[0, 0, 0]}
-    />
+    <>
+      <primitive
+        object={model}
+        ref={groupRef}
+        dispose={null}
+        scale={[scale, scale, scale]}
+        rotation={[0, 0, 0]}
+        position={[0, 0, 0]}
+      />
+    </>
   );
 }
 

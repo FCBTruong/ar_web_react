@@ -61,6 +61,7 @@
     "@mui/lab": "^5.0.0-alpha.124",
     "@mui/material": "^5.11.15",
     "@mui/styled-engine-sc": "^5.11.11",
+    "@mui/styles": "^5.12.3",
     "@mui/system": "^5.11.16",
     "@react-three/drei": "^9.65.3",
     "@react-three/fiber": "^8.12.0",

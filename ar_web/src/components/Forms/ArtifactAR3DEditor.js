@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, Suspense} from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, useAnimations, useFBX } from "@react-three/drei";
 import {
@@ -18,6 +18,7 @@ import { useFrame } from "@react-three/fiber";
 import { AnimationMixer } from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { useLoader } from "@react-three/fiber";
+import { HashLoader } from "react-spinners";
 
 function Model(props) {
   console.log("props...", props);
@@ -31,6 +32,7 @@ function Model(props) {
   console.log("file extension3d ", fileExtension);
 
   const gltf = useLoader(GLTFLoader, urlAsset);
+  gltf.scene = gltf.scene.clone(true)
   const mixer = useRef();
 
   useFrame((_, delta) => {
@@ -50,6 +52,7 @@ function Model(props) {
     <>
     <primitive
       object={gltf.scene}
+      dispose={null}
       scale={[
         props.artifact.modelAr.scale.x * props.scale,
         props.artifact.modelAr.scale.y * props.scale,
@@ -91,6 +94,20 @@ function ArtifactAR3DEditor(props) {
             style={{ height: 600, width: "100%" }}
           >
             {
+                 <Suspense
+                 fallback={
+                   <div
+                     style={{
+                       position: "absolute",
+                       left: "50%",
+                       top: "45%",
+                       transform: "translate(-50%, -50%)",
+                     }}
+                   >
+                     <HashLoader color="#36d7b7" />
+                   </div>
+                 }
+               >
               <Canvas shadows camera={{ position: [10, 12, 12], fov: 25 }}>
                 <PresentationControls speed={1.5} global zoom={1}>
                   {props.artifact.modelAr &&
@@ -109,6 +126,7 @@ function ArtifactAR3DEditor(props) {
                   />
                 </GizmoHelper>
               </Canvas>
+              </Suspense>
             }
           </Card>
         </Col>
