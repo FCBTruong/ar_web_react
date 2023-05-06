@@ -78,7 +78,7 @@ admin.rejectPendingMuseum = async function (userId) {
   var myHeaders = new Headers();
   myHeaders.append(
     "Authorization",
-    "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiJkNWY0ODJjNy1hOTFkLTRhZDEtYmVlMS1jNzQ0NzkxMGMzMDUiLCJzdWIiOlsiSHV5IFRydW9uZyIsIjIiXSwiZW1haWwiOiJuZ3V5ZW5odXl0cnVvbmc5MTEya0BnbWFpbC5jb20iLCJqdGkiOiIwZGY0YzkwYi1lN2M1LTRlM2QtYTM5NS0zZTZlZGIzY2I2MWEiLCJleHAiOjE2ODM3MjE2MzAsImlzcyI6Imh1eXRydW9uZy5jb20iLCJhdWQiOiJodXl0cnVvbmcuY29tIn0.AB8FNFUGa59iH4RPAqolDD5WLcdge7je4IUQ4tp2oDo"
+    "Bearer " + auth.credential_token
   );
 
   var raw = "";
@@ -113,4 +113,44 @@ admin.rejectPendingMuseum = async function (userId) {
     admin.data.pendingMuseum.splice(index, 1);
   }
 };
+
+admin.deletePublishedMuseum = async function (userId) {
+    var myHeaders = new Headers();
+    myHeaders.append(
+      "Authorization",
+      "Bearer " + auth.credential_token
+    );
+  
+    var raw = "";
+  
+    var requestOptions = {
+      method: "PUT",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
+    };
+  
+    await fetch(api.to("public/delete-published/?userId=" + userId), requestOptions)
+      .then((response) => {
+        if (response.status === 200) {
+          console.log(response);
+          return response.text();
+        } else {
+          alert("error reject");
+          // eslint-disable-next-line no-throw-literal
+          throw `error with status ${response.status}`;
+        }
+      })
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((error) => console.log("error", error));
+  
+    const index = admin.data.publicizedMuseums.findIndex(
+      (obj) => obj.userId === userId
+    );
+    if (index !== -1) {
+      admin.data.publicizedMuseums.splice(index, 1);
+    }
+  };
 export default admin;

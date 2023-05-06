@@ -55,23 +55,6 @@ export default function ArtifactCard(props) {
       }}
     >
       <CardBody className="py-3" style={{ height: 400 }}>
-        <IconButton
-          ref={anchorRef}
-          style={{
-            border: "none",
-            outline: "none",
-          }}
-          aria-label="more"
-          id="long-button"
-          aria-haspopup="true"
-          onClick={(e) => {
-            e.stopPropagation();
-            setOpen(true);
-          }}
-        >
-          <MoreVertIcon />
-        </IconButton>
-
         <Popper
           open={open}
           anchorEl={anchorRef.current}
@@ -131,7 +114,23 @@ export default function ArtifactCard(props) {
         </Popper>
 
         <Row>
-          <h6 className="text-primary text-uppercase mx-auto">
+          <IconButton
+            ref={anchorRef}
+            style={{
+              border: "none",
+              outline: "none",
+            }}
+            aria-label="more"
+            id="long-button"
+            aria-haspopup="true"
+            onClick={(e) => {
+              e.stopPropagation();
+              setOpen(true);
+            }}
+          >
+            <MoreVertIcon />
+          </IconButton>
+          <h6 className="text-primary text-uppercase mx-auto text-center">
             {props.artifact.name}
           </h6>
         </Row>
@@ -143,7 +142,10 @@ export default function ArtifactCard(props) {
               ? props.artifact.image
               : require("assets/img/theme/image_default_artifact.jpeg")
           }
-          style={{ width: "100%" }}
+          style={{
+            width: "100%",
+            maxHeight: 150,
+          }}
         />
         <p className="description mt-3">
           {utilities.subStr(props.artifact.description, 150)}

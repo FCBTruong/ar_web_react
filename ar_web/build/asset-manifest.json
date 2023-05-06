@@ -1,14 +1,13 @@
 {
   "files": {
     "main.css": "./static/css/main.48d9ec4b.css",
-    "main.js": "./static/js/main.8b214b90.js",
+    "main.js": "./static/js/main.a8bc622e.js",
     "static/media/cardboard_cartoon.glb": "./static/media/cardboard_cartoon.3f77f09774e139fc86b3.glb",
     "static/media/img_theme_1.jpg": "./static/media/img_theme_1.842a6f88d4692623b323.jpg",
     "static/media/image_default_artifact.jpeg": "./static/media/image_default_artifact.f1f004f1856e766f5d78.jpeg",
     "static/media/fontawesome-webfont.svg?v=4.7.0": "./static/media/fontawesome-webfont.c1e38fd9e0e74ba58f7a.svg",
     "static/media/img_theme_0.jpeg": "./static/media/img_theme_0.298ab171e8a833bb6651.jpeg",
     "static/media/img_theme_2.jpeg": "./static/media/img_theme_2.0a3c41b12715cda2dd5c.jpeg",
-    "static/media/team-3-800x800.jpg": "./static/media/team-3-800x800.70911cddbb86ea83b652.jpg",
     "static/media/fontawesome-webfont.eot": "./static/media/fontawesome-webfont.8b43027f47b20503057d.eot",
     "static/media/fontawesome-webfont.ttf?v=4.7.0": "./static/media/fontawesome-webfont.1e59d2330b4c6deb84b3.ttf",
     "static/media/museum_bg_0.jpeg": "./static/media/museum_bg_0.a8b78acbf623f0812640.jpeg",
@@ -30,10 +29,10 @@
     "static/media/Apple.svg": "./static/media/Apple.0c2d92f8a33e07737db627b157b65bfe.svg",
     "index.html": "./index.html",
     "main.48d9ec4b.css.map": "./static/css/main.48d9ec4b.css.map",
-    "main.8b214b90.js.map": "./static/js/main.8b214b90.js.map"
+    "main.a8bc622e.js.map": "./static/js/main.a8bc622e.js.map"
   },
   "entrypoints": [
     "static/css/main.48d9ec4b.css",
-    "static/js/main.8b214b90.js"
+    "static/js/main.a8bc622e.js"
   ]
 }

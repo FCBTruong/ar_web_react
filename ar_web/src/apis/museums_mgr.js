@@ -119,9 +119,8 @@ museumsMgr.requestPublish = async function (museum){
   myHeaders.append("Authorization", "Bearer " + auth.credential_token);
   myHeaders.append("Content-Type", "application/json");
 
-  var raw = JSON.stringify({
-    museum,
-  });
+  var raw = JSON.stringify(
+    museum,);
 
   var requestOptions = {
     method: "PUT",

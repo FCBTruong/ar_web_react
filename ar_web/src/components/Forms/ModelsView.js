@@ -52,7 +52,7 @@ function Model3DView(props) {
   return (
     <>
       <primitive
-        object={model}
+        object={clonedObject}
         ref={groupRef}
         dispose={null}
         scale={[scale, scale, scale]}
@@ -154,8 +154,6 @@ function Model3DViewCard(props) {
 
   var onRemoveModel = (e, asset) => {
     user.removeAsset3D(asset.id);
-
-    this.setState({});
   };
 
   return (
