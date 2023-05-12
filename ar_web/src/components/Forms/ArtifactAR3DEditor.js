@@ -19,6 +19,7 @@ import { AnimationMixer } from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { useLoader } from "@react-three/fiber";
 import { HashLoader } from "react-spinners";
+import * as THREE from "three";
 
 function Model(props) {
   console.log("props...", props);
@@ -34,6 +35,13 @@ function Model(props) {
   const gltf = useLoader(GLTFLoader, urlAsset);
   gltf.scene = gltf.scene.clone(true)
   const mixer = useRef();
+
+  var box = new THREE.Box3().setFromObject(gltf.scene);
+  var size = new THREE.Vector3();
+  box.getSize(size);
+
+  var maxDimension = Math.max(size.x, size.y, size.z);
+  var scale = 6.0 / maxDimension;
 
   useFrame((_, delta) => {
     if (mixer.current) mixer.current.update(delta);
@@ -54,9 +62,9 @@ function Model(props) {
       object={gltf.scene}
       dispose={null}
       scale={[
-        props.artifact.modelAr.scale.x * props.scale,
-        props.artifact.modelAr.scale.y * props.scale,
-        props.artifact.modelAr.scale.z * props.scale,
+        scale,
+        scale,
+        scale
       ]}
       rotation={[
         props.artifact.modelAr.rotation.x,

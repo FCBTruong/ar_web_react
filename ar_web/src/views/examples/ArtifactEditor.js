@@ -151,9 +151,6 @@ class ArtifactEditor extends React.Component {
       y: Number(y),
       z: Number(z),
     };
-    this.setState({
-      artifact: desArtifact,
-    });
   };
 
   toggleTabs = (e, newValue) => {

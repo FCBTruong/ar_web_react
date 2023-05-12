@@ -31,6 +31,7 @@ class ArtifactProperties extends React.Component {
     this.state = {
       isLoadingImage: false,
       isUploadingModel: false,
+      scale: this.props.artifact.modelAr.scale.x
     };
   }
 
@@ -223,7 +224,7 @@ class ArtifactProperties extends React.Component {
                       </div>
                     </div>
                     <div>
-                      <p>Scale</p>
+                      <p>Custom Scale</p>
                       <div className="row">
                         <div className="col">
                           <InputGroup className="mb-4">
@@ -232,8 +233,11 @@ class ArtifactProperties extends React.Component {
                               step="0.1"
                               placeholder=""
                               type="number"
-                              value={this.props.artifact.modelAr.scale.x}
+                              value={this.state.scale}
                               onChange={(e) => {
+                                this.setState({
+                                  scale: e.target.value
+                                })
                                 window.ArtifactEditor.changeModelScale(
                                   e.target.value,
                                   e.target.value,
