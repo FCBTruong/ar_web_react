@@ -190,7 +190,9 @@ class Modals extends React.Component {
                         className="btn-icon mt-2 mb-2"
                         color="neutral"
                         href="#pablo"
-                        onClick={(e) => e.preventDefault()}
+                        onClick={(e) => {e.preventDefault()
+                          alert("Sắp ra mắt");
+                        }}
                       >
                         <span className="btn-inner--icon mr-1">
                           <img
@@ -204,7 +206,9 @@ class Modals extends React.Component {
                         className="btn-icon mt-2 mb-2 ml-1"
                         color="neutral"
                         href="#pablo"
-                        onClick={(e) => e.preventDefault()}
+                        onClick={(e) => {e.preventDefault()
+                          alert("Sắp ra mắt");
+                        }}
                       >
                         <span className="btn-inner--icon mr-1">
                           <img

@@ -34,7 +34,7 @@ import {
   InputGroup,
   Container,
   Row,
-  Col
+  Col,
 } from "reactstrap";
 
 class Login extends React.Component {
@@ -93,7 +93,9 @@ class Login extends React.Component {
                           className="btn-neutral btn-icon"
                           color="default"
                           href="#pablo"
-                          onClick={(e) => e.preventDefault()}
+                          onClick={(e) => {e.preventDefault()
+                            alert("Sắp ra mắt");
+                          }}
                         >
                           <span className="btn-inner--icon mr-1">
                             <img
@@ -107,7 +109,9 @@ class Login extends React.Component {
                           className="btn-neutral btn-icon"
                           color="default"
                           href="#pablo"
-                          onClick={(e) => e.preventDefault()}
+                          onClick={(e) => {e.preventDefault()
+                            alert("Sắp ra mắt");
+                          }}
                         >
                           <span className="btn-inner--icon mr-1">
                             <img
@@ -126,7 +130,7 @@ class Login extends React.Component {
                       <Form role="form">
                         <FormGroup
                           className={classnames("mb-3", {
-                            focused: this.state.emailFocused
+                            focused: this.state.emailFocused,
                           })}
                         >
                           <InputGroup className="input-group-alternative">
@@ -149,7 +153,7 @@ class Login extends React.Component {
                         </FormGroup>
                         <FormGroup
                           className={classnames({
-                            focused: this.state.passwordFocused
+                            focused: this.state.passwordFocused,
                           })}
                         >
                           <InputGroup className="input-group-alternative">

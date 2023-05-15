@@ -117,7 +117,7 @@ function ArtifactAR3DEditor(props) {
                  }
                >
               <Canvas shadows camera={{ position: [10, 12, 12], fov: 25 }}>
-                <PresentationControls speed={1.5} global zoom={1}>
+                <PresentationControls speed={1.0} global zoom={1}>
                   {props.artifact.modelAr &&
                   props.artifact.modelAr.modelAsset ? (
                     <Model artifact={props.artifact} scale={0.3} />
@@ -125,7 +125,7 @@ function ArtifactAR3DEditor(props) {
                     <EmptyBox />
                   )}
                 </PresentationControls>
-                <Grid position={[0, -25, 0]} args={[100, 100]} />
+                <Grid position={[0, -10, 0]} args={[100, 100]} />
                 <Environment preset="city" />
                 <GizmoHelper alignment="bottom-right" margin={[80, 80]}>
                   <GizmoViewport

@@ -108,7 +108,9 @@ class Login extends React.Component {
                             className="btn-neutral btn-icon"
                             color="default"
                             href="#pablo"
-                            onClick={(e) => e.preventDefault()}
+                            onClick={(e) => {e.preventDefault()
+                              alert("Sắp ra mắt");
+                            }}
                           >
                             <span className="btn-inner--icon mr-1">
                               <img
@@ -125,7 +127,9 @@ class Login extends React.Component {
                             className="btn-neutral btn-icon ml-1"
                             color="default"
                             href="#pablo"
-                            onClick={(e) => e.preventDefault()}
+                            onClick={(e) => {e.preventDefault()
+                              alert("Sắp ra mắt");
+                            }}
                           >
                             <span className="btn-inner--icon mr-1">
                               <img
