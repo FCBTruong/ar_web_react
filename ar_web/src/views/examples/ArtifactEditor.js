@@ -203,14 +203,14 @@ class ArtifactEditor extends React.Component {
                             orientation="vertical"
                           >
                             <Tab
-                              label="Thông tin"
+                              label="Mô tả"
                               style={{
                                 border: "none",
                                 outline: "none",
                               }}
                             />
                             <Tab
-                              label="AR"
+                              label="Ứng dụng AR"
                               style={{
                                 border: "none",
                                 outline: "none",

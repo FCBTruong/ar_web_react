@@ -48,12 +48,12 @@ class Download extends React.Component {
                 >
                   <ButtonsContainer class="center">
                     <GooglePlayButton
-                      url={"APKUrl"}
+                      url={"https://drive.google.com/file/d/1ue50O5HGvfG7J_LrijG8ztzDElm_-7Xd/view?usp=share_link"}
                       theme={"light"}
                       className={"custom-style"}
                     />
                     <AppStoreButton
-                      url={"APKUrl"}
+                      url={"https://drive.google.com/file/d/1ue50O5HGvfG7J_LrijG8ztzDElm_-7Xd/view?usp=share_link"}
                       theme={"light"}
                       className={"custom-style"}
                     />

@@ -41,8 +41,9 @@ function QRCodeArtifact(props) {
   return (
     <div>
       <Box
+      style={{ borderWidth: '1px', borderStyle: 'solid', borderColor: 'rgba(0, 0, 0, 0.3)' }}
         sx={{
-          border: "1px solid black",
+          
           justifyContent: "center",
           alignItems: "center",
           display: "flex",
