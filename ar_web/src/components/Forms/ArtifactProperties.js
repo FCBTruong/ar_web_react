@@ -100,7 +100,7 @@ class ArtifactProperties extends React.Component {
                   <div>
                     <div>
                       <p>Position</p>
-                      <div className="row">
+                      <div>
                         <div className="col">
                           <InputGroup className="mb-4">
                             <InputGroupAddon addonType="prepend">
@@ -163,7 +163,7 @@ class ArtifactProperties extends React.Component {
 
                     <div>
                       <p>Rotation</p>
-                      <div className="row">
+                      <div>
                         <div className="col">
                           <InputGroup className="mb-4">
                             <InputGroupAddon addonType="prepend">
@@ -254,8 +254,8 @@ class ArtifactProperties extends React.Component {
               </div>
             </TreeItem>
           }
-          <TreeItem nodeId="4" label="Audio">
-            <div>VVV</div>
+          <TreeItem nodeId="2" label="Audio">
+            <div>Todo</div>
           </TreeItem>
         </TreeView>
       </div>

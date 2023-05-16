@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, Suspense} from "react";
+import { useState, useEffect, useRef, Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, useAnimations, useFBX } from "@react-three/drei";
 import {
@@ -21,6 +21,18 @@ import { useLoader } from "@react-three/fiber";
 import { HashLoader } from "react-spinners";
 import * as THREE from "three";
 
+import Stack from "@mui/material/Stack";
+import Slider from "@mui/material/Slider";
+import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
+import ControlPointIcon from "@mui/icons-material/ControlPoint";
+import Box from "@mui/material/Box";
+import { useThree } from "react-three-fiber";
+import Tooltip from "@mui/material/Tooltip";
+import IconButton from "@mui/material/IconButton";
+import RestartAltIcon from "@mui/icons-material/RestartAlt";
+
+var scaleInit = 0;
+var lastModelUrl = "";
 function Model(props) {
   console.log("props...", props);
 
@@ -33,7 +45,7 @@ function Model(props) {
   console.log("file extension3d ", fileExtension);
 
   const gltf = useLoader(GLTFLoader, urlAsset);
-  gltf.scene = gltf.scene.clone(true)
+  gltf.scene = gltf.scene.clone(true);
   const mixer = useRef();
 
   var box = new THREE.Box3().setFromObject(gltf.scene);
@@ -42,6 +54,11 @@ function Model(props) {
 
   var maxDimension = Math.max(size.x, size.y, size.z);
   var scale = 6.0 / maxDimension;
+  if (scaleInit === 0 || lastModelUrl !== urlAsset) {
+    scaleInit = scale;
+  }
+
+  lastModelUrl = urlAsset;
 
   useFrame((_, delta) => {
     if (mixer.current) mixer.current.update(delta);
@@ -58,25 +75,21 @@ function Model(props) {
 
   return (
     <>
-    <primitive
-      object={gltf.scene}
-      dispose={null}
-      scale={[
-        scale,
-        scale,
-        scale
-      ]}
-      rotation={[
-        props.artifact.modelAr.rotation.x,
-        props.artifact.modelAr.rotation.y,
-        props.artifact.modelAr.rotation.z,
-      ]}
-      position={[
-        props.artifact.modelAr.position.x,
-        props.artifact.modelAr.position.y - 2,
-        props.artifact.modelAr.position.z,
-      ]}
-    />
+      <primitive
+        object={gltf.scene}
+        dispose={null}
+        scale={[scaleInit, scaleInit, scaleInit]}
+        rotation={[
+          props.artifact.modelAr.rotation.x,
+          props.artifact.modelAr.rotation.y,
+          props.artifact.modelAr.rotation.z,
+        ]}
+        position={[
+          props.artifact.modelAr.position.x,
+          props.artifact.modelAr.position.y,
+          props.artifact.modelAr.position.z,
+        ]}
+      />
     </>
   );
 }
@@ -93,6 +106,26 @@ function EmptyBox() {
 
 function ArtifactAR3DEditor(props) {
   console.log("props-----------");
+  const [zoomValue, setZoomValue] = useState(50.0);
+  const [camera, setCamera] = useState();
+  const handleZoom = (event, newValue) => {
+    setZoomValue(newValue);
+  };
+
+  useEffect(() => {
+    if (camera) {
+      camera.fov = 25 + ((- zoomValue + 50) / 50) * 20;
+      camera.lookAt(new THREE.Vector3());
+      camera.updateProjectionMatrix();
+    }
+  }, [camera, zoomValue]);
+
+  function onReset() {
+    setZoomValue(50);
+    scaleInit = 0;
+    lastModelUrl = "";
+  }
+
   return (
     <div>
       <Row>
@@ -102,38 +135,91 @@ function ArtifactAR3DEditor(props) {
             style={{ height: 600, width: "100%" }}
           >
             {
-                 <Suspense
-                 fallback={
-                   <div
-                     style={{
-                       position: "absolute",
-                       left: "50%",
-                       top: "45%",
-                       transform: "translate(-50%, -50%)",
-                     }}
-                   >
-                     <HashLoader color="#36d7b7" />
-                   </div>
-                 }
-               >
-              <Canvas shadows camera={{ position: [10, 12, 12], fov: 25 }}>
-                <PresentationControls speed={1.0} global zoom={1}>
-                  {props.artifact.modelAr &&
-                  props.artifact.modelAr.modelAsset ? (
-                    <Model artifact={props.artifact} scale={0.3} />
-                  ) : (
-                    <EmptyBox />
-                  )}
-                </PresentationControls>
-                <Grid position={[0, -10, 0]} args={[100, 100]} />
-                <Environment preset="city" />
-                <GizmoHelper alignment="bottom-right" margin={[80, 80]}>
-                  <GizmoViewport
-                    axisColors={["#9d4b4b", "#2f7f4f", "#3b5b9d"]}
-                    labelColor="white"
-                  />
-                </GizmoHelper>
-              </Canvas>
+              <Suspense
+                fallback={
+                  <div
+                    style={{
+                      position: "absolute",
+                      left: "50%",
+                      top: "45%",
+                      transform: "translate(-50%, -50%)",
+                    }}
+                  >
+                    <HashLoader color="#36d7b7" />
+                  </div>
+                }
+              >
+                <Canvas
+                  shadows
+                  camera={{
+                    position: [10, 12, 12],
+                    fov: 25,
+                  }}
+                  onCreated={({ camera }) => setCamera(camera)}
+                >
+                  <PresentationControls speed={1.0} global zoom={1}>
+                    {props.artifact.modelAr &&
+                    props.artifact.modelAr.modelAsset ? (
+                      <Model artifact={props.artifact} />
+                    ) : (
+                      <EmptyBox />
+                    )}
+                  </PresentationControls>
+                  <Grid position={[0, -10, 0]} args={[100, 100]} />
+                  <Environment preset="city" />
+                  <GizmoHelper alignment="bottom-right" margin={[80, 80]}>
+                    <GizmoViewport
+                      axisColors={["#9d4b4b", "#2f7f4f", "#3b5b9d"]}
+                      labelColor="white"
+                    />
+                  </GizmoHelper>
+                </Canvas>
+
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <Box
+                    sx={{
+                      width: 250,
+                    }}
+                  >
+                    <Stack
+                      spacing={0}
+                      direction="row"
+                      sx={{ mb: 0 }}
+                      alignItems="center"
+                    >
+                      <Tooltip title="Reset" arrow>
+                        <IconButton
+                          onClick={onReset}
+                          size="small"
+                          style={{
+                            border: "none",
+                            outline: "none",
+                          }}
+                        >
+                          <RestartAltIcon />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip title="Zoom out" arrow>
+                        <RemoveCircleOutlineIcon />
+                      </Tooltip>
+                      <Slider
+                        aria-label="Volume"
+                        value={zoomValue}
+                        onChange={handleZoom}
+                        sx={{ margin: '0px 16px' }}
+                      />
+                      <Tooltip title="Zoom in" arrow>
+                        <ControlPointIcon />
+                      </Tooltip>
+                    </Stack>
+                  </Box>
+                </Box>
               </Suspense>
             }
           </Card>
